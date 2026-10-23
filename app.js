@@ -212,6 +212,14 @@ var I18N = {
     shareSend: "Envoyer l'image",
     shareLoading: "Préparation de la carte…",
     tImageSaved: "Image enregistrée ✓",
+    resetAll: "Tout remettre à zéro",
+    resetQ: "Tout remettre à zéro ?",
+    resetText: "Idéal pour repartir sur une base propre après des parties de test.",
+    resetGone: "Effacés : le Mur des Légendes, les classements, toutes les soirées, les séries, les trophées, les joueurs habituels et la partie en cours.",
+    resetKept: "Gardés : le Grand Livre des règles et tes réglages. Une sauvegarde automatique est faite juste avant, au cas où.",
+    resetYes: "Tout effacer",
+    tResetDone: "Tout est remis à zéro ✓",
+    backupBeforeReset: "avant remise à zéro",
     cardFooter: "{n} manches jouées",
     settingsTitle: "Réglages",
     install: "Installer l'appli",
@@ -413,6 +421,14 @@ var I18N = {
     shareSend: "Send the image",
     shareLoading: "Preparing the card…",
     tImageSaved: "Image saved ✓",
+    resetAll: "Reset everything",
+    resetQ: "Reset everything?",
+    resetText: "Perfect to start fresh after some test games.",
+    resetGone: "Erased: the Wall of Legends, rankings, every night, streaks, trophies, regular players and the current game.",
+    resetKept: "Kept: the Rule Book and your settings. An automatic backup is made just before, just in case.",
+    resetYes: "Erase all",
+    tResetDone: "Everything is reset ✓",
+    backupBeforeReset: "before reset",
     cardFooter: "{n} rounds played",
     settingsTitle: "Settings",
     install: "Install the app",
@@ -1056,7 +1072,7 @@ function maybeAutoBackup() {
   if (hasMeaningfulData() && Date.now() - (db.settings.lastAutoBackupAt || 0) > 12 * 3600 * 1000) { addBackup("auto"); persist(); }
 }
 function backupReasonLabel(r) {
-  var m = { auto: "backupAuto", night: "backupNight", "soirée": "backupNight", "import": "backupBeforeImport", "avant import": "backupBeforeImport", restore: "backupBeforeRestore", "avant restauration": "backupBeforeRestore" };
+  var m = { auto: "backupAuto", night: "backupNight", "soirée": "backupNight", "import": "backupBeforeImport", "avant import": "backupBeforeImport", restore: "backupBeforeRestore", "avant restauration": "backupBeforeRestore", reset: "backupBeforeReset" };
   return m[r] ? t(m[r]) : (r || t("backupAuto"));
 }
 function restoreBackup(index) {
@@ -1336,6 +1352,18 @@ function recordCardPick(name, number) {
   setStats(s);
 }
 function resetStats() { setStats({ roundWins: {}, cardPicks: {}, roundLog: [] }); persist(); }
+// Remise à zéro complète des légendes (le Grand Livre et les réglages sont gardés). Une sauvegarde auto est faite avant.
+function fullReset() {
+  addBackup("reset");
+  setStats({ roundWins: {}, cardPicks: {}, roundLog: [] });
+  db.history = [];
+  db.players = {};
+  db.undo = [];
+  if (nextTourTimer) { clearTimeout(nextTourTimer); nextTourTimer = null; }
+  state = db.session = Object.assign({}, clone(initialState), { theme: state.theme });
+  ui.spotlight = null; ui.timer = null; ui.profile = null; ui.expandedSoiree = null;
+  persist();
+}
 
 /* ---- Grand Livre ---- */
 function addToRulebook(text) { setRulebook(rulebook.concat([{ id: uid(), text: text }])); }
@@ -2132,9 +2160,7 @@ function renderPoster(rank, e) {
 function renderWall() {
   var entries = wallEntries();
   if (!entries.length) return emptyState("star", t("nobodyYet"));
-  var reset = ui.confirmingReset
-    ? '<div class="confirm"><p class="hint">' + esc(t("resetConfirm")) + '</p><div class="btnPair"><button class="btn btnDanger" ' + btnAttr("confirm-reset-stats") + '>' + esc(t("yesErase")) + '</button><button class="btn btnSecondary" ' + btnAttr("cancel-reset-stats") + '>' + esc(t("cancel")) + '</button></div></div>'
-    : '<button class="btn btnText" ' + btnAttr("ask-reset-stats") + '>' + esc(t("resetWall")) + '</button>';
+  var reset = '<button class="btn btnText danger" ' + btnAttr("ask-full-reset") + '>' + esc(t("resetAll")) + '</button>';
   return '<p class="lead center">' + esc(t("wallLead")) + '</p><div class="posterGrid">' + entries.map(function (e, i) { return renderPoster(i + 1, e); }).join("") + '</div>' + reset;
 }
 function emptyState(ic, text) {
@@ -2323,7 +2349,8 @@ function renderSettings() {
       '<label class="btn btnSecondary fileBtn">' + icon("upload", 17) + esc(t("importFile")) + '<input type="file" data-file-import accept=".json,application/json,text/plain"/></label></div>' +
       '<button class="btn btnText" ' + btnAttr("toggle-import-text") + '>' + esc(ui.importOpen ? t("hide") : t("pasteCode")) + '</button>' +
       (ui.importOpen ? '<textarea class="input importArea" data-bind="importText" placeholder="' + esc(t("pasteHere")) + '">' + esc(ui.importText) + '</textarea><button class="btn btnSecondary" ' + btnAttr("import-text") + '>' + esc(t("importCode")) + '</button>' : "") +
-      (ui.notice ? '<p class="notice">' + esc(ui.notice) + '</p>' : "") + '</div>', "dataGroup") +
+      (ui.notice ? '<p class="notice">' + esc(ui.notice) + '</p>' : "") + '</div>' +
+      '<div class="sRow block"><button class="btn btnText danger" ' + btnAttr("ask-full-reset") + '>' + icon("trash", 16) + esc(t("resetAll")) + '</button></div>', "dataGroup") +
     group(t("autoBackups"), backups || '<div class="sRow"><div class="sHint">' + esc(t("firstBackup")) + '</div></div>') +
     group(t("regulars"), knownHtml) +
     '<p class="version">' + esc(t("version", { v: APP_VERSION })) + '</p>';
@@ -2353,6 +2380,10 @@ function renderModal() {
     if (!b) return "";
     inner = '<h3 class="modalTitle">' + esc(t("restoreQ")) + '</h3><p class="modalText">' + esc(t("restoreText", { d: fmtDateTime(b.at) })) + '</p>' +
       '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("close-modal") + '>' + esc(t("cancel")) + '</button><button class="btn btnPrimary" ' + btnAttr("confirm-restore", 'data-index="' + m.index + '"') + '>' + esc(t("restore")) + '</button></div>';
+  } else if (m.kind === "reset") {
+    inner = '<h3 class="modalTitle">' + esc(t("resetQ")) + '</h3><p class="modalText">' + esc(t("resetText")) + '</p>' +
+      '<ul class="resetList"><li class="gone">' + esc(t("resetGone")) + '</li><li class="kept">' + esc(t("resetKept")) + '</li></ul>' +
+      '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("close-modal") + '>' + esc(t("cancel")) + '</button><button class="btn btnDanger" ' + btnAttr("confirm-full-reset") + '>' + esc(t("resetYes")) + '</button></div>';
   } else if (m.kind === "share") {
     inner = m.url ? '<img class="shareImg" src="' + m.url + '" alt=""/>' +
       '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("close-modal") + '>' + esc(t("close")) + '</button><button class="btn btnPrimary" ' + btnAttr("share-card-send") + '>' + icon("share", 18) + esc(t("shareSend")) + '</button></div>'
@@ -2531,6 +2562,8 @@ function onClick(e) {
     case "set-chrono": db.settings.chronoSecs = Number(el.getAttribute("data-secs")); if (ui.timer) startChrono(ui.timer.id); persist(); break;
     case "chrono-toggle": toggleChronoPause(); break;
     case "share-card": openShareCard(); return;
+    case "ask-full-reset": ui.modal = { kind: "reset" }; break;
+    case "confirm-full-reset": fullReset(); ui.modal = null; ui.activeTab = "play"; toast(t("tResetDone")); vibrate([20, 30, 20]); break;
     case "share-card-send": sendShareCard(); return;
     case "show-spotlight": ui.spotlight = { id: el.getAttribute("data-id"), fresh: true }; break;
     case "set-legends-tab": ui.legendsTab = el.getAttribute("data-tab"); break;

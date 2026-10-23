@@ -496,3 +496,8 @@ button.rRow:active{transform:scale(.985);}
 .shareBig{height:52px;}
 .shareImg{display:block;width:100%;border-radius:14px;margin-bottom:6px;box-shadow:0 10px 26px rgba(0,0,0,.5);}
 .modal .modalText.center{padding:30px 0;}
+.resetList{list-style:none;margin:10px 0 4px;padding:0;display:flex;flex-direction:column;gap:8px;}
+.resetList li{padding:10px 12px;border-radius:12px;font-size:14px;line-height:1.45;}
+.resetList .gone{background:rgba(201,57,42,.12);border:1px solid rgba(201,57,42,.35);color:#F2B5A6;}
+.resetList .kept{background:rgba(120,170,90,.1);border:1px solid rgba(150,200,110,.3);color:#C6DFAE;}
+.sRow.block .btnText.danger{margin-top:4px;}
