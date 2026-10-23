@@ -1,8 +1,9 @@
 /* Service worker Killer : fonctionne hors-ligne après la première visite. */
-const CACHE = "killer-c99a3a38";
+const CACHE = "killer-1f6ae625";
 const FONTS = "killer-fonts";
 const ASSETS = ["./", "index.html", "app.css", "images.js", "app.js", "manifest.webmanifest",
-  "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
+  "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
+  "fonts/sancreek.woff2", "fonts/rye.woff2", "fonts/barlow-condensed-600.woff2", "fonts/barlow-condensed-700.woff2", "fonts/barlow-400.woff2", "fonts/barlow-500.woff2", "fonts/barlow-600.woff2"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));

@@ -57,6 +57,402 @@ var _svgUidCounter = 0;
 function nextSvgUid() { return "u" + (_svgUidCounter++); }
 
 
+/* ================= Langues (FR / EN) ================= */
+var I18N = {
+  fr: {
+    appSub: "Billard entre amis",
+    tabPlay: "Jouer", tabLegends: "Légendes", tabBook: "Le Livre", tabHelp: "Aide", tabSettings: "Réglages",
+    // accueil
+    kingOfPool: "Roi du billard",
+    newGame: "Nouvelle partie",
+    setupLead: "Ajoute les joueurs de la soirée, puis lance la partie.",
+    playerName: "Nom du joueur",
+    add: "Ajouter",
+    regulars: "Joueurs habituels",
+    noPlayers: "Aucun joueur pour l'instant. Il en faut au moins deux.",
+    oneMore: "Encore un joueur et c'est parti.",
+    maxPlayers: "Dix joueurs maximum : une carte chacun.",
+    startGame: "Lancer la partie",
+    removeX: "Retirer {name}",
+    playersCount_one: "{n} joueur", playersCount_many: "{n} joueurs",
+    // distribution
+    dealLeadClassic: "Chacun reçoit sa carte. Elle l'identifie pour toute la soirée et sert à tirer qui joue.",
+    dealLeadDone: "Chacun a sa carte pour toute la soirée.",
+    dealTurn: "Au tour de {name} de choisir sa carte",
+    dealHint: "Touche une carte face cachée",
+    letsGo: "C'est parti",
+    continue: "Continuer",
+    hiddenCard: "Carte face cachée",
+    // partie
+    round: "Manche {n}",
+    tour: "Tour {n}",
+    rules: "Règles",
+    pickCard: "Pioche une carte pour savoir qui joue",
+    cardsLeft_one: "{n} carte restante", cardsLeft_many: "{n} cartes restantes",
+    newTourSoon: "Tout le monde a joué : nouveau tour…",
+    yourTurn: "À toi de jouer !",
+    turnOf: "C'est à {name} de jouer",
+    tapToClose: "Touche pour fermer",
+    loseLife: "{name} perd une vie",
+    gainLife: "{name} gagne une vie",
+    revive: "Réintégrer",
+    reviveX: "Réintégrer {name}",
+    eliminated: "Éliminé",
+    nightRanking: "Classement de la soirée",
+    endNight: "Terminer la soirée",
+    undo: "Annuler",
+    undoX: "Annuler : {label}",
+    undone: "Annulé : {label}",
+    houseRules: "Règles maison",
+    noRulesYet: "Aucune règle ajoutée pour l'instant.",
+    ruleExample: "Ex : la 7 fait passer son tour",
+    pickIdea: "Piocher une idée de règle",
+    closeIdeas: "Fermer les idées",
+    close: "Fermer",
+    // fin de manche
+    winsRound: "remporte la manche {n}",
+    undoMistake: "Annuler (fausse manœuvre)",
+    addRuleQ: "Une règle pour la prochaine manche ? (facultatif)",
+    nextRound: "Manche suivante",
+    // fin de soirée
+    savedNight: "Soirée enregistrée dans « Les soirées »",
+    kingOfNight: "Roi de la soirée",
+    finalRanking: "Classement final",
+    rulesTonight: "Règles inventées ce soir",
+    shareSummary: "Partager le résumé",
+    copied: "Copié !",
+    saveFile: "Sauvegarder mes données (fichier)",
+    resumeNight: "Reprendre la soirée",
+    roundsWon_one: "{n} manche", roundsWon_many: "{n} manches",
+    shareTitle: "Killer : résultats de la soirée",
+    shareRules: "Règles inventées :",
+    // légendes
+    legendsTitle: "Légendes",
+    segWall: "Le Mur", segRanking: "Classement", segNights: "Soirées",
+    wallLead: "Les avis de recherche de tous les temps.",
+    wanted: "Wanted",
+    reward: "Récompense",
+    roundsWonLabel_one: "manche gagnée", roundsWonLabel_many: "manches gagnées",
+    nobodyYet: "Personne n'a encore gagné de manche. Reviens après une soirée !",
+    resetWall: "Réinitialiser le classement",
+    resetConfirm: "Effacer tout le classement ? C'est définitif (l'historique des soirées est conservé).",
+    yesErase: "Oui, effacer",
+    cancel: "Annuler",
+    byRounds: "Manches", byNights: "Soirées",
+    rankRoundsLead: "Manches gagnées depuis toujours.",
+    rankNightsLead: "Soirées remportées : le roi de chaque soirée est celui qui a gagné le plus de manches.",
+    nights_one: "{n} soirée", nights_many: "{n} soirées",
+    nightsWord_one: "soirée", nightsWord_many: "soirées",
+    roundsWord_one: "manche", roundsWord_many: "manches",
+    noNights: "Aucune soirée enregistrée pour l'instant. Chaque soirée jouée apparaîtra ici automatiquement, même si tu oublies de la terminer.",
+    live: "En cours", unfinished: "Non terminée",
+    noWinner: "Pas de vainqueur",
+    nightRules: "Règles de la soirée",
+    deleteNight: "Supprimer cette soirée",
+    deleteNightConfirm: "Supprimer cette soirée de l'historique ? Le Mur ne change pas.",
+    yesDelete: "Oui, supprimer",
+    nightDeleted: "Soirée supprimée",
+    // fiche joueur
+    profile: "Fiche joueur",
+    statRounds: "Manches gagnées",
+    statNights: "Soirées jouées",
+    statKing: "Soirées remportées",
+    statRate: "Victoires",
+    statStreak: "Série en cours",
+    statBest: "Meilleure série",
+    statLast: "Dernière partie",
+    statFav: "Carte fétiche",
+    streakNote: "Les séries comptent les manches gagnées d'affilée depuis la V3.",
+    never: "jamais",
+    // livre
+    bookTitle: "Le Grand Livre",
+    bookLead: "Toutes les règles maison inventées depuis le début, soirée après soirée.",
+    bookAdd: "Ajouter une règle au livre",
+    bookEmpty: "Aucune règle enregistrée pour l'instant.",
+    edit: "Modifier", delete: "Supprimer", ok: "OK",
+    // aide
+    helpTitle: "Comment jouer",
+    h1t: "Pour commencer", h1: "Entrez les joueurs, puis chacun reçoit une carte qui l'identifie pour toute la soirée. Tout le monde démarre chaque manche avec 3 vies.",
+    h2t: "Qui joue ?", h2: "On pioche une carte parmi celles encore face cachée : c'est à cette personne de jouer. Chacun passe une fois par tour ; quand tout le monde a joué, un nouveau tour commence et on peut retomber sur soi-même juste après.",
+    h3t: "La règle du jeu", h3: "Peu importe les couleurs, les rayées ou les numéros : le seul objectif est de rentrer au moins une boule à son tour. Si tu n'en rentres aucune, tu perds une vie.",
+    h4t: "La casse", h4: "Le premier joueur tiré casse. S'il ne rentre aucune boule sur la casse, il a le droit de rejouer immédiatement.",
+    h5t: "La boule 8", h5: "Rentrer la 8 fait gagner une vie bonus. Si toutes les boules sont rentrées avant qu'il y ait un vainqueur, on remet les boules en place avec une nouvelle 8, et la manche continue.",
+    h6t: "Fin de la manche", h6: "Un joueur à 0 vie est éliminé pour le reste de la manche. Dès qu'il ne reste qu'un seul joueur avec des vies, il remporte la manche.",
+    h7t: "Les règles maison", h7: "Le gagnant de la manche peut inventer une nouvelle règle, valable dès la manche suivante et jusqu'à la fin de la soirée. Les vies repassent à 3 à chaque manche ; les cartes et les règles restent.",
+    h8t: "Une erreur ?", h8: "« Annuler » remet la partie comme avant le dernier geste (vie, carte, fin de manche, fin de soirée). Un joueur éliminé par erreur peut être réintégré avec 1 vie.",
+    // réglages
+    settingsTitle: "Réglages",
+    install: "Installer l'appli",
+    installText: "Dans Safari : Partager → « Sur l'écran d'accueil ». Ouvre ensuite toujours l'appli par son icône : elle garde ses propres données.",
+    appearance: "Apparence",
+    themeLounge: "Saloon", themeClassic: "Classique",
+    language: "Langue",
+    comfort: "Confort",
+    sound: "Sons", soundHint: "Coup de feu à chaque carte",
+    haptics: "Vibrations", hapticsHint: "Retour tactile",
+    wake: "Écran toujours allumé", wakeHint: "Pendant une partie",
+    myData: "Mes données",
+    autoSaved: "Tout est enregistré automatiquement sur ce téléphone, à chaque action.",
+    dataCounts: "{nights} · {rules} · {players} au Mur",
+    rules_one: "{n} règle", rules_many: "{n} règles",
+    lastExport: "Dernier fichier de secours",
+    exportDue: "Pense à exporter un fichier de secours : il te protège si le téléphone est réinitialisé.",
+    today: "aujourd'hui",
+    daysAgo_one: "il y a {n} jour", daysAgo_many: "il y a {n} jours",
+    durable: "Stockage protégé",
+    yes: "oui", no: "non", unknown: "inconnu",
+    writeFail: "écriture impossible",
+    exportBtn: "Exporter un fichier de secours",
+    copyCode: "Copier le code",
+    importFile: "Importer",
+    pasteCode: "Coller un code de sauvegarde",
+    hide: "Masquer",
+    pasteHere: "Colle ici le code copié",
+    importCode: "Importer ce code",
+    autoBackups: "Sauvegardes automatiques",
+    firstBackup: "La première sera créée à la fin de ta prochaine soirée.",
+    restore: "Restaurer",
+    regularsHint: "Les prénoms que tu utilises apparaîtront ici et s'ajouteront en un tap.",
+    forgetX: "Oublier {name}",
+    version: "Killer v{v}",
+    // modales & messages
+    importQ: "Remplacer les données de ce téléphone ?",
+    importText: "Cette sauvegarde contient {nights}, {rules} et {players} au Mur{date}. Une copie de tes données actuelles est gardée dans les sauvegardes automatiques.",
+    exportedOn: " (exportée le {d})",
+    replace: "Remplacer",
+    restoreQ: "Restaurer cette sauvegarde ?",
+    restoreText: "Données du {d}. Tes données actuelles sont d'abord mises de côté.",
+    restoredTitle: "Données restaurées",
+    restoredText: "Le fichier principal était illisible. On a restauré la sauvegarde automatique du {d}.",
+    tShared: "Sauvegarde envoyée ✓", tDownloaded: "Fichier de sauvegarde téléchargé ✓", tCopied: "Code de sauvegarde copié ✓",
+    tExportFail: "Export impossible sur ce navigateur", tCopyFail: "Copie impossible : utilise l'export fichier",
+    tImported: "Sauvegarde importée ✓", tRestored: "Sauvegarde restaurée ✓", tRecovered: "Données récupérées ✓",
+    tLegacy: "Données de la V1 reprises ✓", tSaveFail: "Enregistrement impossible : stockage plein ou bloqué",
+    tMax: "Dix joueurs maximum", tDup: "{name} est déjà dans la partie",
+    tElim: "{name} est éliminé", tBack: "{name} est de retour (1 vie)",
+    tLives_one: "{name} : {n} vie", tLives_many: "{name} : {n} vies",
+    errNotJson: "Ce texte n'est pas une sauvegarde Killer lisible.",
+    errNotKiller: "Ce fichier ne ressemble pas à une sauvegarde Killer.",
+    errRead: "Lecture du fichier impossible.",
+    uLifeMinus: "{name} −1 vie", uLifePlus: "{name} +1 vie", uCard: "carte de {name}",
+    uNextRound: "manche suivante", uEndNight: "fin de soirée",
+    backupAuto: "auto", backupNight: "soirée", backupBeforeImport: "avant import", backupBeforeRestore: "avant restauration"
+  },
+  en: {
+    appSub: "Pool night with friends",
+    tabPlay: "Play", tabLegends: "Legends", tabBook: "The Book", tabHelp: "Help", tabSettings: "Settings",
+    kingOfPool: "King of the table",
+    newGame: "New game",
+    setupLead: "Add tonight's players, then start the game.",
+    playerName: "Player name",
+    add: "Add",
+    regulars: "Regulars",
+    noPlayers: "No players yet. You need at least two.",
+    oneMore: "One more player and you're on.",
+    maxPlayers: "Ten players max: one card each.",
+    startGame: "Start the game",
+    removeX: "Remove {name}",
+    playersCount_one: "{n} player", playersCount_many: "{n} players",
+    dealLeadClassic: "Everyone gets a card. It stands for you all night and decides who shoots.",
+    dealLeadDone: "Everyone has their card for the night.",
+    dealTurn: "{name}, pick your card",
+    dealHint: "Tap a face-down card",
+    letsGo: "Let's go",
+    continue: "Continue",
+    hiddenCard: "Face-down card",
+    round: "Round {n}",
+    tour: "Turn {n}",
+    rules: "Rules",
+    pickCard: "Draw a card to see who shoots",
+    cardsLeft_one: "{n} card left", cardsLeft_many: "{n} cards left",
+    newTourSoon: "Everyone has played: new turn…",
+    yourTurn: "You're up!",
+    turnOf: "{name} is up",
+    tapToClose: "Tap to close",
+    loseLife: "{name} loses a life",
+    gainLife: "{name} gains a life",
+    revive: "Bring back",
+    reviveX: "Bring back {name}",
+    eliminated: "Out",
+    nightRanking: "Tonight's ranking",
+    endNight: "End the night",
+    undo: "Undo",
+    undoX: "Undo: {label}",
+    undone: "Undone: {label}",
+    houseRules: "House rules",
+    noRulesYet: "No rules added yet.",
+    ruleExample: "E.g. the 7 skips your turn",
+    pickIdea: "Draw a rule idea",
+    closeIdeas: "Close ideas",
+    close: "Close",
+    winsRound: "wins round {n}",
+    undoMistake: "Undo (misclick)",
+    addRuleQ: "A rule for the next round? (optional)",
+    nextRound: "Next round",
+    savedNight: "Night saved in “Nights”",
+    kingOfNight: "King of the night",
+    finalRanking: "Final ranking",
+    rulesTonight: "Rules invented tonight",
+    shareSummary: "Share the results",
+    copied: "Copied!",
+    saveFile: "Save my data (file)",
+    resumeNight: "Resume the night",
+    roundsWon_one: "{n} round", roundsWon_many: "{n} rounds",
+    shareTitle: "Killer: tonight's results",
+    shareRules: "House rules:",
+    legendsTitle: "Legends",
+    segWall: "The Wall", segRanking: "Ranking", segNights: "Nights",
+    wallLead: "All-time wanted posters.",
+    wanted: "Wanted",
+    reward: "Reward",
+    roundsWonLabel_one: "round won", roundsWonLabel_many: "rounds won",
+    nobodyYet: "Nobody has won a round yet. Come back after a night!",
+    resetWall: "Reset the ranking",
+    resetConfirm: "Erase the whole ranking? This can't be undone (night history is kept).",
+    yesErase: "Yes, erase",
+    cancel: "Cancel",
+    byRounds: "Rounds", byNights: "Nights",
+    rankRoundsLead: "Rounds won, all time.",
+    rankNightsLead: "Nights won: the king of a night is whoever won the most rounds.",
+    nights_one: "{n} night", nights_many: "{n} nights",
+    nightsWord_one: "night", nightsWord_many: "nights",
+    roundsWord_one: "round", roundsWord_many: "rounds",
+    noNights: "No nights saved yet. Every night you play shows up here automatically, even if you forget to end it.",
+    live: "Live", unfinished: "Unfinished",
+    noWinner: "No winner",
+    nightRules: "Rules of the night",
+    deleteNight: "Delete this night",
+    deleteNightConfirm: "Delete this night from history? The Wall stays the same.",
+    yesDelete: "Yes, delete",
+    nightDeleted: "Night deleted",
+    profile: "Player card",
+    statRounds: "Rounds won",
+    statNights: "Nights played",
+    statKing: "Nights won",
+    statRate: "Win rate",
+    statStreak: "Current streak",
+    statBest: "Best streak",
+    statLast: "Last played",
+    statFav: "Lucky card",
+    streakNote: "Streaks count rounds won in a row since V3.",
+    never: "never",
+    bookTitle: "The Rule Book",
+    bookLead: "Every house rule invented since day one, night after night.",
+    bookAdd: "Add a rule to the book",
+    bookEmpty: "No rules saved yet.",
+    edit: "Edit", delete: "Delete", ok: "OK",
+    helpTitle: "How to play",
+    h1t: "Getting started", h1: "Enter the players, then everyone gets a card that stands for them all night. Everyone starts each round with 3 lives.",
+    h2t: "Who shoots?", h2: "Draw one of the face-down cards: that person shoots. Everyone plays once per turn; when everyone has played, a new turn starts and you can come up again right away.",
+    h3t: "The rule", h3: "Colours, stripes and numbers don't matter: the only goal is to pot at least one ball on your turn. Pot nothing and you lose a life.",
+    h4t: "The break", h4: "The first player drawn breaks. If nothing goes down on the break, they get to shoot again straight away.",
+    h5t: "The 8 ball", h5: "Potting the 8 earns a bonus life. If every ball is down before there's a winner, rack them up again with a new 8 and the round goes on.",
+    h6t: "End of the round", h6: "A player on 0 lives is out for the rest of the round. As soon as only one player has lives left, they win the round.",
+    h7t: "House rules", h7: "The round winner can invent a new rule that applies from the next round until the end of the night. Lives reset to 3 each round; cards and rules stay.",
+    h8t: "Made a mistake?", h8: "“Undo” puts the game back as it was before the last action (life, card, end of round, end of night). A player knocked out by mistake can be brought back with 1 life.",
+    settingsTitle: "Settings",
+    install: "Install the app",
+    installText: "In Safari: Share → “Add to Home Screen”. Then always open the app from its icon: it keeps its own data.",
+    appearance: "Look",
+    themeLounge: "Saloon", themeClassic: "Classic",
+    language: "Language",
+    comfort: "Comfort",
+    sound: "Sounds", soundHint: "Gunshot on every card",
+    haptics: "Vibration", hapticsHint: "Haptic feedback",
+    wake: "Keep screen on", wakeHint: "During a game",
+    myData: "My data",
+    autoSaved: "Everything is saved automatically on this phone, after every action.",
+    dataCounts: "{nights} · {rules} · {players} on the Wall",
+    rules_one: "{n} rule", rules_many: "{n} rules",
+    lastExport: "Last backup file",
+    exportDue: "Export a backup file now and then: it protects you if the phone gets reset.",
+    today: "today",
+    daysAgo_one: "{n} day ago", daysAgo_many: "{n} days ago",
+    durable: "Protected storage",
+    yes: "yes", no: "no", unknown: "unknown",
+    writeFail: "can't write",
+    exportBtn: "Export a backup file",
+    copyCode: "Copy code",
+    importFile: "Import",
+    pasteCode: "Paste a backup code",
+    hide: "Hide",
+    pasteHere: "Paste the copied code here",
+    importCode: "Import this code",
+    autoBackups: "Automatic backups",
+    firstBackup: "The first one is made at the end of your next night.",
+    restore: "Restore",
+    regularsHint: "Names you use will show up here and can be added in one tap.",
+    forgetX: "Forget {name}",
+    version: "Killer v{v}",
+    importQ: "Replace the data on this phone?",
+    importText: "This backup contains {nights}, {rules} and {players} on the Wall{date}. A copy of your current data is kept in the automatic backups.",
+    exportedOn: " (exported {d})",
+    replace: "Replace",
+    restoreQ: "Restore this backup?",
+    restoreText: "Data from {d}. Your current data is set aside first.",
+    restoredTitle: "Data restored",
+    restoredText: "The main data was unreadable. We restored the automatic backup from {d}.",
+    tShared: "Backup sent ✓", tDownloaded: "Backup file downloaded ✓", tCopied: "Backup code copied ✓",
+    tExportFail: "Export isn't available in this browser", tCopyFail: "Couldn't copy: use the file export",
+    tImported: "Backup imported ✓", tRestored: "Backup restored ✓", tRecovered: "Data recovered ✓",
+    tLegacy: "V1 data imported ✓", tSaveFail: "Can't save: storage full or blocked",
+    tMax: "Ten players max", tDup: "{name} is already in the game",
+    tElim: "{name} is out", tBack: "{name} is back (1 life)",
+    tLives_one: "{name}: {n} life", tLives_many: "{name}: {n} lives",
+    errNotJson: "This text isn't a readable Killer backup.",
+    errNotKiller: "This file doesn't look like a Killer backup.",
+    errRead: "Couldn't read the file.",
+    uLifeMinus: "{name} −1 life", uLifePlus: "{name} +1 life", uCard: "{name}'s card",
+    uNextRound: "next round", uEndNight: "end of night",
+    backupAuto: "auto", backupNight: "night", backupBeforeImport: "before import", backupBeforeRestore: "before restore"
+  }
+};
+
+var ANIMAL_NAMES = {
+  fr: { 1: "Chèvre", 2: "Renard", 3: "Panda", 4: "Lion", 5: "Cochon", 6: "Loup", 7: "Ours", 8: "Chat", 9: "Perroquet", 10: "Taureau" },
+  en: { 1: "Goat", 2: "Fox", 3: "Panda", 4: "Lion", 5: "Pig", 6: "Wolf", 7: "Bear", 8: "Cat", 9: "Parrot", 10: "Bull" }
+};
+
+var RULE_PRESETS_EN = [
+  "The 7 makes the next player skip their turn",
+  "The 12 lets you place the cue ball anywhere",
+  "Potting two balls in one shot earns two lives",
+  "The joker balls (7 and 12) come back every new round",
+  "Hitting an opponent's ball costs a life",
+  "A stun shot (dead stop on contact) earns a life",
+  "Missing the 8 costs two lives at once",
+  "Whoever breaks without potting gets a second try",
+  "Potting the same colour twice in a row earns a life",
+  "The eliminated player picks who draws next turn",
+  "Any foul (cue ball hit twice) costs a life",
+  "The last round is played with your other hand",
+  "A successful massé earns a bonus life",
+  "Potting the 1 or 2 together with the 8 wins the round",
+  "The first one out invents half of the next rule"
+];
+
+function systemLang() {
+  try { var l = (navigator.language || "fr").toLowerCase(); return l.indexOf("en") === 0 ? "en" : "fr"; } catch (e) { return "fr"; }
+}
+function lang() { var l = db && db.settings && db.settings.lang; return l === "en" || l === "fr" ? l : systemLang(); }
+function locale() { return lang() === "en" ? "en-GB" : "fr-FR"; }
+
+function t(key, vars) {
+  var d = I18N[lang()] || I18N.fr;
+  var s = d[key];
+  if (s == null) s = I18N.fr[key];
+  if (s == null) return key;
+  if (vars) s = s.replace(/\{(\w+)\}/g, function (m, k) { return vars[k] != null ? vars[k] : m; });
+  return s;
+}
+// t pluriel : clé_one / clé_many, avec {n}
+function tn(key, n, vars) {
+  var v = Object.assign({ n: n }, vars || {});
+  return t(key + (n > 1 || (lang() === "en" && n === 0) ? "_many" : "_one"), v);
+}
+function animalName(n) { return (ANIMAL_NAMES[lang()] || ANIMAL_NAMES.fr)[n] || ""; }
+function rulePresets() { return lang() === "en" ? RULE_PRESETS_EN : RULE_PRESETS; }
+
 /* ================= SVG : icônes ================= */
 function svgBall(number, size) {
   size = size || 44;
@@ -268,6 +664,56 @@ function svgRackEmblem(color) {
 }
 
 
+/* ================= Icônes d'interface (traits, currentColor) ================= */
+var ICON_PATHS = {
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  minus: '<path d="M5 12h14"/>',
+  close: '<path d="M6 6l12 12M18 6L6 18"/>',
+  undo: '<path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/>',
+  revive: '<path d="M3 12a9 9 0 0115.5-6.3L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 01-15.5 6.3L3 16"/><path d="M3 21v-5h5"/>',
+  book: '<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 21V5"/><path d="M8 7h7M8 11h5"/>',
+  share: '<path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>',
+  download: '<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>',
+  upload: '<path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 21h14"/>',
+  copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/>',
+  chevron: '<path d="M9 6l6 6-6 6"/>',
+  edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/>',
+  trash: '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/>',
+  flame: '<path d="M12 3c1 4 5 5.5 5 10a5 5 0 01-10 0c0-2.5 1.5-3.5 2.5-5 .5 1.5 1.5 2 2.5 2 0-2.5-1-4.5 0-7z"/>',
+  calendar: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>',
+  cards: '<rect x="3" y="6" width="11" height="15" rx="2"/><path d="M8 3h11a2 2 0 012 2v13"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7"/>',
+  sparkle: '<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>'
+};
+function icon(name, size, extraClass) {
+  size = size || 20;
+  return '<svg class="ico' + (extraClass ? " " + extraClass : "") + '" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICON_PATHS[name] || "") + '</svg>';
+}
+function crownSvg(size, cls) {
+  size = size || 16;
+  return '<svg class="crown' + (cls ? " " + cls : "") + '" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path d="M3 8l4.5 4L12 4l4.5 8L21 8l-2 11H5z" fill="#E2B64C" stroke="#7a4f12" stroke-width="1.4" stroke-linejoin="round"/>' +
+    '<circle cx="12" cy="4" r="1.6" fill="#f6e3a4"/><path d="M6 16h12" stroke="#7a4f12" stroke-width="1.2"/></svg>';
+}
+// Une cartouche = une vie
+function bulletSvg(spent) {
+  return '<svg class="bullet' + (spent ? " spent" : "") + '" width="9" height="20" viewBox="0 0 9 20" aria-hidden="true">' +
+    '<path d="M4.5 0.6C2.3 2.4 1.2 4.6 1.2 7.2V8h6.6v-.8C7.8 4.6 6.7 2.4 4.5.6z" class="bTip"/>' +
+    '<rect x="1" y="8.4" width="7" height="9.6" rx=".8" class="bCase"/><rect x=".5" y="17.6" width="8" height="1.9" rx=".6" class="bRim"/></svg>';
+}
+// Étoile de shérif
+function sheriffStar(size, color) {
+  size = size || 22; color = color || "currentColor";
+  var pts = [], tips = [];
+  for (var i = 0; i < 12; i++) {
+    var r = i % 2 === 0 ? 11 : 5.2, a = -Math.PI / 2 + i * Math.PI / 6;
+    pts.push((12 + r * Math.cos(a)).toFixed(2) + "," + (12 + r * Math.sin(a)).toFixed(2));
+    if (i % 2 === 0) tips.push('<circle cx="' + (12 + 11.4 * Math.cos(a)).toFixed(2) + '" cy="' + (12 + 11.4 * Math.sin(a)).toFixed(2) + '" r="1.5" fill="' + color + '"/>');
+  }
+  return '<svg width="' + size + '" height="' + size + '" viewBox="-1 -1 26 26" aria-hidden="true"><polygon points="' + pts.join(" ") + '" fill="' + color + '"/>' + tips.join("") + '<circle cx="12" cy="12" r="3.2" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="1.2"/></svg>';
+}
+
 /* ================= Cartes ================= */
 function cardArtHtml(number, name, small) {
   var src = CHAR_IMAGES[number];
@@ -379,7 +825,7 @@ function vibrate(pattern) {
 }
 
 /* ================= Stockage fiable, sauvegardes, export ================= */
-var APP_VERSION = "2.0";
+var APP_VERSION = "3.0";
 var DB_KEY = "killer_db_v2";
 var BACKUPS_KEY = "killer_backups_v2";
 var LEGACY_KEYS = { session: "killer_session_v3", stats: "killer_stats_v1", rulebook: "killer_rulebook_v1" };
@@ -391,12 +837,12 @@ function defaultDb() {
     v: 2,
     savedAt: 0,
     session: clone(initialState),
-    stats: { roundWins: {}, cardPicks: {} },
+    stats: { roundWins: {}, cardPicks: {}, roundLog: [] },
     rulebook: [],
     history: [],
     players: {},
     undo: [],
-    settings: { sound: true, haptics: true, wakeLock: true, lastExportAt: 0, lastAutoBackupAt: 0 }
+    settings: { sound: true, haptics: true, wakeLock: true, lastExportAt: 0, lastAutoBackupAt: 0, lang: null }
   };
 }
 
@@ -412,7 +858,7 @@ function normalizeDb(o) {
   if (!Array.isArray(d.session.tourCards)) d.session.tourCards = [];
   if (!Array.isArray(d.session.dealingCards)) d.session.dealingCards = [];
   var st = isPlainObject(o.stats) ? o.stats : {};
-  d.stats = { roundWins: isPlainObject(st.roundWins) ? st.roundWins : {}, cardPicks: isPlainObject(st.cardPicks) ? st.cardPicks : {} };
+  d.stats = { roundWins: isPlainObject(st.roundWins) ? st.roundWins : {}, cardPicks: isPlainObject(st.cardPicks) ? st.cardPicks : {}, roundLog: Array.isArray(st.roundLog) ? st.roundLog.filter(function (r) { return r && r.w; }) : [] };
   d.rulebook = Array.isArray(o.rulebook) ? o.rulebook.filter(function (r) { return r && typeof r.text === "string"; }).map(function (r) { return { id: r.id || uid(), text: r.text }; }) : [];
   d.history = Array.isArray(o.history) ? o.history.filter(function (h) { return h && h.id && Array.isArray(h.players); }) : [];
   d.players = isPlainObject(o.players) ? o.players : {};
@@ -509,7 +955,7 @@ function persist() {
   db.savedAt = Date.now();
   var json = JSON.stringify(db);
   try { localStorage.setItem(DB_KEY, json); storageStatus.localOk = true; storageStatus.lastSaveAt = db.savedAt; }
-  catch (e) { if (storageStatus.localOk) toast("Enregistrement impossible : stockage plein ou bloqué"); storageStatus.localOk = false; }
+  catch (e) { if (storageStatus.localOk) toast(t("tSaveFail")); storageStatus.localOk = false; }
   idbSave(json);
 }
 
@@ -549,14 +995,18 @@ function addBackup(reason) {
 function maybeAutoBackup() {
   if (hasMeaningfulData() && Date.now() - (db.settings.lastAutoBackupAt || 0) > 12 * 3600 * 1000) { addBackup("auto"); persist(); }
 }
+function backupReasonLabel(r) {
+  var m = { auto: "backupAuto", night: "backupNight", "soirée": "backupNight", "import": "backupBeforeImport", "avant import": "backupBeforeImport", restore: "backupBeforeRestore", "avant restauration": "backupBeforeRestore" };
+  return m[r] ? t(m[r]) : (r || t("backupAuto"));
+}
 function restoreBackup(index) {
   var list = readBackups();
   var b = list[index];
   if (!b) return false;
-  addBackup("avant restauration");
+  addBackup("restore");
   var keep = db.settings;
   db = normalizeDb(b.data);
-  db.settings = Object.assign({}, db.settings, { sound: keep.sound, haptics: keep.haptics, wakeLock: keep.wakeLock, lastExportAt: keep.lastExportAt });
+  db.settings = Object.assign({}, db.settings, { sound: keep.sound, haptics: keep.haptics, wakeLock: keep.wakeLock, lastExportAt: keep.lastExportAt, lang: keep.lang });
   db.undo = [];
   bindDb();
   persist();
@@ -610,9 +1060,9 @@ function copyBackupText() {
 // Analyse un texte de sauvegarde ; renvoie { ok, summary, data } ou { ok:false, error }.
 function parseBackupText(text) {
   var o;
-  try { o = JSON.parse(String(text).trim()); } catch (e) { return { ok: false, error: "Ce texte n'est pas une sauvegarde Killer lisible." }; }
+  try { o = JSON.parse(String(text).trim()); } catch (e) { return { ok: false, error: t("errNotJson") }; }
   var data = o && o.app === "killer" && isPlainObject(o.data) ? o.data : (isPlainObject(o) && (o.history || o.stats || o.rulebook) ? o : null);
-  if (!data) return { ok: false, error: "Ce fichier ne ressemble pas à une sauvegarde Killer." };
+  if (!data) return { ok: false, error: t("errNotKiller") };
   var n = normalizeDb(data);
   return {
     ok: true,
@@ -626,10 +1076,10 @@ function parseBackupText(text) {
   };
 }
 function applyImport(parsed) {
-  addBackup("avant import");
+  addBackup("import");
   var keep = db.settings;
   db = parsed.data;
-  db.settings = Object.assign({}, db.settings, { sound: keep.sound, haptics: keep.haptics, wakeLock: keep.wakeLock, lastExportAt: keep.lastExportAt });
+  db.settings = Object.assign({}, db.settings, { sound: keep.sound, haptics: keep.haptics, wakeLock: keep.wakeLock, lastExportAt: keep.lastExportAt, lang: keep.lang });
   db.undo = [];
   db.session = repairSession(db.session);
   bindDb();
@@ -758,7 +1208,10 @@ var ui = {
   modal: null,          // { kind:"import", parsed } | { kind:"restore", index }
   importText: "",
   importOpen: false,
-  notice: null
+  notice: null,
+  spotlight: null,      // { id } carte piochée mise en avant
+  profile: null,        // nom du joueur dont la fiche est ouverte
+  rankBy: "rounds"
 };
 
 function bindDb() { state = db.session; stats = db.stats; rulebook = db.rulebook; }
@@ -798,17 +1251,20 @@ function undoLast() {
   var u = db.undo.pop();
   if (!u) return;
   state = db.session = u.session;
+  ui.spotlight = null;
   setStats(u.stats);
   if (nextTourTimer) { clearTimeout(nextTourTimer); nextTourTimer = null; }
   persist();
   playUndoSound(); vibrate(10);
-  toast("Annulé : " + u.label);
+  toast(t("undone", { label: u.label }));
 }
 
 /* ---- Stats ---- */
-function recordRoundWin(name) {
+function recordRoundWin(name, participants) {
   var s = clone(stats);
   s.roundWins[name] = (s.roundWins[name] || 0) + 1;
+  s.roundLog = (s.roundLog || []).concat([{ at: Date.now(), sid: state.soireeId, w: name, p: participants || [] }]);
+  if (s.roundLog.length > 3000) s.roundLog = s.roundLog.slice(-3000);
   setStats(s);
 }
 function recordCardPick(name, number) {
@@ -818,7 +1274,7 @@ function recordCardPick(name, number) {
   s.cardPicks[name] = forName;
   setStats(s);
 }
-function resetStats() { setStats({ roundWins: {}, cardPicks: {} }); persist(); }
+function resetStats() { setStats({ roundWins: {}, cardPicks: {}, roundLog: [] }); persist(); }
 
 /* ---- Grand Livre ---- */
 function addToRulebook(text) { setRulebook(rulebook.concat([{ id: uid(), text: text }])); }
@@ -835,8 +1291,8 @@ function nameTaken(name) {
 function addPlayerByName(raw) {
   var name = String(raw || "").trim().replace(/\s+/g, " ");
   if (!name) return false;
-  if (state.players.length >= 10) { toast("Dix joueurs maximum"); return false; }
-  if (nameTaken(name)) { toast(name + " est déjà dans la partie"); return false; }
+  if (state.players.length >= 10) { toast(t("tMax")); return false; }
+  if (nameTaken(name)) { toast(t("tDup", { name: name })); return false; }
   update({ players: state.players.concat([{ id: uid(), name: name.slice(0, 20), ball: null, lives: 3, wins: 0 }]) });
   return true;
 }
@@ -892,7 +1348,7 @@ function confirmDealt() {
 /* ---- Jeu ---- */
 function flashRow(id, kind) {
   ui.flash = { id: id, kind: kind };
-  setTimeout(function () { if (ui.flash && ui.flash.id === id) { ui.flash = null; render(); } }, 650);
+  setTimeout(function () { if (ui.flash && ui.flash.id === id) { ui.flash = null; render(); } }, kind === "elim" ? 900 : 650);
 }
 
 function changeLife(id, delta) {
@@ -902,13 +1358,14 @@ function changeLife(id, delta) {
   var newLives = Math.max(0, p.lives + delta);
   if (newLives === p.lives) return;
   var wasEliminated = p.lives <= 0;
-  pushUndo(p.name + (delta > 0 ? " +1 vie" : " −1 vie"));
+  pushUndo(t(delta > 0 ? "uLifePlus" : "uLifeMinus", { name: p.name }));
   var players = state.players.map(function (x) { return x.id === id ? Object.assign({}, x, { lives: newLives }) : x; });
   var active = players.filter(function (x) { return x.lives > 0; });
   if (players.length > 1 && active.length === 1) {
     var winnerId = active[0].id;
     var withWin = players.map(function (x) { return x.id === winnerId ? Object.assign({}, x, { wins: x.wins + 1 }) : x; });
-    recordRoundWin(active[0].name);
+    recordRoundWin(active[0].name, players.map(function (x) { return x.name; }));
+    ui.spotlight = null;
     playWinSound(); vibrate([20, 40, 20]);
     var tEl = document.getElementById("toast"); if (tEl) tEl.classList.remove("show");
     update({ players: withWin, phase: "roundEnd", roundWinnerId: winnerId, currentTurnId: null });
@@ -922,22 +1379,23 @@ function changeLife(id, delta) {
     if (!present) tourCards = tourCards.concat([{ id: id, up: false }]);
   }
   update({ players: players, tourCards: tourCards });
-  flashRow(id, delta > 0 ? "up" : "down");
+  flashRow(id, newLives === 0 ? "elim" : (delta > 0 ? "up" : "down"));
   vibrate(delta > 0 ? 12 : 22);
-  if (newLives === 0) toast(p.name + " est éliminé", { undo: true });
-  else if (wasEliminated) toast(p.name + " est de retour (1 vie)", { undo: true });
-  else toast(p.name + " : " + newLives + (newLives > 1 ? " vies" : " vie"), { undo: true });
+  if (newLives === 0) toast(t("tElim", { name: p.name }), { undo: true });
+  else if (wasEliminated) toast(t("tBack", { name: p.name }), { undo: true });
+  else toast(tn("tLives", newLives, { name: p.name }), { undo: true });
 }
 
 function pickCard(id) {
   var p = null;
   state.players.forEach(function (x) { if (x.id === id) p = x; });
-  pushUndo("Carte de " + (p ? p.name : "joueur"));
+  pushUndo(t("uCard", { name: p ? p.name : "?" }));
   playFlipSound(); vibrate(15);
   update({
     tourCards: state.tourCards.map(function (c) { return c.id === id ? Object.assign({}, c, { up: true }) : c; }),
     currentTurnId: id
   });
+  ui.spotlight = { id: id, fresh: true };
 }
 
 function addRule() {
@@ -963,15 +1421,15 @@ function startNewTour() {
   update({ tourCards: shuffle(activeIds).map(function (id) { return { id: id, up: false }; }), tour: state.tour + 1, currentTurnId: null });
 }
 function nextRound() {
-  pushUndo("Manche suivante");
+  pushUndo(t("uNextRound"));
   var players = state.players.map(function (p) { return Object.assign({}, p, { lives: 3 }); });
   var tourCards = shuffle(players.map(function (p) { return p.id; })).map(function (id) { return { id: id, up: false }; });
   update({ players: players, phase: "game", round: state.round + 1, roundWinnerId: null, currentTurnId: null, tour: 1, tourCards: tourCards });
 }
 function endSession() {
-  pushUndo("Fin de soirée");
+  pushUndo(t("uEndNight"));
   update({ phase: "finished" });
-  addBackup("soirée");
+  addBackup("night");
   persist();
 }
 function newGame() {
@@ -984,6 +1442,7 @@ var nextTourTimer = null;
 function checkTourProgress() {
   if (nextTourTimer) { clearTimeout(nextTourTimer); nextTourTimer = null; }
   if (state.phase !== "game") return;
+  if (ui.spotlight && state.tourCards.length > 0) return; // on attend que la carte en grand soit fermée
   if (state.tourCards.length === 0) {
     var activeIds = state.players.filter(function (p) { return p.lives > 0; }).map(function (p) { return p.id; });
     if (activeIds.length >= 2) {
@@ -997,389 +1456,544 @@ function checkTourProgress() {
   }
 }
 
-/* ================= Vues ================= */
-function fmtDate(ts) {
-  try { return new Date(ts).toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short", year: "numeric" }); }
-  catch (e) { return ""; }
+/* ================= Stats : Roi, classements, fiches joueurs ================= */
+function wallEntries() {
+  return Object.keys(stats.roundWins || {}).map(function (k) { return { name: k, wins: stats.roundWins[k] }; })
+    .filter(function (e) { return e.wins > 0; })
+    .sort(function (a, b) { return (b.wins - a.wins) || a.name.localeCompare(b.name); });
 }
-function fmtDateTime(ts) {
-  try { return new Date(ts).toLocaleDateString("fr-FR", { day: "numeric", month: "short" }) + " " + new Date(ts).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }); }
-  catch (e) { return ""; }
+function kingName() {
+  var e = wallEntries();
+  if (!e.length) return null;
+  if (e.length > 1 && e[1].wins === e[0].wins) return e[0].name; // égalité : le premier par ordre alpha garde la couronne
+  return e[0].name;
 }
-function daysSince(ts) { return ts ? Math.floor((Date.now() - ts) / 86400000) : null; }
-function plural(n, one, many) { return n + " " + (n > 1 ? many : one); }
-function isStandalone() {
-  try { return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true; } catch (e) { return false; }
-}
+function isKing(name) { var k = kingName(); return !!k && k.toLowerCase() === String(name).toLowerCase(); }
 
-function btnAttr(action, extra) { return 'data-action="' + action + '"' + (extra ? " " + extra : ""); }
-
-function svgCornerFlourishFixed(rotate, posStyle, size) {
-  size = size || 26;
-  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 26 26" class="cornerFlourish" style="' + posStyle + ';transform:rotate(' + rotate + 'deg)" aria-hidden="true">' +
-    '<path d="M2,20 L2,2 L20,2" stroke="#C9A24A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>' +
-    '<circle cx="2" cy="2" r="2.4" fill="#C9A24A" opacity="0.7"/></svg>';
+// Le(s) roi(s) d'une soirée : le plus de manches gagnées (égalité = co-rois)
+function nightKings(h) {
+  var max = 0;
+  h.players.forEach(function (p) { if ((p.wins || 0) > max) max = p.wins; });
+  if (max === 0) return [];
+  return h.players.filter(function (p) { return p.wins === max; }).map(function (p) { return p.name; });
 }
 
-function confettiHtml() {
-  var colors = ["#C9A24A", "#EFE3C6", "#B34A3A", "#E8C34A", "#7C8A95"], s = "";
-  for (var i = 0; i < 30; i++) {
-    s += '<i style="left:' + ((i * 37) % 100) + '%;background:' + colors[i % 5] + ';animation-delay:' + ((i % 7) * 0.11).toFixed(2) + 's;animation-duration:' + (1.9 + (i % 5) * 0.28).toFixed(2) + 's;transform:rotate(' + (i * 29) % 360 + 'deg)"></i>';
-  }
-  return '<div class="confetti" aria-hidden="true">' + s + '</div>';
+function sameName(a, b) { return String(a).toLowerCase() === String(b).toLowerCase(); }
+
+function nightsRanking() {
+  var map = {};
+  db.history.forEach(function (h) {
+    nightKings(h).forEach(function (n) { map[n] = (map[n] || 0) + 1; });
+  });
+  return Object.keys(map).map(function (k) { return { name: k, nights: map[k] }; })
+    .sort(function (a, b) { return (b.nights - a.nights) || a.name.localeCompare(b.name); });
 }
 
-/* ---- En-tête ---- */
-function renderHeader(kingName) {
-  var isLounge = state.theme === "lounge";
-  var kingBtn = kingName && ui.activeTab === "play"
-    ? '<button class="kingBanner" ' + btnAttr("set-tab", 'data-tab="wanted"') + '>' + (isLounge ? "★ " : "") + 'Roi du Billard : ' + escapeHtml(kingName) + '</button>' : "";
-  var headerRight = "";
-  if (ui.activeTab === "play" && (state.phase === "game" || state.phase === "roundEnd")) {
-    headerRight = '<div class="headerRight"><span class="roundBadge">Manche ' + state.round + '</span>' +
-      '<button class="ghostBtn" ' + btnAttr("toggle-rules") + '>Règles' + (state.rules.length > 0 ? " (" + state.rules.length + ")" : "") + '</button></div>';
-  }
-  if (isLounge) {
-    return '<header class="header" data-key="header"><div class="headerRule"></div><h1 class="title">Killer</h1>' + svgCuesEmblem() +
-      '<p class="titleSub">Billard entre amis</p>' + kingBtn + '<div class="headerRule"></div>' + headerRight + '</header>';
-  }
-  return '<header class="header" data-key="header-classic"><h1 class="title">Killer</h1>' + svgRackEmblem() + kingBtn + headerRight + '</header>';
+function streaksFor(name) {
+  var log = (stats.roundLog || []).filter(function (r) { return r.p && r.p.some(function (x) { return sameName(x, name); }); });
+  var best = 0, run = 0;
+  log.forEach(function (r) { if (sameName(r.w, name)) { run++; if (run > best) best = run; } else run = 0; });
+  return { current: run, best: best, tracked: log.length };
 }
 
-/* ---- Jouer : préparation ---- */
-function backupReminderHtml() {
-  if (!hasMeaningfulData()) return "";
-  var d = daysSince(db.settings.lastExportAt);
-  if (d !== null && d < 14) return "";
-  return '<div class="banner" data-key="backup-banner"><span>' + (d === null ? "Tes données ne sont encore sauvegardées dans aucun fichier." : "Dernière sauvegarde fichier il y a " + plural(d, "jour", "jours") + ".") + '</span>' +
-    '<button class="bannerBtn" ' + btnAttr("set-tab", 'data-tab="settings"') + '>Sauvegarder</button></div>';
+function playerProfile(name) {
+  var played = 0, kingOf = 0, roundsPlayed = 0, roundsWonHist = 0, last = 0;
+  db.history.forEach(function (h) {
+    var me = null;
+    h.players.forEach(function (p) { if (sameName(p.name, name)) me = p; });
+    if (!me) return;
+    played++;
+    roundsPlayed += h.rounds || 0;
+    roundsWonHist += me.wins || 0;
+    if (nightKings(h).some(function (k) { return sameName(k, name); })) kingOf++;
+    if ((h.updatedAt || h.startedAt || 0) > last) last = h.updatedAt || h.startedAt;
+  });
+  var st = streaksFor(name);
+  return {
+    name: name,
+    rounds: (stats.roundWins || {})[name] || 0,
+    nights: played,
+    kingOf: kingOf,
+    rate: roundsPlayed > 0 ? Math.round(100 * roundsWonHist / roundsPlayed) : null,
+    streak: st.current,
+    best: st.best,
+    tracked: st.tracked,
+    last: last,
+    fav: favoriteCardFor(name),
+    king: isKing(name)
+  };
 }
 
-function renderSetup() {
-  var players = state.players;
-  var rows = players.map(function (p, i) {
-    return '<li class="playerRow" data-key="pl-' + p.id + '"><span class="playerRowIndex">' + (i + 1) + '</span>' +
-      '<span class="playerRowName">' + escapeHtml(p.name) + '</span>' +
-      '<button class="removeBtn" ' + btnAttr("remove-player", 'data-id="' + p.id + '" aria-label="Retirer ' + escapeHtml(p.name) + '"') + '>✕</button></li>';
-  }).join("");
-  var taken = {};
-  players.forEach(function (p) { taken[p.name.toLowerCase()] = true; });
-  var chips = knownPlayerNames().filter(function (n) { return !taken[n.toLowerCase()]; }).slice(0, 12).map(function (n) {
-    return '<button class="chip" data-key="chip-' + escapeHtml(n) + '" ' + btnAttr("add-known", 'data-name="' + escapeHtml(n) + '"') + (players.length >= 10 ? " disabled" : "") + '>+ ' + escapeHtml(n) + '</button>';
-  }).join("");
-  var canStart = players.length >= 2;
-  return backupReminderHtml() +
-    '<p class="lead">Ajoutez les joueurs de la soirée, puis lancez la partie.</p>' +
-    '<div class="inputRow"><input class="input" id="nameInputField" data-bind="nameInput" value="' + escapeHtml(ui.nameInput) + '" placeholder="Nom du joueur" maxlength="60" enterkeyhint="done" autocapitalize="words" autocomplete="off" autocorrect="off" spellcheck="false"/>' +
-    '<button class="primaryBtnSmall" ' + btnAttr("add-player") + (players.length >= 10 ? " disabled" : "") + '>Ajouter</button></div>' +
-    (chips ? '<div class="chipsLabel">Joueurs habituels</div><div class="chips">' + chips + '</div>' : "") +
-    (players.length === 0 ? '<p class="hint">Aucun joueur pour l\'instant. Il en faut au moins deux.</p>' : "") +
-    '<ul class="playerList">' + rows + '</ul>' +
-    '<button class="primaryBtn startBtn" ' + btnAttr("start-game") + (canStart ? "" : " disabled") + '>Lancer la partie</button>' +
-    (players.length === 1 ? '<p class="hint">Encore au moins un joueur pour commencer.</p>' : "") +
-    (players.length >= 10 ? '<p class="hint">Dix joueurs maximum — une carte chacun.</p>' : "");
-}
-
-function renderDealingClassic() {
-  var cards = state.players.map(function (p, i) {
-    return '<div class="staticCardWrap pop" data-key="dc-' + p.id + '" style="animation-delay:' + (i * 0.12).toFixed(2) + 's">' + cardFaceHtml(state.theme, p.ball, p.name) + '</div>';
-  }).join("");
-  return '<p class="lead">Chacun reçoit sa carte. Elle vous identifie pour toute la partie et servira à tirer qui joue.</p>' +
-    '<div class="dealGrid">' + cards + '</div>' +
-    '<button class="primaryBtn" style="margin-top:26px" ' + btnAttr("confirm-dealt") + '>C\'est parti</button>';
-}
-
-function renderDealingLounge() {
-  if (state.dealingComplete) {
-    var cards = state.players.map(function (p, i) {
-      return '<div class="cardArtSmallWrap pop" data-key="dl-' + p.id + '" style="animation-delay:' + (i * 0.12).toFixed(2) + 's">' + cardArtHtml(p.ball, p.name, true) + '</div>';
-    }).join("");
-    return '<p class="lead">Chacun a sa carte pour toute la soirée.</p><div class="dealGrid">' + cards + '</div>' +
-      '<button class="primaryBtn" style="margin-top:26px" ' + btnAttr("confirm-dealt") + '>C\'est parti</button>';
-  }
-  var currentPlayer = state.players[state.dealingIndex];
-  var revealNum = state.dealingRevealNumber;
-  var revealedAnimal = revealNum ? ANIMALS[revealNum] : null;
-  var cardsHtml = (state.dealingCards || []).map(function (c) {
-    return '<button class="cardSlotBtn" data-key="dcard-' + c.number + '" ' + btnAttr(c.up ? "noop" : "pick-dealing-card", 'data-number="' + c.number + '" aria-label="Carte face cachée"') + (c.up ? " disabled" : "") + '>' +
-      '<div class="cardPerspective"><div class="cardInner' + (c.up ? " up" : "") + '">' +
-      '<div class="cardFaceBase cardBackFace">' + cardBackHtml("lounge") + '</div>' +
-      '<div class="cardFaceBase cardFrontFace"><div class="cardArtWrap">' + cardArtHtml(c.number, null, false) + '</div></div>' +
-      '</div></div></button>';
-  }).join("");
-  var hero = "";
-  if (revealNum) {
-    hero = '<div class="heroOverlay" data-key="hero"><p class="heroPlayerAbove">' + escapeHtml(currentPlayer ? currentPlayer.name : "") + '</p>' +
-      '<div class="heroCardArt">' + cardArtHtml(revealNum, revealedAnimal ? revealedAnimal.name : "", false) + '</div>' +
-      '<button class="primaryBtn" style="width:220px;margin-top:20px" ' + btnAttr("confirm-dealing-pick") + '>Continuer</button></div>';
-  }
-  return '<p class="lead">Au tour de <strong>' + escapeHtml(currentPlayer ? currentPlayer.name : "") + '</strong> de choisir sa carte.</p>' +
-    '<div class="tourRow">' + cardsHtml + '</div>' + hero;
-}
-
-/* ---- Jouer : partie ---- */
-function renderRulePresetPicker(owner) {
-  var open = ui.presetOpen === owner;
-  var list = open ? '<ul class="presetList">' + RULE_PRESETS.map(function (p, i) {
-    return '<li><button type="button" class="presetItem" ' + btnAttr("pick-preset", 'data-preset-idx="' + i + '"') + '>' + escapeHtml(p) + '</button></li>';
-  }).join("") + '</ul>' : "";
-  return '<div class="presetWrap" data-key="preset-' + owner + '"><button type="button" class="presetToggleBtn" ' + btnAttr("toggle-preset", 'data-owner="' + owner + '"') + '>' +
-    (open ? "Fermer les idées" : "Piocher une idée de règle") + '</button>' + list + '</div>';
-}
-
-function renderRulesPanel() {
-  var list = state.rules.length === 0
-    ? '<p class="hint">Aucune règle ajoutée pour l\'instant.</p>'
-    : '<ul class="rulesList">' + state.rules.map(function (r) {
-        return '<li class="rulesListItem"><span class="ruleRoundTag">M' + r.round + '</span> ' + escapeHtml(r.text) + '</li>';
-      }).join("") + '</ul>';
-  return '<div class="rulesPanel" data-key="rules-panel"><div class="rulesPanelHeader"><span class="rulesPanelTitle">Règles maison</span>' +
-    '<button class="closeBtn" ' + btnAttr("toggle-rules", 'aria-label="Fermer"') + '>✕</button></div>' + list +
-    renderRulePresetPicker("panel") +
-    '<div class="inputRow"><input class="input" data-bind="ruleInput" value="' + escapeHtml(ui.ruleInput) + '" placeholder="Ex : la 7 fait passer son tour" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
-    '<button class="primaryBtnSmall" ' + btnAttr("add-rule") + '>Ajouter</button></div></div>';
-}
-
-function renderLifePips(lives) {
-  var shown = Math.min(lives, 6), pips = "";
-  for (var i = 0; i < shown; i++) pips += '<span class="pip"></span>';
-  return '<span class="pipsWrap">' + pips + (lives > 6 ? '<span class="pipExtra">+' + (lives - 6) + '</span>' : "") + '</span>';
-}
-
-function renderLeaderboard(players) {
-  var sorted = players.slice().sort(function (a, b) { return b.wins - a.wins; });
-  if (!sorted.some(function (p) { return p.wins > 0; })) return "";
-  return '<div class="leaderboard" data-key="leaderboard"><span class="leaderboardLabel">Classement de la soirée</span><div class="leaderboardRow">' +
-    sorted.map(function (p) { return '<span class="leaderboardItem">' + escapeHtml(p.name) + ' <strong>' + p.wins + '</strong></span>'; }).join("") + '</div></div>';
-}
-
-function renderUndoBar() {
-  var last = db.undo[db.undo.length - 1];
-  if (!last) return '<div class="undoBar" data-key="undobar"></div>';
-  return '<div class="undoBar" data-key="undobar"><button class="undoBtn" ' + btnAttr("undo") + '>↶ Annuler : ' + escapeHtml(last.label) + '</button></div>';
-}
-
-function renderGameScreen(disabled) {
-  var theme = state.theme, players = state.players, currentTurnId = state.currentTurnId;
-  var rows = players.map(function (p) {
-    var eliminated = p.lives <= 0, isTurn = currentTurnId === p.id;
-    var fl = ui.flash && ui.flash.id === p.id ? " flash-" + ui.flash.kind : "";
-    var controls = "";
-    if (!disabled) {
-      controls = eliminated
-        ? '<div class="lifeBtns"><button class="reviveBtn" ' + btnAttr("change-life", 'data-id="' + p.id + '" data-delta="1" aria-label="Réintégrer ' + escapeHtml(p.name) + '"') + '>↺ Réintégrer</button></div>'
-        : '<div class="lifeBtns"><button class="lifeBtn" ' + btnAttr("change-life", 'data-id="' + p.id + '" data-delta="-1" aria-label="' + escapeHtml(p.name) + ' perd une vie"') + '>−</button>' +
-          '<button class="lifeBtn" ' + btnAttr("change-life", 'data-id="' + p.id + '" data-delta="1" aria-label="' + escapeHtml(p.name) + ' gagne une vie"') + '>+</button></div>';
-    }
-    return '<li class="gameRow' + (eliminated ? " eliminated" : "") + (isTurn ? " isTurn" : "") + fl + '" data-key="row-' + p.id + '">' +
-      avatarHtml(theme, p.ball, 38) +
-      '<div class="gameRowMid"><span class="gameRowName">' + escapeHtml(p.name) + '</span>' +
-      (eliminated ? '<span class="eliminatedTag">Éliminé</span>' : renderLifePips(p.lives)) + '</div>' + controls + '</li>';
-  }).join("");
-
-  var tourSection = "";
-  if (!disabled) {
-    var cardsHtml = state.tourCards.map(function (c) { return cardSlotHtml(theme, c.id, players, c.up, c.id === currentTurnId); }).join("");
-    var cp = null;
-    players.forEach(function (p) { if (p.id === currentTurnId) cp = p; });
-    tourSection = '<p class="tourHeader">Tour ' + state.tour + ' — touchez une carte pour savoir qui joue</p>' +
-      '<div class="tourRow">' + cardsHtml + '</div>' +
-      (cp ? '<p class="turnBanner">C\'est à <strong>' + escapeHtml(cp.name) + '</strong> de jouer</p>' : "");
-  }
-  return renderUndoBar() + '<ul class="gameList">' + rows + '</ul>' + tourSection + renderLeaderboard(players) +
-    '<button class="linkBtn" ' + btnAttr("end-session") + '>Terminer la soirée</button>';
-}
-
-function renderRoundEndOverlay() {
-  var winner = null;
-  state.players.forEach(function (p) { if (p.id === state.roundWinnerId) winner = p; });
-  if (!winner) return "";
-  var theme = state.theme;
-  var fl = theme === "lounge"
-    ? svgCornerFlourishFixed(0, "top:8px;left:8px", 20) + svgCornerFlourishFixed(90, "top:8px;right:8px", 20) + svgCornerFlourishFixed(180, "bottom:8px;right:8px", 20) + svgCornerFlourishFixed(270, "bottom:8px;left:8px", 20) : "";
-  return '<div class="overlayBg" data-key="roundend">' + confettiHtml() + '<div class="overlayCard pop">' + fl +
-    '<button class="undoLink" ' + btnAttr("undo") + '>↶ Annuler (fausse manœuvre)</button>' +
-    avatarHtml(theme, winner.ball, 64) +
-    '<h2 class="overlayTitle">' + escapeHtml(winner.name) + ' remporte la manche ' + state.round + '</h2>' +
-    '<p class="lead">Envie d\'ajouter une règle pour la prochaine manche ? (facultatif)</p>' +
-    renderRulePresetPicker("roundend") +
-    '<input class="input" style="width:100%" data-bind="ruleInput" value="' + escapeHtml(ui.ruleInput) + '" placeholder="Ex : la 7 fait passer son tour" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
-    '<button class="primaryBtn" style="margin-top:16px" ' + btnAttr("next-round") + '>Manche suivante</button>' +
-    '<button class="linkBtn" ' + btnAttr("end-session-round") + '>Terminer la soirée</button></div></div>';
-}
-
-function renderFinalScreen() {
-  var theme = state.theme;
-  var sorted = state.players.slice().sort(function (a, b) { return b.wins - a.wins; });
-  var rows = sorted.map(function (p, i) {
-    return '<li class="finalRow" data-key="fr-' + p.id + '"><span class="finalRank">' + (i + 1) + '</span>' + avatarHtml(theme, p.ball, 34) +
-      '<span class="gameRowName">' + escapeHtml(p.name) + '</span><span class="finalWins">' + plural(p.wins, "manche", "manches") + '</span></li>';
-  }).join("");
-  var rulesBlock = state.rules.length > 0
-    ? '<div class="rulesPanel" style="margin-top:18px"><span class="rulesPanelTitle">Règles inventées ce soir</span><ul class="rulesList">' +
-      state.rules.map(function (r) { return '<li class="rulesListItem"><span class="ruleRoundTag">M' + r.round + '</span> ' + escapeHtml(r.text) + '</li>'; }).join("") + '</ul></div>' : "";
-  return '<div class="savedNote">✓ Soirée enregistrée dans « Les soirées »</div>' +
-    '<h2 class="overlayTitle">Classement final</h2><ul class="finalList">' + rows + '</ul>' + rulesBlock +
-    '<button class="primaryBtn" style="margin-top:22px" ' + btnAttr("share-final") + '>' + (ui.shared ? "Copié !" : "Partager le résumé") + '</button>' +
-    '<button class="secondaryBtn" ' + btnAttr("export-data") + '>Sauvegarder toutes mes données (fichier)</button>' +
-    '<button class="secondaryBtn" ' + btnAttr("undo") + '>↶ Reprendre la soirée</button>' +
-    '<button class="primaryBtnSmall" style="margin-top:10px;width:100%" ' + btnAttr("new-game") + '>Nouvelle partie</button>';
-}
-
-/* ---- Légendes ---- */
 function favoriteCardFor(name) {
-  var picks = stats.cardPicks[name];
+  var picks = stats.cardPicks && stats.cardPicks[name];
   if (!picks) return null;
   var sp = Object.keys(picks).map(function (k) { return [Number(k), picks[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
   return sp.length ? sp[0][0] : null;
 }
 
-function renderWantedPoster(rank, name, wins, favNumber, theme) {
-  var tilt = rank % 2 === 0 ? -2 : 2;
-  var crown = rank === 1 ? '<span class="posterCrown">★ Roi du Billard</span>' : "";
-  var portrait = theme === "lounge"
-    ? (favNumber != null ? cardArtHtml(favNumber, null, false) : "")
-    : (favNumber != null ? '<div class="posterBall">' + svgBall(favNumber, 58) + '</div>' : "");
-  return '<div class="posterCard" data-key="poster-' + escapeHtml(name) + '" style="transform:rotate(' + tilt + 'deg)"><span class="posterPin"></span>' + crown +
-    '<div class="posterRule"></div><p class="posterHeading">Wanted</p><div class="posterRule"></div>' +
-    '<div class="posterPortrait">' + portrait + '</div><p class="posterName">' + escapeHtml(name) + '</p>' +
-    '<div class="posterBounty"><span class="posterBountyNum">' + wins + '</span><span class="posterBountyLabel">manche' + (wins > 1 ? "s" : "") + ' gagnée' + (wins > 1 ? "s" : "") + '</span></div></div>';
+function allKnownStatNames() {
+  var set = {};
+  Object.keys(stats.roundWins || {}).forEach(function (n) { set[n] = 1; });
+  db.history.forEach(function (h) { h.players.forEach(function (p) { set[p.name] = 1; }); });
+  return Object.keys(set);
 }
 
-function renderMur() {
-  var entries = Object.keys(stats.roundWins || {}).map(function (k) { return [k, stats.roundWins[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
-  var body = entries.length === 0
-    ? '<p class="hint">Personne n\'a encore gagné de manche. Reviens après une soirée !</p>'
-    : '<div class="posterGrid">' + entries.map(function (e, i) { return renderWantedPoster(i + 1, e[0], e[1], favoriteCardFor(e[0]), state.theme); }).join("") + '</div>';
-  var reset = "";
-  if (entries.length > 0) {
-    reset = ui.confirmingReset
-      ? '<div class="confirmRow"><p class="hint">Effacer tout le classement ? Cette action est définitive (l\'historique des soirées est conservé).</p>' +
-        '<div class="rowBtns"><button class="dangerBtn" ' + btnAttr("confirm-reset-stats") + '>Oui, effacer</button><button class="ghostBtn" ' + btnAttr("cancel-reset-stats") + '>Annuler</button></div></div>'
-      : '<button class="linkBtn" ' + btnAttr("ask-reset-stats") + '>Réinitialiser le classement</button>';
+/* ================= Vues ================= */
+function fmtDate(ts) {
+  try { return new Date(ts).toLocaleDateString(locale(), { weekday: "short", day: "numeric", month: "short", year: "numeric" }); }
+  catch (e) { return ""; }
+}
+function fmtShortDate(ts) {
+  try { return new Date(ts).toLocaleDateString(locale(), { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return ""; }
+}
+function fmtDateTime(ts) {
+  try { return new Date(ts).toLocaleDateString(locale(), { day: "numeric", month: "short" }) + " " + new Date(ts).toLocaleTimeString(locale(), { hour: "2-digit", minute: "2-digit" }); }
+  catch (e) { return ""; }
+}
+function daysSince(ts) { return ts ? Math.floor((Date.now() - ts) / 86400000) : null; }
+function isStandalone() {
+  try { return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true; } catch (e) { return false; }
+}
+function exportDue() {
+  if (!db.history.some(function (h) { return h.finished; }) && !db.rulebook.length) return false;
+  var d = daysSince(db.settings.lastExportAt);
+  return d === null || d >= 14;
+}
+function btnAttr(action, extra) { return 'data-action="' + action + '"' + (extra ? " " + extra : ""); }
+function esc(s) { return escapeHtml(s); }
+
+function cornerFlourish(rotate, pos) {
+  return '<svg width="20" height="20" viewBox="0 0 26 26" class="cornerFlourish" style="' + pos + ';transform:rotate(' + rotate + 'deg)" aria-hidden="true">' +
+    '<path d="M2,20 L2,2 L20,2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="2" cy="2" r="2.4" fill="currentColor"/></svg>';
+}
+function corners() {
+  return cornerFlourish(0, "top:10px;left:10px") + cornerFlourish(90, "top:10px;right:10px") + cornerFlourish(180, "bottom:10px;right:10px") + cornerFlourish(270, "bottom:10px;left:10px");
+}
+
+function confettiHtml() {
+  var colors = ["#E0B252", "#F4E6C6", "#C23B2A", "#F0C766", "#7C8A95"], s = "";
+  for (var i = 0; i < 34; i++) {
+    s += '<i style="left:' + ((i * 37) % 100) + '%;background:' + colors[i % 5] + ';animation-delay:' + ((i % 7) * 0.13).toFixed(2) + 's;animation-duration:' + (2.1 + (i % 5) * 0.3).toFixed(2) + 's;--r:' + ((i * 47) % 360) + 'deg"></i>';
   }
-  return body + reset;
+  return '<div class="confetti" aria-hidden="true">' + s + '</div>';
 }
 
-function renderSoirees() {
+/* Avatar : perso (Saloon) ou boule (Classique), couronne si Roi */
+function avatar(ball, size, name, extra) {
+  var inner = ball != null
+    ? (state.theme === "lounge" ? cardArtHtml(ball, null, false) : '<span class="avBall">' + svgBall(ball, Math.round(size * 0.78)) + '</span>')
+    : '<span class="avInitial">' + esc(String(name || "?").charAt(0).toUpperCase()) + '</span>';
+  var crown = name && isKing(name) ? '<span class="avCrown">' + crownSvg(Math.round(size * 0.42)) + '</span>' : "";
+  return '<span class="av' + (extra ? " " + extra : "") + '" style="width:' + size + 'px;height:' + size + 'px">' + '<span class="avClip">' + inner + '</span>' + crown + '</span>';
+}
+
+/* ---- Barres d'en-tête ---- */
+function topBar(title, left, right) {
+  return '<header class="topBar" data-key="topbar"><div class="tbSide">' + (left || "") + '</div><h1 class="tbTitle">' + title + '</h1><div class="tbSide tbRight">' + (right || "") + '</div></header>';
+}
+function heroHeader() {
+  return '<header class="hero" data-key="hero-head"><div class="heroBadge">' + sheriffStar(30, "currentColor") + '</div>' +
+    '<h1 class="logo">Killer</h1><div class="logoSub"><span></span>' + esc(t("appSub")) + '<span></span></div></header>';
+}
+function kingRibbon() {
+  var k = kingName();
+  if (!k) return "";
+  return '<button class="kingRibbon" data-key="king" ' + btnAttr("open-profile", 'data-name="' + esc(k) + '"') + '>' + crownSvg(18) +
+    '<span class="krLabel">' + esc(t("kingOfPool")) + '</span><span class="krName">' + esc(k) + '</span><span class="krNum">' + (stats.roundWins[k] || 0) + '</span></button>';
+}
+
+/* ---- Jouer : préparation ---- */
+function renderSetup() {
+  var players = state.players;
+  var rows = players.map(function (p, i) {
+    return '<li class="pRow enter" data-key="pl-' + p.id + '" style="--d:' + Math.min(i, 8) * 30 + 'ms">' +
+      '<span class="pIdx">' + (i + 1) + '</span><span class="pName">' + esc(p.name) + (isKing(p.name) ? crownSvg(16, "inline") : "") + '</span>' +
+      '<button class="iconBtn" ' + btnAttr("remove-player", 'data-id="' + p.id + '" aria-label="' + esc(t("removeX", { name: p.name })) + '"') + '>' + icon("close", 18) + '</button></li>';
+  }).join("");
+  var taken = {};
+  players.forEach(function (p) { taken[p.name.toLowerCase()] = true; });
+  var chips = knownPlayerNames().filter(function (n) { return !taken[n.toLowerCase()]; }).slice(0, 12).map(function (n) {
+    return '<button class="chip" data-key="chip-' + esc(n) + '" ' + btnAttr("add-known", 'data-name="' + esc(n) + '"') + (players.length >= 10 ? " disabled" : "") + '>' + icon("plus", 14) + esc(n) + '</button>';
+  }).join("");
+  var canStart = players.length >= 2;
+  var hint = players.length === 0 ? t("noPlayers") : (players.length === 1 ? t("oneMore") : (players.length >= 10 ? t("maxPlayers") : ""));
+  return kingRibbon() +
+    '<section class="panel setupPanel">' +
+    '<div class="panelHead"><h2 class="panelTitle">' + esc(t("newGame")) + '</h2>' + (players.length ? '<span class="countPill">' + esc(tn("playersCount", players.length)) + '</span>' : "") + '</div>' +
+    '<div class="field"><input class="input" id="nameInputField" data-bind="nameInput" value="' + esc(ui.nameInput) + '" placeholder="' + esc(t("playerName")) + '" maxlength="60" enterkeyhint="done" autocapitalize="words" autocomplete="off" autocorrect="off" spellcheck="false"/>' +
+    '<button class="addBtn" ' + btnAttr("add-player", 'aria-label="' + esc(t("add")) + '"') + (players.length >= 10 ? " disabled" : "") + '>' + icon("plus", 22) + '</button></div>' +
+    (chips ? '<div class="label">' + esc(t("regulars")) + '</div><div class="chips">' + chips + '</div>' : "") +
+    (rows ? '<ul class="pList">' + rows + '</ul>' : "") +
+    (hint ? '<p class="hint">' + esc(hint) + '</p>' : "") +
+    '</section>' +
+    '<button class="btn btnPrimary btnLg" ' + btnAttr("start-game") + (canStart ? "" : " disabled") + '>' + esc(t("startGame")) + '</button>';
+}
+
+/* ---- Distribution ---- */
+function dealCardBtn(c, i) {
+  return '<button class="slot deal" data-key="dcard-' + c.number + '" style="--d:' + (i * 45) + 'ms" ' + btnAttr(c.up ? "noop" : "pick-dealing-card", 'data-number="' + c.number + '" aria-label="' + esc(t("hiddenCard")) + '"') + (c.up ? " disabled" : "") + '>' +
+    '<div class="cardPerspective"><div class="cardInner' + (c.up ? " up" : "") + '">' +
+    '<div class="cardFaceBase cardBackFace">' + cardBackHtml("lounge") + '</div>' +
+    '<div class="cardFaceBase cardFrontFace"><div class="cardArtWrap">' + cardArtHtml(c.number, null, false) + '</div></div>' +
+    '</div></div></button>';
+}
+function renderDealing() {
+  var lounge = state.theme === "lounge";
+  if (!lounge || state.dealingComplete) {
+    var cards = state.players.map(function (p, i) {
+      return '<div class="dealt pop" data-key="dl-' + p.id + '" style="animation-delay:' + (i * 0.09).toFixed(2) + 's">' +
+        '<div class="dealtCard">' + cardFaceHtml(state.theme, p.ball, lounge ? p.name : p.name) + '</div></div>';
+    }).join("");
+    return '<p class="lead center">' + esc(lounge ? t("dealLeadDone") : t("dealLeadClassic")) + '</p><div class="dealGrid">' + cards + '</div>' +
+      '<button class="btn btnPrimary btnLg" ' + btnAttr("confirm-dealt") + '>' + esc(t("letsGo")) + '</button>';
+  }
+  var cp = state.players[state.dealingIndex];
+  var cardsHtml = (state.dealingCards || []).map(dealCardBtn).join("");
+  var steps = state.players.map(function (p, i) { return '<span class="step' + (i < state.dealingIndex ? " done" : (i === state.dealingIndex ? " now" : "")) + '"></span>'; }).join("");
+  return '<div class="dealHead"><div class="steps">' + steps + '</div><h2 class="dealWho" data-key="dealwho-' + state.dealingIndex + '">' + esc(t("dealTurn", { name: cp ? cp.name : "" })) + '</h2><p class="hint center">' + esc(t("dealHint")) + '</p></div>' +
+    '<div class="cardGrid">' + cardsHtml + '</div>';
+}
+function renderDealHero() {
+  var n = state.dealingRevealNumber;
+  if (!(state.phase === "dealing" && state.theme === "lounge" && n)) return "";
+  var cp = state.players[state.dealingIndex];
+  return '<div class="overlay heroOverlay" data-key="dealhero"><div class="rays" aria-hidden="true"></div>' +
+    '<p class="spotKicker">' + esc(cp ? cp.name : "") + '</p>' +
+    '<div class="bigCard zoomIn">' + cardArtHtml(n, animalName(n), false) + '</div>' +
+    '<button class="btn btnPrimary heroBtn" ' + btnAttr("confirm-dealing-pick") + '>' + esc(t("continue")) + '</button></div>';
+}
+
+/* ---- Partie ---- */
+function renderRulePresetPicker(owner) {
+  var open = ui.presetOpen === owner;
+  var list = open ? '<ul class="presetList">' + rulePresets().map(function (p, i) {
+    return '<li><button type="button" class="presetItem" ' + btnAttr("pick-preset", 'data-preset-idx="' + i + '"') + '>' + esc(p) + '</button></li>';
+  }).join("") + '</ul>' : "";
+  return '<div class="presetWrap" data-key="preset-' + owner + '"><button type="button" class="presetToggle" ' + btnAttr("toggle-preset", 'data-owner="' + owner + '"') + '>' + icon("sparkle", 16) +
+    esc(open ? t("closeIdeas") : t("pickIdea")) + '</button>' + list + '</div>';
+}
+function rulesListHtml(rules) {
+  return '<ul class="ruleList">' + rules.map(function (r) {
+    return '<li class="ruleItem"><span class="ruleTag">M' + r.round + '</span><span>' + esc(r.text) + '</span></li>';
+  }).join("") + '</ul>';
+}
+function renderRulesSheet() {
+  if (!ui.rulesOpen || ui.activeTab !== "play" || state.phase !== "game") return "";
+  return '<div class="overlay sheetBg" data-key="rules-sheet" ' + btnAttr("toggle-rules", 'data-self="1"') + '><div class="sheet" data-stop="1">' +
+    '<div class="sheetGrab"></div><div class="sheetHead"><h2 class="sheetTitle">' + esc(t("houseRules")) + '</h2>' +
+    '<button class="iconBtn round" ' + btnAttr("toggle-rules", 'aria-label="' + esc(t("close")) + '"') + '>' + icon("close", 18) + '</button></div>' +
+    (state.rules.length ? rulesListHtml(state.rules) : '<p class="hint">' + esc(t("noRulesYet")) + '</p>') +
+    renderRulePresetPicker("panel") +
+    '<div class="field"><input class="input" data-bind="ruleInput" value="' + esc(ui.ruleInput) + '" placeholder="' + esc(t("ruleExample")) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
+    '<button class="addBtn" ' + btnAttr("add-rule", 'aria-label="' + esc(t("add")) + '"') + '>' + icon("plus", 22) + '</button></div></div></div>';
+}
+
+function livesHtml(p) {
+  var slots = Math.max(p.lives, 3), s = "";
+  var just = ui.flash && ui.flash.id === p.id && (ui.flash.kind === "down" || ui.flash.kind === "elim");
+  var gained = ui.flash && ui.flash.id === p.id && ui.flash.kind === "up";
+  for (var i = 0; i < slots; i++) {
+    var spent = i >= p.lives;
+    var cls = "bSlot" + (spent ? " spent" : "") + (just && i === p.lives ? " just" : "") + (gained && i === p.lives - 1 ? " gain" : "");
+    s += '<span class="' + cls + '" data-key="b' + i + '">' + bulletSvg(spent) + '</span>';
+  }
+  return '<span class="lives" data-key="lives">' + s + '</span>';
+}
+
+function renderUndoBar() {
+  var last = db.undo[db.undo.length - 1];
+  return '<div class="undoBar" data-key="undobar">' + (last ? '<button class="undoPill" ' + btnAttr("undo") + '>' + icon("undo", 15) + '<span>' + esc(t("undoX", { label: last.label })) + '</span></button>' : "") + '</div>';
+}
+
+function tourCardHtml(c, i) {
+  var p = null;
+  state.players.forEach(function (x) { if (x.id === c.id) p = x; });
+  var isCur = c.up && c.id === state.currentTurnId;
+  return '<button class="slot deal' + (isCur ? " current" : "") + '" data-key="tc-' + state.round + "-" + state.tour + "-" + c.id + '" style="--d:' + (i * 70) + 'ms" data-id="' + c.id + '" ' +
+    btnAttr(c.up ? (isCur ? "show-spotlight" : "noop") : "pick-card") +
+    ' aria-label="' + esc(c.up && p ? p.name : t("hiddenCard")) + '">' +
+    '<div class="cardPerspective"><div class="cardInner' + (c.up ? " up" : "") + '">' +
+    '<div class="cardFaceBase cardBackFace">' + cardBackHtml(state.theme) + '</div>' +
+    '<div class="cardFaceBase cardFrontFace">' + (p ? cardFaceHtml(state.theme, p.ball, p.name) : "") + '</div>' +
+    '</div></div></button>';
+}
+
+function renderGameScreen() {
+  var players = state.players, cur = state.currentTurnId, ended = state.phase === "roundEnd";
+  var rows = players.map(function (p) {
+    var out = p.lives <= 0, isTurn = cur === p.id && !out;
+    var fl = ui.flash && ui.flash.id === p.id ? " fx-" + ui.flash.kind : "";
+    var controls = ended ? "" : (out
+      ? '<button class="reviveBtn" ' + btnAttr("change-life", 'data-id="' + p.id + '" data-delta="1" aria-label="' + esc(t("reviveX", { name: p.name })) + '"') + '>' + icon("revive", 16) + '<span>' + esc(t("revive")) + '</span></button>'
+      : '<div class="lifeBtns"><button class="lifeBtn minus" ' + btnAttr("change-life", 'data-id="' + p.id + '" data-delta="-1" aria-label="' + esc(t("loseLife", { name: p.name })) + '"') + '>' + icon("minus", 22) + '</button>' +
+        '<button class="lifeBtn plus" ' + btnAttr("change-life", 'data-id="' + p.id + '" data-delta="1" aria-label="' + esc(t("gainLife", { name: p.name })) + '"') + '>' + icon("plus", 22) + '</button></div>');
+    return '<li class="gRow' + (out ? " out" : "") + (isTurn ? " turn" : "") + fl + '" data-key="row-' + p.id + '">' +
+      avatar(p.ball, 50, p.name, "gAv") +
+      '<div class="gMid"><span class="gName">' + esc(p.name) + '</span><span class="gSub">' + livesHtml(p) + (isTurn ? '<span class="turnTag">' + esc(t("yourTurn")) + '</span>' : "") + '</span></div>' + controls +
+      (out ? '<span class="stamp' + (ui.flash && ui.flash.id === p.id && ui.flash.kind === "elim" ? " stampIn" : "") + '" aria-hidden="true">' + esc(t("eliminated")) + '</span>' : "") +
+      '</li>';
+  }).join("");
+
+  var left = state.tourCards.filter(function (c) { return !c.up; }).length;
+  var allUp = state.tourCards.length > 0 && left === 0;
+  var cp = null;
+  players.forEach(function (p) { if (p.id === cur) cp = p; });
+  var tour = ended ? "" : '<section class="tourSec" data-key="tour">' +
+    '<div class="secHead"><span class="label">' + esc(t("tour", { n: state.tour })) + '</span><span class="secRight">' + esc(allUp ? t("newTourSoon") : tn("cardsLeft", left)) + '</span></div>' +
+    '<div class="cardRow">' + state.tourCards.map(tourCardHtml).join("") + '</div>' +
+    '<p class="turnLine" data-key="turnline">' + (cp ? esc(t("turnOf", { name: cp.name })) : esc(t("pickCard"))) + '</p></section>';
+
+  var sorted = players.slice().sort(function (a, b) { return b.wins - a.wins; });
+  var board = sorted.some(function (p) { return p.wins > 0; })
+    ? '<section class="board" data-key="board"><div class="label">' + esc(t("nightRanking")) + '</div><div class="boardRow">' +
+      sorted.map(function (p, i) { return '<span class="boardItem' + (i === 0 && p.wins > 0 ? " lead" : "") + '">' + esc(p.name) + '<b>' + p.wins + '</b></span>'; }).join("") + '</div></section>' : "";
+
+  return renderUndoBar() + '<ul class="gList">' + rows + '</ul>' + tour + board +
+    '<button class="btn btnText" ' + btnAttr("end-session") + '>' + esc(t("endNight")) + '</button>';
+}
+
+/* ---- Carte piochée en grand ---- */
+function bigCardHtml(p) {
+  if (state.theme === "lounge") return '<div class="bigCard" id="spotCard">' + cardArtHtml(p.ball, null, false) + '</div>';
+  return '<div class="bigCard classicBig" id="spotCard"><div class="bigBall">' + svgBall(p.ball, 150) + '</div></div>';
+}
+function renderSpotlight() {
+  if (!ui.spotlight || ui.activeTab !== "play" || state.phase !== "game") return "";
+  var p = null;
+  state.players.forEach(function (x) { if (x.id === ui.spotlight.id) p = x; });
+  if (!p) return "";
+  return '<div class="overlay spot' + (ui.spotlight.closing ? " closing" : "") + '" data-key="spot" ' + btnAttr("close-spotlight") + '>' +
+    '<div class="rays" aria-hidden="true"></div>' +
+    '<p class="spotKicker">' + esc(t("tour", { n: state.tour })) + '</p>' + bigCardHtml(p) +
+    '<h2 class="spotName">' + esc(p.name) + (isKing(p.name) ? crownSvg(26, "inline") : "") + '</h2>' +
+    '<p class="spotSub">' + esc(t("yourTurn")) + '</p><p class="spotHint">' + esc(t("tapToClose")) + '</p></div>';
+}
+
+/* ---- Fin de manche ---- */
+function renderRoundEnd() {
+  if (state.phase !== "roundEnd" || ui.activeTab !== "play") return "";
+  var w = null;
+  state.players.forEach(function (p) { if (p.id === state.roundWinnerId) w = p; });
+  if (!w) return "";
+  return '<div class="overlay winBg" data-key="roundend">' + confettiHtml() +
+    '<div class="winCard pop">' + corners() +
+    '<button class="undoPill top" ' + btnAttr("undo") + '>' + icon("undo", 15) + '<span>' + esc(t("undoMistake")) + '</span></button>' +
+    '<div class="winAvWrap"><div class="rays small" aria-hidden="true"></div>' + avatar(w.ball, 112, w.name, "winAv") + '</div>' +
+    '<h2 class="winName">' + esc(w.name) + '</h2><p class="winSub">' + esc(t("winsRound", { n: state.round })) + '</p>' +
+    '<p class="hint center">' + esc(t("addRuleQ")) + '</p>' + renderRulePresetPicker("roundend") +
+    '<input class="input" data-bind="ruleInput" value="' + esc(ui.ruleInput) + '" placeholder="' + esc(t("ruleExample")) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
+    '<button class="btn btnPrimary btnLg" ' + btnAttr("next-round") + '>' + esc(t("nextRound")) + '</button>' +
+    '<button class="btn btnText" ' + btnAttr("end-session-round") + '>' + esc(t("endNight")) + '</button></div></div>';
+}
+
+/* ---- Fin de soirée ---- */
+function renderFinal() {
+  var sorted = state.players.slice().sort(function (a, b) { return b.wins - a.wins; });
+  var top = sorted[0] && sorted[0].wins > 0 ? sorted[0] : null;
+  var rows = sorted.map(function (p, i) {
+    return '<li class="rRow enter" data-key="fr-' + p.id + '" style="--d:' + (i * 60) + 'ms"><span class="rank r' + (i + 1) + '">' + (i + 1) + '</span>' + avatar(p.ball, 40, p.name) +
+      '<span class="rName">' + esc(p.name) + '</span><span class="rVal">' + esc(tn("roundsWon", p.wins)) + '</span></li>';
+  }).join("");
+  return '<div class="savedPill">' + icon("check", 15) + esc(t("savedNight")) + '</div>' +
+    (top ? '<section class="nightKing pop"><div class="rays small" aria-hidden="true"></div>' + avatar(top.ball, 104, top.name, "winAv") +
+      '<span class="label gold">' + crownSvg(16, "inline") + esc(t("kingOfNight")) + '</span><h2 class="winName">' + esc(top.name) + '</h2></section>' : "") +
+    '<div class="label">' + esc(t("finalRanking")) + '</div><ul class="rList">' + rows + '</ul>' +
+    (state.rules.length ? '<section class="panel"><div class="label">' + esc(t("rulesTonight")) + '</div>' + rulesListHtml(state.rules) + '</section>' : "") +
+    '<button class="btn btnPrimary btnLg" ' + btnAttr("new-game") + '>' + esc(t("newGame")) + '</button>' +
+    '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("share-final") + '>' + icon("share", 18) + esc(ui.shared ? t("copied") : t("shareSummary")) + '</button>' +
+    '<button class="btn btnSecondary" ' + btnAttr("undo") + '>' + icon("undo", 18) + esc(t("resumeNight")) + '</button></div>' +
+    '<button class="btn btnText" ' + btnAttr("export-data") + '>' + esc(t("saveFile")) + '</button>';
+}
+
+/* ---- Légendes ---- */
+function renderPoster(rank, e) {
+  var fav = favoriteCardFor(e.name);
+  var tilt = [-2.2, 1.8, -1.2, 2.4][rank % 4];
+  var portrait = fav != null ? (state.theme === "lounge" ? cardArtHtml(fav, null, false) : '<div class="posterBall">' + svgBall(fav, 58) + '</div>') : '<span class="posterInitial">' + esc(e.name.charAt(0).toUpperCase()) + '</span>';
+  return '<button class="poster enter" data-key="poster-' + esc(e.name) + '" style="--tilt:' + tilt + 'deg;--d:' + Math.min(rank, 10) * 50 + 'ms" ' + btnAttr("open-profile", 'data-name="' + esc(e.name) + '"') + '>' +
+    '<span class="posterPin"></span>' + (rank === 1 ? '<span class="posterCrown">' + crownSvg(14, "inline") + esc(t("kingOfPool")) + '</span>' : "") +
+    '<span class="posterHeading">' + esc(t("wanted")) + '</span><span class="posterRule"></span>' +
+    '<span class="posterPortrait">' + portrait + '</span><span class="posterName">' + esc(e.name) + '</span>' +
+    '<span class="posterBounty"><span class="pbLabel">' + esc(t("reward")) + '</span><span class="pbNum">' + e.wins + '</span><span class="pbLabel">' + esc(tn("roundsWonLabel", e.wins).replace(/^\d+\s*/, "")) + '</span></span></button>';
+}
+function renderWall() {
+  var entries = wallEntries();
+  if (!entries.length) return emptyState("star", t("nobodyYet"));
+  var reset = ui.confirmingReset
+    ? '<div class="confirm"><p class="hint">' + esc(t("resetConfirm")) + '</p><div class="btnPair"><button class="btn btnDanger" ' + btnAttr("confirm-reset-stats") + '>' + esc(t("yesErase")) + '</button><button class="btn btnSecondary" ' + btnAttr("cancel-reset-stats") + '>' + esc(t("cancel")) + '</button></div></div>'
+    : '<button class="btn btnText" ' + btnAttr("ask-reset-stats") + '>' + esc(t("resetWall")) + '</button>';
+  return '<p class="lead center">' + esc(t("wallLead")) + '</p><div class="posterGrid">' + entries.map(function (e, i) { return renderPoster(i + 1, e); }).join("") + '</div>' + reset;
+}
+function emptyState(ic, text) {
+  return '<div class="empty"><span class="emptyIco">' + (ic === "star" ? sheriffStar(40, "currentColor") : icon(ic, 34)) + '</span><p>' + esc(text) + '</p></div>';
+}
+function renderRanking() {
+  var by = ui.rankBy === "nights" ? "nights" : "rounds";
+  var list = by === "rounds" ? wallEntries().map(function (e) { return { name: e.name, v: e.wins, label: tn("roundsWon", e.wins) }; })
+    : nightsRanking().map(function (e) { return { name: e.name, v: e.nights, label: tn("nights", e.nights) }; });
+  var toggle = '<div class="seg small"><button class="segBtn' + (by === "rounds" ? " on" : "") + '" ' + btnAttr("set-rank-by", 'data-by="rounds"') + '>' + esc(t("byRounds")) + '</button>' +
+    '<button class="segBtn' + (by === "nights" ? " on" : "") + '" ' + btnAttr("set-rank-by", 'data-by="nights"') + '>' + esc(t("byNights")) + '</button></div>';
+  if (!list.length) return toggle + emptyState("star", t("nobodyYet"));
+  var podium = "";
+  if (list.length >= 2) {
+    var order = [1, 0, 2].filter(function (i) { return list[i]; });
+    podium = '<div class="podium">' + order.map(function (i) {
+      var e = list[i];
+      return '<button class="podStep p' + (i + 1) + ' enter" style="--d:' + (i * 90) + 'ms" ' + btnAttr("open-profile", 'data-name="' + esc(e.name) + '"') + '>' +
+        avatar(favoriteCardFor(e.name), i === 0 ? 76 : 60, e.name) + '<span class="podName">' + esc(e.name) + '</span><span class="podBlock"><b>' + e.v + '</b><i>' + (i + 1) + '</i></span></button>';
+    }).join("") + '</div>';
+  }
+  var rest = (list.length >= 2 ? list.slice(3) : list).map(function (e, j) {
+    var rank = list.length >= 2 ? j + 4 : j + 1;
+    return '<li><button class="rRow enter" data-key="rk-' + esc(e.name) + '" style="--d:' + j * 40 + 'ms" ' + btnAttr("open-profile", 'data-name="' + esc(e.name) + '"') + '><span class="rank">' + rank + '</span>' + avatar(favoriteCardFor(e.name), 40, e.name) +
+      '<span class="rName">' + esc(e.name) + '</span><span class="rVal">' + esc(e.label) + '</span>' + icon("chevron", 16, "dim") + '</button></li>';
+  }).join("");
+  return toggle + '<p class="lead center">' + esc(by === "rounds" ? t("rankRoundsLead") : t("rankNightsLead")) + '</p>' + podium + (rest ? '<ul class="rList">' + rest + '</ul>' : "");
+}
+function renderNights() {
   var list = db.history.slice().sort(function (a, b) { return (b.startedAt || 0) - (a.startedAt || 0); });
-  if (!list.length) return '<p class="hint">Aucune soirée enregistrée pour l\'instant. Chaque soirée jouée apparaîtra ici automatiquement, même si tu oublies de la terminer.</p>';
+  if (!list.length) return emptyState("calendar", t("noNights"));
   var totalRounds = 0;
   list.forEach(function (h) { totalRounds += h.rounds || 0; });
-  var head = '<div class="statTiles"><div class="statTile"><b>' + list.length + '</b><span>soirée' + (list.length > 1 ? "s" : "") + '</span></div><div class="statTile"><b>' + totalRounds + '</b><span>manche' + (totalRounds > 1 ? "s" : "") + '</span></div></div>';
-  var cards = list.map(function (h) {
+  var head = '<div class="tiles"><div class="tile"><b>' + list.length + '</b><span>' + esc(tn("nightsWord", list.length).replace(/^\d+\s*/, "")) + '</span></div><div class="tile"><b>' + totalRounds + '</b><span>' + esc(tn("roundsWord", totalRounds).replace(/^\d+\s*/, "")) + '</span></div></div>';
+  var cards = list.map(function (h, idx) {
     var ranked = h.players.slice().sort(function (a, b) { return b.wins - a.wins; });
-    var top = ranked[0] && ranked[0].wins > 0 ? ranked[0] : null;
+    var kings = nightKings(h);
     var live = h.id === state.soireeId && state.phase !== "finished" && state.phase !== "setup";
-    var badge = live ? '<span class="badge live">En cours</span>' : (!h.finished ? '<span class="badge">Non terminée</span>' : "");
+    var badge = live ? '<span class="badge live">' + esc(t("live")) + '</span>' : (!h.finished ? '<span class="badge">' + esc(t("unfinished")) + '</span>' : "");
     var open = ui.expandedSoiree === h.id;
     var detail = "";
     if (open) {
-      detail = '<div class="soireeDetail"><ul class="finalList">' + ranked.map(function (p, i) {
-        return '<li class="finalRow"><span class="finalRank">' + (i + 1) + '</span><span class="gameRowName">' + escapeHtml(p.name) + '</span><span class="finalWins">' + plural(p.wins, "manche", "manches") + '</span></li>';
+      detail = '<div class="nDetail"><ul class="rList">' + ranked.map(function (p, i) {
+        return '<li class="rRow"><span class="rank">' + (i + 1) + '</span><span class="rName">' + esc(p.name) + (kings.indexOf(p.name) >= 0 ? crownSvg(15, "inline") : "") + '</span><span class="rVal">' + esc(tn("roundsWon", p.wins)) + '</span></li>';
       }).join("") + '</ul>' +
-        (h.rules && h.rules.length ? '<p class="miniTitle">Règles de la soirée</p><ul class="rulesList">' + h.rules.map(function (r) { return '<li class="rulesListItem"><span class="ruleRoundTag">M' + r.round + '</span> ' + escapeHtml(r.text) + '</li>'; }).join("") + '</ul>' : "") +
+        (h.rules && h.rules.length ? '<div class="label">' + esc(t("nightRules")) + '</div>' + rulesListHtml(h.rules) : "") +
         (ui.confirmDeleteSoiree === h.id
-          ? '<div class="confirmRow"><p class="hint">Supprimer cette soirée de l\'historique ? Le Mur des Légendes ne change pas.</p><div class="rowBtns"><button class="dangerBtn" ' + btnAttr("confirm-delete-soiree", 'data-id="' + h.id + '"') + '>Oui, supprimer</button><button class="ghostBtn" ' + btnAttr("cancel-delete-soiree") + '>Annuler</button></div></div>'
-          : '<button class="linkBtn" ' + btnAttr("ask-delete-soiree", 'data-id="' + h.id + '"') + '>Supprimer cette soirée</button>') + '</div>';
+          ? '<div class="confirm"><p class="hint">' + esc(t("deleteNightConfirm")) + '</p><div class="btnPair"><button class="btn btnDanger" ' + btnAttr("confirm-delete-soiree", 'data-id="' + h.id + '"') + '>' + esc(t("yesDelete")) + '</button><button class="btn btnSecondary" ' + btnAttr("cancel-delete-soiree") + '>' + esc(t("cancel")) + '</button></div></div>'
+          : '<button class="btn btnText danger" ' + btnAttr("ask-delete-soiree", 'data-id="' + h.id + '"') + '>' + esc(t("deleteNight")) + '</button>') + '</div>';
     }
-    return '<div class="soireeCard' + (open ? " open" : "") + '" data-key="soiree-' + h.id + '"><button class="soireeHead" ' + btnAttr("toggle-soiree", 'data-id="' + h.id + '"') + '>' +
-      '<span class="soireeDate">' + escapeHtml(fmtDate(h.startedAt)) + badge + '</span>' +
-      '<span class="soireeSub">' + plural(h.players.length, "joueur", "joueurs") + ' · ' + plural(h.rounds || 0, "manche", "manches") + '</span>' +
-      '<span class="soireeWinner">' + (top ? "♛ " + escapeHtml(top.name) + " · " + top.wins : "Pas de vainqueur") + '</span></button>' + detail + '</div>';
+    return '<div class="nCard enter' + (open ? " open" : "") + '" data-key="soiree-' + h.id + '" style="--d:' + Math.min(idx, 8) * 40 + 'ms"><button class="nHead" ' + btnAttr("toggle-soiree", 'data-id="' + h.id + '"') + '>' +
+      '<span class="nDate">' + esc(fmtDate(h.startedAt)) + badge + '</span>' +
+      '<span class="nSub">' + esc(tn("playersCount", h.players.length)) + ' · ' + esc(tn("roundsWon", h.rounds || 0)) + '</span>' +
+      '<span class="nWin">' + (kings.length ? crownSvg(16, "inline") + esc(kings.join(" & ")) + ' <b>' + ranked[0].wins + '</b>' : esc(t("noWinner"))) + '</span>' + icon("chevron", 16, "nChev") + '</button>' + detail + '</div>';
   }).join("");
-  return head + '<div class="soireeList">' + cards + '</div>';
+  return head + '<div class="nList">' + cards + '</div>';
+}
+function renderLegends() {
+  var tab = ui.legendsTab === "soirees" ? "soirees" : (ui.legendsTab === "rank" ? "rank" : "mur");
+  var seg = '<div class="seg">' + [["mur", "segWall"], ["rank", "segRanking"], ["soirees", "segNights"]].map(function (x) {
+    return '<button class="segBtn' + (tab === x[0] ? " on" : "") + '" ' + btnAttr("set-legends-tab", 'data-tab="' + x[0] + '"') + '>' + esc(t(x[1])) + '</button>';
+  }).join("") + '</div>';
+  return seg + '<div class="subScreen" data-key="legends-' + tab + '">' + (tab === "mur" ? renderWall() : tab === "rank" ? renderRanking() : renderNights()) + '</div>';
 }
 
-function renderWantedScreen() {
-  return '<h2 class="pageTitle">Le Mur des Légendes</h2>' +
-    '<div class="seg"><button class="segBtn' + (ui.legendsTab === "mur" ? " active" : "") + '" ' + btnAttr("set-legends-tab", 'data-tab="mur"') + '>Le Mur</button>' +
-    '<button class="segBtn' + (ui.legendsTab === "soirees" ? " active" : "") + '" ' + btnAttr("set-legends-tab", 'data-tab="soirees"') + '>Les soirées</button></div>' +
-    (ui.legendsTab === "mur" ? '<p class="lead">Le classement cumulé sur toutes vos soirées.</p>' + renderMur() : renderSoirees());
+/* ---- Fiche joueur ---- */
+function statTile(ic, label, value, accent) {
+  var txt = typeof value === "string" && !/^[\d—%\s]+$/.test(value) && value.length > 3;
+  return '<div class="sTile' + (accent ? " accent" : "") + (txt ? " txt" : "") + '"><span class="sIco">' + ic + '</span><b>' + value + '</b><span>' + esc(label) + '</span></div>';
+}
+function renderProfileSheet() {
+  if (!ui.profile) return "";
+  var pr = playerProfile(ui.profile);
+  var fav = pr.fav;
+  return '<div class="overlay sheetBg" data-key="profile" ' + btnAttr("close-profile", 'data-self="1"') + '><div class="sheet" data-stop="1">' +
+    '<div class="sheetGrab"></div><button class="iconBtn round sheetX" ' + btnAttr("close-profile", 'aria-label="' + esc(t("close")) + '"') + '>' + icon("close", 18) + '</button>' +
+    '<div class="profHead">' + avatar(fav, 84, pr.name, "profAv") + '<div><div class="label">' + esc(t("profile")) + '</div><h2 class="profName">' + esc(pr.name) + '</h2>' +
+    (pr.king ? '<span class="kingTag">' + crownSvg(15, "inline") + esc(t("kingOfPool")) + '</span>' : "") + '</div></div>' +
+    '<div class="sGrid">' +
+    statTile(sheriffStar(18, "currentColor"), t("statRounds"), pr.rounds, true) +
+    statTile(crownSvg(18), t("statKing"), pr.kingOf, true) +
+    statTile(icon("calendar", 18), t("statNights"), pr.nights) +
+    statTile(icon("target", 18), t("statRate"), pr.rate == null ? "—" : pr.rate + "%") +
+    statTile(icon("flame", 18), t("statStreak"), pr.streak) +
+    statTile(icon("sparkle", 18), t("statBest"), pr.best) +
+    statTile(icon("cards", 18), t("statFav"), fav != null ? esc(state.theme === "lounge" ? animalName(fav) : "n° " + fav) : "—") +
+    statTile(icon("check", 18), t("statLast"), pr.last ? esc(fmtShortDate(pr.last)) : esc(t("never"))) +
+    '</div><p class="hint center small">' + esc(t("streakNote")) + '</p></div></div>';
 }
 
-/* ---- Livre, aide, réglages ---- */
-function renderRulebookScreen() {
-  var rows;
-  if (rulebook.length === 0) rows = '<p class="hint">Aucune règle enregistrée pour l\'instant.</p>';
-  else rows = '<ul class="rulesList">' + rulebook.map(function (r) {
+/* ---- Livre ---- */
+function renderBook() {
+  var rows = rulebook.length === 0 ? emptyState("book", t("bookEmpty")) : '<ul class="bookList">' + rulebook.map(function (r, i) {
     if (ui.editingRulebookId === r.id) {
-      return '<li class="rulebookRow" data-key="rb-' + r.id + '" style="flex-direction:column;align-items:stretch"><div class="inputRow"><input class="input" data-bind="editRulebookText" value="' + escapeHtml(ui.editRulebookText) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
-        '<button class="primaryBtnSmall" ' + btnAttr("save-rulebook-edit", 'data-id="' + r.id + '"') + '>OK</button></div></li>';
+      return '<li class="bookRow editing" data-key="rb-' + r.id + '"><div class="field"><input class="input" data-bind="editRulebookText" value="' + esc(ui.editRulebookText) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
+        '<button class="addBtn" ' + btnAttr("save-rulebook-edit", 'data-id="' + r.id + '" aria-label="' + esc(t("ok")) + '"') + '>' + icon("check", 22) + '</button></div></li>';
     }
-    return '<li class="rulebookRow" data-key="rb-' + r.id + '"><span class="rulebookText">' + escapeHtml(r.text) + '</span><div class="rulebookActions">' +
-      '<button class="iconBtn" ' + btnAttr("edit-rulebook", 'data-id="' + r.id + '" aria-label="Modifier"') + '>✎</button>' +
-      '<button class="iconBtn" ' + btnAttr("delete-rulebook", 'data-id="' + r.id + '" aria-label="Supprimer"') + '>✕</button></div></li>';
+    return '<li class="bookRow enter" data-key="rb-' + r.id + '" style="--d:' + Math.min(i, 10) * 30 + 'ms"><span class="bookNum">' + (i + 1) + '</span><span class="bookText">' + esc(r.text) + '</span>' +
+      '<button class="iconBtn" ' + btnAttr("edit-rulebook", 'data-id="' + r.id + '" aria-label="' + esc(t("edit")) + '"') + '>' + icon("edit", 18) + '</button>' +
+      '<button class="iconBtn" ' + btnAttr("delete-rulebook", 'data-id="' + r.id + '" aria-label="' + esc(t("delete")) + '"') + '>' + icon("trash", 18) + '</button></li>';
   }).join("") + '</ul>';
-  return '<h2 class="pageTitle">Le Grand Livre des Règles</h2><p class="lead">Toutes les règles maison inventées depuis le début, soirée après soirée.</p>' +
-    '<div class="inputRow bookAdd"><input class="input" data-bind="bookInput" value="' + escapeHtml(ui.bookInput) + '" placeholder="Ajouter une règle au livre" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
-    '<button class="primaryBtnSmall" ' + btnAttr("add-book-rule") + '>Ajouter</button></div>' + rows;
+  return '<p class="lead center">' + esc(t("bookLead")) + '</p>' +
+    '<div class="field bookAdd"><input class="input" data-bind="bookInput" value="' + esc(ui.bookInput) + '" placeholder="' + esc(t("bookAdd")) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
+    '<button class="addBtn" ' + btnAttr("add-book-rule", 'aria-label="' + esc(t("add")) + '"') + '>' + icon("plus", 22) + '</button></div>' + rows;
 }
 
-function howToSection(title, text) {
-  return '<div class="howToSection"><h3 class="howToHeading">' + title + '</h3><p class="howToText">' + text + '</p></div>';
-}
-function renderHowToScreen() {
-  return '<h2 class="pageTitle">Comment jouer au Killer</h2>' +
-    howToSection("Pour commencer", "Entrez les joueurs, puis chacun reçoit une carte qui l'identifie pour toute la soirée. Tout le monde démarre chaque manche avec 3 vies.") +
-    howToSection("Qui joue ?", "Les cartes déterminent l'ordre : on en tire une au hasard parmi celles encore face cachée, et c'est à cette personne de jouer. Chacun passe une fois par tour ; une fois que tout le monde a joué, un nouveau tour commence et on peut retomber sur soi-même juste après.") +
-    howToSection("La règle du jeu", "Peu importe les couleurs, les rayées ou les numéros : le seul objectif est de rentrer au moins une boule à son tour. Si vous n'en rentrez aucune, vous perdez une vie.") +
-    howToSection("La casse", "Le premier joueur tiré casse. S'il ne rentre aucune boule sur la casse, il a le droit de rejouer immédiatement.") +
-    howToSection("La boule 8", "Rentrer la 8 fait gagner une vie bonus. Si toutes les boules sont rentrées avant qu'il y ait un vainqueur, on remet les boules en place avec une nouvelle 8 en jeu, et la manche continue.") +
-    howToSection("Fin de la manche", "Un joueur à 0 vie est éliminé pour le reste de la manche. Dès qu'il ne reste qu'un seul joueur avec des vies, il remporte la manche.") +
-    howToSection("Les règles maison", "Le gagnant de la manche peut inventer une nouvelle règle, qui s'applique à partir de la manche suivante et reste valable pour le reste de la soirée. Toutes les vies repassent à 3 pour la nouvelle manche, mais les cartes et les règles restent les mêmes jusqu'à la fin de la soirée.") +
-    howToSection("Une erreur ?", "Le bouton « Annuler » remet la partie comme avant le dernier geste (vie, carte, fin de manche, fin de soirée). Un joueur éliminé par erreur peut aussi être réintégré avec 1 vie, et il rejoint le tirage des cartes.");
+/* ---- Aide ---- */
+function renderHelp() {
+  var s = "";
+  for (var i = 1; i <= 8; i++) {
+    s += '<section class="helpCard enter" style="--d:' + (i - 1) * 35 + 'ms"><span class="helpNum">' + i + '</span><div><h3 class="helpTitle">' + esc(t("h" + i + "t")) + '</h3><p class="helpText">' + esc(t("h" + i)) + '</p></div></section>';
+  }
+  return s;
 }
 
-function toggleHtml(setting, label, hint) {
+/* ---- Réglages ---- */
+function group(label, inner, extra) {
+  return '<section class="group' + (extra ? " " + extra : "") + '"><div class="groupLabel">' + esc(label) + '</div><div class="groupCard">' + inner + '</div></section>';
+}
+function toggleRow(setting, label, hint) {
   var on = db.settings[setting] !== false;
-  return '<div class="setRow"><div><div class="setLabel">' + label + '</div>' + (hint ? '<div class="setHint">' + hint + '</div>' : "") + '</div>' +
-    '<button class="toggle' + (on ? " on" : "") + '" role="switch" aria-checked="' + on + '" ' + btnAttr("toggle-setting", 'data-setting="' + setting + '"') + '><span></span></button></div>';
+  return '<div class="sRow"><div class="sText"><div class="sLabel">' + esc(label) + '</div>' + (hint ? '<div class="sHint">' + esc(hint) + '</div>' : "") + '</div>' +
+    '<button class="toggle' + (on ? " on" : "") + '" role="switch" aria-checked="' + on + '" aria-label="' + esc(label) + '" ' + btnAttr("toggle-setting", 'data-setting="' + setting + '"') + '><span></span></button></div>';
 }
-
-function renderSettingsScreen() {
+function renderSettings() {
   var d = daysSince(db.settings.lastExportAt);
-  var exportLine = d === null ? "jamais" : (d === 0 ? "aujourd'hui" : "il y a " + plural(d, "jour", "jours"));
-  var persisted = storageStatus.persisted === true ? "oui" : (storageStatus.persisted === false ? "non demandé par le navigateur" : "inconnu");
+  var exportLine = d === null ? t("never") : (d === 0 ? t("today") : tn("daysAgo", d));
+  var persisted = storageStatus.persisted === true ? t("yes") : (storageStatus.persisted === false ? t("no") : t("unknown"));
   var backups = readBackups().map(function (b, i) { return { b: b, i: i }; }).reverse().map(function (x) {
     var dd = x.b.data || {};
-    return '<div class="setRow"><div><div class="setLabel">' + escapeHtml(fmtDateTime(x.b.at)) + ' · ' + escapeHtml(x.b.reason || "auto") + '</div><div class="setHint">' +
-      plural((dd.history || []).length, "soirée", "soirées") + ' · ' + plural((dd.rulebook || []).length, "règle", "règles") + '</div></div>' +
-      '<button class="ghostBtn" ' + btnAttr("ask-restore", 'data-index="' + x.i + '"') + '>Restaurer</button></div>';
+    return '<div class="sRow"><div class="sText"><div class="sLabel">' + esc(fmtDateTime(x.b.at)) + ' · ' + esc(backupReasonLabel(x.b.reason)) + '</div><div class="sHint">' +
+      esc(tn("nights", (dd.history || []).length)) + ' · ' + esc(tn("rules", (dd.rulebook || []).length)) + '</div></div>' +
+      '<button class="btn btnSmall" ' + btnAttr("ask-restore", 'data-index="' + x.i + '"') + '>' + esc(t("restore")) + '</button></div>';
   }).join("");
   var known = knownPlayerNames();
-  var knownHtml = known.length ? '<div class="chips">' + known.map(function (n) {
-    return '<span class="chip static" data-key="kn-' + escapeHtml(n) + '">' + escapeHtml(n) + ' <button class="chipX" ' + btnAttr("forget-player", 'data-name="' + escapeHtml(n) + '" aria-label="Oublier ' + escapeHtml(n) + '"') + '>✕</button></span>';
-  }).join("") + '</div>' : '<p class="setHint">Les prénoms que tu utilises apparaîtront ici et s\'ajouteront en un tap.</p>';
-  var counts = plural(db.history.length, "soirée", "soirées") + ' · ' + plural(db.rulebook.length, "règle", "règles") + ' · ' + plural(Object.keys(stats.roundWins).length, "joueur", "joueurs") + ' au Mur';
-  var install = !isStandalone()
-    ? '<div class="howToSection"><h3 class="howToHeading">Installer l\'appli</h3><p class="howToText">Safari → bouton Partager → « Sur l\'écran d\'accueil ». Ouvre ensuite toujours l\'appli par son icône : elle garde ses propres données, séparées de celles de Safari.</p></div>' : "";
-  return '<h2 class="pageTitle">Réglages</h2>' + install +
-    '<div class="howToSection"><h3 class="howToHeading">Confort</h3>' + toggleHtml("sound", "Sons", "Coup de feu à chaque carte") + toggleHtml("haptics", "Vibrations", "Retour tactile") + toggleHtml("wakeLock", "Écran toujours allumé", "Pendant une partie") + '</div>' +
-    '<div class="howToSection"><h3 class="howToHeading">Mes données</h3>' +
-    '<p class="howToText">Tout est enregistré automatiquement sur cet appareil : ' + counts + '.</p>' +
-    '<p class="setHint">Dernier fichier de sauvegarde : <b>' + exportLine + '</b> · Stockage durable : ' + persisted + (storageStatus.localOk ? "" : ' · <b class="bad">écriture impossible</b>') + '</p>' +
-    '<button class="primaryBtn" style="margin-top:12px" ' + btnAttr("export-data") + '>Exporter une sauvegarde (fichier)</button>' +
-    '<div class="rowBtns two"><button class="secondaryBtn" ' + btnAttr("copy-backup") + '>Copier le code</button>' +
-    '<label class="secondaryBtn fileBtn">Importer un fichier<input type="file" data-file-import accept=".json,application/json,text/plain"/></label></div>' +
-    '<button class="linkBtn" ' + btnAttr("toggle-import-text") + '>' + (ui.importOpen ? "Masquer" : "Coller un code de sauvegarde") + '</button>' +
-    (ui.importOpen ? '<textarea class="input importArea" data-bind="importText" placeholder="Colle ici le code copié">' + escapeHtml(ui.importText) + '</textarea><button class="secondaryBtn" ' + btnAttr("import-text") + '>Importer ce code</button>' : "") +
-    (ui.notice ? '<p class="notice">' + escapeHtml(ui.notice) + '</p>' : "") + '</div>' +
-    '<div class="howToSection"><h3 class="howToHeading">Sauvegardes automatiques</h3>' + (backups || '<p class="setHint">La première sera créée à la fin de ta prochaine soirée.</p>') + '</div>' +
-    '<div class="howToSection"><h3 class="howToHeading">Joueurs habituels</h3>' + knownHtml + '</div>' +
-    '<div class="howToSection"><h3 class="howToHeading">Langue</h3><div class="rowBtns"><button class="themeToggleBtn active">Français</button><button class="themeToggleBtn" style="opacity:.4" disabled>English (bientôt)</button></div></div>' +
-    '<p class="hint center">Killer v' + APP_VERSION + '</p>';
+  var knownHtml = known.length ? '<div class="sRow block"><div class="chips">' + known.map(function (n) {
+    return '<span class="chip static" data-key="kn-' + esc(n) + '">' + esc(n) + '<button class="chipX" ' + btnAttr("forget-player", 'data-name="' + esc(n) + '" aria-label="' + esc(t("forgetX", { name: n })) + '"') + '>' + icon("close", 13) + '</button></span>';
+  }).join("") + '</div></div>' : '<div class="sRow"><div class="sHint">' + esc(t("regularsHint")) + '</div></div>';
+  var counts = t("dataCounts", { nights: tn("nights", db.history.length), rules: tn("rules", db.rulebook.length), players: tn("playersCount", Object.keys(stats.roundWins).length) });
+  var seg = function (action, attr, cur, opts) {
+    return '<div class="seg small inRow">' + opts.map(function (o) {
+      return '<button class="segBtn' + (cur === o[0] ? " on" : "") + '" ' + btnAttr(action, attr + '="' + o[0] + '"') + '>' + esc(o[1]) + '</button>';
+    }).join("") + '</div>';
+  };
+  return (!isStandalone() ? group(t("install"), '<div class="sRow"><div class="sHint">' + esc(t("installText")) + '</div></div>') : "") +
+    group(t("appearance"), '<div class="sRow block">' + seg("set-theme", "data-theme-value", state.theme, [["lounge", t("themeLounge")], ["classic", t("themeClassic")]]) + '</div>') +
+    group(t("language"), '<div class="sRow block">' + seg("set-lang", "data-lang", lang(), [["fr", "Français"], ["en", "English"]]) + '</div>') +
+    group(t("comfort"), toggleRow("sound", t("sound"), t("soundHint")) + toggleRow("haptics", t("haptics"), t("hapticsHint")) + toggleRow("wakeLock", t("wake"), t("wakeHint"))) +
+    group(t("myData"),
+      '<div class="sRow"><div class="sText"><div class="sLabel">' + icon("check", 16, "ok") + esc(t("autoSaved")) + '</div><div class="sHint">' + esc(counts) + '</div></div></div>' +
+      '<div class="sRow"><div class="sLabel">' + esc(t("lastExport")) + '</div><div class="sValue' + (exportDue() ? " warn" : "") + '">' + esc(exportLine) + '</div></div>' +
+      '<div class="sRow"><div class="sLabel">' + esc(t("durable")) + '</div><div class="sValue">' + esc(persisted) + (storageStatus.localOk ? "" : ' · <b class="bad">' + esc(t("writeFail")) + '</b>') + '</div></div>' +
+      (exportDue() ? '<div class="sRow"><div class="sHint warnText">' + esc(t("exportDue")) + '</div></div>' : "") +
+      '<div class="sRow block"><button class="btn btnPrimary" ' + btnAttr("export-data") + '>' + icon("download", 18) + esc(t("exportBtn")) + '</button>' +
+      '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("copy-backup") + '>' + icon("copy", 17) + esc(t("copyCode")) + '</button>' +
+      '<label class="btn btnSecondary fileBtn">' + icon("upload", 17) + esc(t("importFile")) + '<input type="file" data-file-import accept=".json,application/json,text/plain"/></label></div>' +
+      '<button class="btn btnText" ' + btnAttr("toggle-import-text") + '>' + esc(ui.importOpen ? t("hide") : t("pasteCode")) + '</button>' +
+      (ui.importOpen ? '<textarea class="input importArea" data-bind="importText" placeholder="' + esc(t("pasteHere")) + '">' + esc(ui.importText) + '</textarea><button class="btn btnSecondary" ' + btnAttr("import-text") + '>' + esc(t("importCode")) + '</button>' : "") +
+      (ui.notice ? '<p class="notice">' + esc(ui.notice) + '</p>' : "") + '</div>', "dataGroup") +
+    group(t("autoBackups"), backups || '<div class="sRow"><div class="sHint">' + esc(t("firstBackup")) + '</div></div>') +
+    group(t("regulars"), knownHtml) +
+    '<p class="version">' + esc(t("version", { v: APP_VERSION })) + '</p>';
 }
 
-/* ---- Navigation & assemblage ---- */
+/* ---- Navigation ---- */
 function renderBottomNav() {
-  var items = [["play", "Jouer", svgIconCues], ["wanted", "Légendes", null], ["rulebook", "Le Livre", svgIconBook], ["howto", "Aide", svgIconSearch], ["settings", "Réglages", svgIconGear]];
-  return '<nav class="bottomNav" data-key="nav">' + items.map(function (it) {
-    var active = ui.activeTab === it[0];
-    var color = active ? "#C9A24A" : "#C9B98F";
-    if (state.theme === "classic") color = active ? "#CC9E3F" : "#CFC3A6";
-    var icon = it[0] === "wanted" ? svgStar(20, 1, color) : it[2](20, color);
-    return '<button class="bottomNavBtn' + (active ? " active" : "") + '" ' + btnAttr("set-tab", 'data-tab="' + it[0] + '"') + '>' + icon + '<span class="bottomNavLabel">' + it[1] + '</span></button>';
+  var items = [["play", "tabPlay", function (c) { return svgIconCues(24, c); }], ["wanted", "tabLegends", function (c) { return sheriffStar(24, c); }],
+    ["rulebook", "tabBook", function (c) { return svgIconBook(24, c); }], ["howto", "tabHelp", function (c) { return svgIconSearch(24, c); }], ["settings", "tabSettings", function (c) { return svgIconGear(24, c); }]];
+  return '<nav class="nav" data-key="nav">' + items.map(function (it) {
+    var on = ui.activeTab === it[0];
+    var dot = it[0] === "settings" && exportDue() ? '<span class="navDot"></span>' : "";
+    return '<button class="navBtn' + (on ? " on" : "") + '" ' + btnAttr("set-tab", 'data-tab="' + it[0] + '"') + (on ? ' aria-current="page"' : "") + '><span class="navIco">' + it[2]("currentColor") + dot + '</span><span class="navLabel">' + esc(t(it[1])) + '</span></button>';
   }).join("") + '</nav>';
 }
 
@@ -1389,55 +2003,42 @@ function renderModal() {
   var inner = "";
   if (m.kind === "import") {
     var s = m.parsed.summary;
-    inner = '<h3 class="modalTitle">Remplacer les données de cet appareil ?</h3><p class="howToText">Cette sauvegarde contient ' + plural(s.soirees, "soirée", "soirées") + ', ' + plural(s.regles, "règle", "règles") + ' et ' + plural(s.joueurs, "joueur", "joueurs") + ' au Mur' +
-      (s.date ? " (exportée le " + escapeHtml(fmtDate(s.date)) + ")" : "") + '. Une copie de tes données actuelles est gardée dans les sauvegardes automatiques.</p>' +
-      '<div class="rowBtns"><button class="primaryBtnSmall" ' + btnAttr("confirm-import") + '>Remplacer</button><button class="ghostBtn" ' + btnAttr("close-modal") + '>Annuler</button></div>';
+    inner = '<h3 class="modalTitle">' + esc(t("importQ")) + '</h3><p class="modalText">' + esc(t("importText", { nights: tn("nights", s.soirees), rules: tn("rules", s.regles), players: tn("playersCount", s.joueurs), date: s.date ? t("exportedOn", { d: fmtDate(s.date) }) : "" })) + '</p>' +
+      '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("close-modal") + '>' + esc(t("cancel")) + '</button><button class="btn btnPrimary" ' + btnAttr("confirm-import") + '>' + esc(t("replace")) + '</button></div>';
   } else if (m.kind === "restore") {
     var b = readBackups()[m.index];
     if (!b) return "";
-    inner = '<h3 class="modalTitle">Restaurer cette sauvegarde ?</h3><p class="howToText">Données du ' + escapeHtml(fmtDateTime(b.at)) + '. Tes données actuelles sont d\'abord mises de côté.</p>' +
-      '<div class="rowBtns"><button class="primaryBtnSmall" ' + btnAttr("confirm-restore", 'data-index="' + m.index + '"') + '>Restaurer</button><button class="ghostBtn" ' + btnAttr("close-modal") + '>Annuler</button></div>';
+    inner = '<h3 class="modalTitle">' + esc(t("restoreQ")) + '</h3><p class="modalText">' + esc(t("restoreText", { d: fmtDateTime(b.at) })) + '</p>' +
+      '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("close-modal") + '>' + esc(t("cancel")) + '</button><button class="btn btnPrimary" ' + btnAttr("confirm-restore", 'data-index="' + m.index + '"') + '>' + esc(t("restore")) + '</button></div>';
   } else if (m.kind === "message") {
-    inner = '<h3 class="modalTitle">' + escapeHtml(m.title) + '</h3><p class="howToText">' + escapeHtml(m.text) + '</p><div class="rowBtns"><button class="primaryBtnSmall" ' + btnAttr("close-modal") + '>OK</button></div>';
+    inner = '<h3 class="modalTitle">' + esc(m.title) + '</h3><p class="modalText">' + esc(m.text) + '</p><div class="btnPair"><button class="btn btnPrimary" ' + btnAttr("close-modal") + '>' + esc(t("ok")) + '</button></div>';
   }
-  return '<div class="overlayBg modalBg" data-key="modal"><div class="overlayCard pop">' + inner + '</div></div>';
+  return '<div class="overlay modalBg" data-key="modal"><div class="modal pop">' + inner + '</div></div>';
 }
 
 function screenId() {
-  if (ui.activeTab !== "play") return ui.activeTab + (ui.activeTab === "wanted" ? "-" + ui.legendsTab : "");
+  if (ui.activeTab !== "play") return ui.activeTab;
   var ph = state.phase === "roundEnd" ? "game" : state.phase;
   return "play-" + ph;
 }
 
 function buildApp() {
-  var isLounge = state.theme === "lounge";
-  var kingEntries = Object.keys(stats.roundWins || {}).map(function (k) { return [k, stats.roundWins[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
-  var kingName = kingEntries.length > 0 ? kingEntries[0][0] : null;
+  var tab = ui.activeTab, header = "", body = "";
+  if (tab === "wanted") { header = topBar(esc(t("legendsTitle"))); body = renderLegends(); }
+  else if (tab === "rulebook") { header = topBar(esc(t("bookTitle"))); body = renderBook(); }
+  else if (tab === "howto") { header = topBar(esc(t("helpTitle"))); body = renderHelp(); }
+  else if (tab === "settings") { header = topBar(esc(t("settingsTitle"))); body = renderSettings(); }
+  else if (state.phase === "setup") { header = heroHeader(); body = renderSetup(); }
+  else if (state.phase === "dealing") { header = topBar('<span class="tbLogo">Killer</span>'); body = renderDealing(); }
+  else if (state.phase === "game" || state.phase === "roundEnd") {
+    header = topBar('<span class="tbLogo">Killer</span>', '<span class="roundChip">' + esc(t("round", { n: state.round })) + '</span>',
+      '<button class="rulesBtn" ' + btnAttr("toggle-rules", 'aria-label="' + esc(t("rules")) + '"') + '>' + icon("book", 19) + (state.rules.length ? '<span class="cnt">' + state.rules.length + '</span>' : "") + '</button>');
+    body = renderGameScreen();
+  } else if (state.phase === "finished") { header = heroHeader(); body = renderFinal(); }
 
-  var body = "";
-  if (ui.activeTab === "wanted") body = renderWantedScreen();
-  else if (ui.activeTab === "rulebook") body = renderRulebookScreen();
-  else if (ui.activeTab === "howto") body = renderHowToScreen();
-  else if (ui.activeTab === "settings") body = renderSettingsScreen();
-  else {
-    if (state.phase === "setup") body = renderSetup();
-    else if (state.phase === "dealing") body = isLounge ? renderDealingLounge() : renderDealingClassic();
-    else if (state.phase === "game" || state.phase === "roundEnd") {
-      body = (ui.rulesOpen ? renderRulesPanel() : "") + renderGameScreen(state.phase === "roundEnd") + (state.phase === "roundEnd" ? renderRoundEndOverlay() : "");
-    } else if (state.phase === "finished") body = renderFinalScreen();
-  }
-
-  var corners = isLounge ? '<div data-key="corners">' + svgCornerFlourishFixed(0, "top:6px;left:6px") + svgCornerFlourishFixed(90, "top:6px;right:6px") + svgCornerFlourishFixed(180, "bottom:6px;right:6px") + svgCornerFlourishFixed(270, "bottom:6px;left:6px") + '</div>' : "";
-  var themeToggle = ui.activeTab === "play"
-    ? '<div class="themeToggleRow" data-key="themes"><button class="themeToggleBtn' + (isLounge ? " active" : "") + '" ' + btnAttr("set-theme", 'data-theme-value="lounge"') + '>Salon</button>' +
-      '<button class="themeToggleBtn' + (!isLounge ? " active" : "") + '" ' + btnAttr("set-theme", 'data-theme-value="classic"') + '>Classique</button></div>' : "";
-  var footer = isLounge && ui.activeTab === "play" && state.phase !== "dealing"
-    ? '<div class="westernFooter" data-key="footer"><div class="westernFooterRule"></div><div class="westernFooterRow">' + svgHorseshoe() + svgStar() + svgCuesEmblem(30, 0.55) + svgStar() + svgHorseshoe() + '</div></div>' : "";
-  var rail = !isLounge ? '<div class="rail" data-key="rail-top"></div>' : "";
-  var railB = !isLounge ? '<div class="rail" data-key="rail-bottom"></div>' : "";
-
-  return rail + '<div class="felt" data-key="felt">' + corners + themeToggle + renderHeader(kingName) +
-    '<main class="screen" data-key="screen-' + screenId() + '">' + body + '</main>' + footer + '</div>' + renderBottomNav() + railB + renderModal();
+  var overlays = renderDealHero() + renderSpotlight() + renderRoundEnd() + renderRulesSheet() + renderProfileSheet() + renderModal();
+  return '<div class="shell" data-key="shell">' + header + '<main class="screen" data-key="screen-' + screenId() + '">' + body + '</main></div>' +
+    renderBottomNav() + '<div class="overlays" data-key="overlays">' + overlays + '</div>';
 }
 
 /* ================= Rendu, événements, démarrage ================= */
@@ -1451,7 +2052,7 @@ function toast(msg, opts) {
   var el = document.getElementById("toast");
   if (!el) return;
   var withUndo = opts && opts.undo && db && db.undo.length > 0;
-  el.innerHTML = "<span>" + escapeHtml(msg) + "</span>" + (withUndo ? '<button class="toastBtn" data-action="undo">Annuler</button>' : "");
+  el.innerHTML = "<span>" + escapeHtml(msg) + "</span>" + (withUndo ? '<button class="toastBtn" data-action="undo">' + escapeHtml(t("undo")) + '</button>' : "");
   el.classList.add("show");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function () { el.classList.remove("show"); }, withUndo ? 5000 : 2800);
@@ -1475,16 +2076,58 @@ function syncWakeLock() {
   } catch (e) {}
 }
 
+function reducedMotion() { try { return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } }
+
 function render() {
   var host = document.getElementById("app");
   document.documentElement.setAttribute("data-theme", state.theme);
+  document.documentElement.setAttribute("lang", lang());
   morphInto(host, buildApp());
   var sid = screenId();
   if (sid !== lastScreenId) { lastScreenId = sid; try { window.scrollTo(0, 0); } catch (e) {} }
-  var overlay = ui.modal || (ui.activeTab === "play" && (state.phase === "roundEnd" || (state.phase === "dealing" && state.dealingRevealNumber)));
-  document.body.classList.toggle("noscroll", !!overlay);
+  var ov = document.querySelector(".overlays");
+  document.body.classList.toggle("noscroll", !!(ov && ov.children.length));
+  animateSpotlightIn();
   checkTourProgress();
   syncWakeLock();
+}
+
+/* ---- Carte piochée : zoom depuis sa place, retour à sa place ---- */
+function slotFor(id) { return document.querySelector('.slot[data-id="' + id + '"]'); }
+function deltaTransform(from, to) {
+  var a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+  if (!a.width || !b.width) return null;
+  var dx = a.left + a.width / 2 - (b.left + b.width / 2), dy = a.top + a.height / 2 - (b.top + b.height / 2);
+  return "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px) scale(" + (a.width / b.width).toFixed(3) + ")";
+}
+function animateSpotlightIn() {
+  if (!ui.spotlight || !ui.spotlight.fresh) return;
+  ui.spotlight.fresh = false;
+  var card = document.getElementById("spotCard"), slot = slotFor(ui.spotlight.id);
+  if (!card || !slot || !card.animate || reducedMotion()) return;
+  var tr = deltaTransform(slot, card);
+  if (!tr) return;
+  try {
+    card.animate([{ transform: tr, opacity: 0 }, { transform: tr, opacity: 1, offset: 0.08 }, { transform: "scale(1.04)", offset: 0.8 }, { transform: "none", opacity: 1 }],
+      { duration: 620, delay: 420, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" });
+  } catch (e) {}
+}
+var closingSpot = false;
+function closeSpotlight() {
+  if (!ui.spotlight || closingSpot) return;
+  var card = document.getElementById("spotCard"), slot = slotFor(ui.spotlight.id);
+  var done = function () { closingSpot = false; ui.spotlight = null; render(); };
+  if (!card || !card.animate || reducedMotion()) { done(); return; }
+  closingSpot = true;
+  ui.spotlight.closing = true;
+  var spot = document.querySelector(".spot");
+  if (spot) spot.classList.add("closing");
+  var tr = slot ? deltaTransform(slot, card) : null;
+  try {
+    var anim = card.animate([{ transform: "none", opacity: 1 }, { transform: tr || "scale(.6)", opacity: tr ? 1 : 0 }], { duration: 340, easing: "cubic-bezier(.4,0,.6,1)", fill: "forwards" });
+    anim.onfinish = done;
+    setTimeout(function () { if (closingSpot) done(); }, 600);
+  } catch (e) { done(); }
 }
 
 function focusName() { var el = document.getElementById("nameInputField"); if (el) { try { el.focus(); } catch (e) {} } }
@@ -1492,9 +2135,9 @@ function focusName() { var el = document.getElementById("nameInputField"); if (e
 /* ---- Partage du résumé de soirée ---- */
 function shareFinal() {
   var sorted = state.players.slice().sort(function (a, b) { return b.wins - a.wins; });
-  var lines = sorted.map(function (p, i) { return (i + 1) + ". " + p.name + " — " + p.wins + " manche" + (p.wins > 1 ? "s" : ""); });
+  var lines = sorted.map(function (p, i) { return (i + 1) + ". " + p.name + " — " + tn("roundsWon", p.wins); });
   var ruleLines = state.rules.map(function (r) { return "• " + r.text; });
-  var text = "Killer — résultats de la soirée\n\n" + lines.join("\n") + (ruleLines.length ? "\n\nRègles inventées :\n" + ruleLines.join("\n") : "");
+  var text = t("shareTitle") + "\n\n" + lines.join("\n") + (ruleLines.length ? "\n\n" + t("shareRules") + "\n" + ruleLines.join("\n") : "");
   if (navigator.share) {
     navigator.share({ text: text, title: "Killer" }).catch(function () {});
   } else if (navigator.clipboard) {
@@ -1506,10 +2149,10 @@ function shareFinal() {
 }
 
 function handleExportResult(r) {
-  if (r === "shared") toast("Sauvegarde envoyée ✓");
-  else if (r === "downloaded") toast("Fichier de sauvegarde téléchargé ✓");
-  else if (r === "copied") toast("Code de sauvegarde copié ✓");
-  else if (r === "failed") toast("Export impossible sur ce navigateur");
+  if (r === "shared") toast(t("tShared"));
+  else if (r === "downloaded") toast(t("tDownloaded"));
+  else if (r === "copied") toast(t("tCopied"));
+  else if (r === "failed") toast(t("tExportFail"));
   render();
 }
 
@@ -1524,11 +2167,20 @@ function startImport(text) {
 function onClick(e) {
   var el = e.target.closest ? e.target.closest("[data-action]") : null;
   if (!el) return;
+  if (el.hasAttribute("data-self") && e.target.closest("[data-stop]")) return;
   var action = el.getAttribute("data-action");
   if (!action || action === "noop" || el.disabled) return;
   var id = el.getAttribute("data-id");
   switch (action) {
-    case "set-tab": ui.activeTab = el.getAttribute("data-tab"); ui.confirmingReset = false; ui.notice = null; break;
+    case "set-tab":
+      if (ui.activeTab !== el.getAttribute("data-tab")) vibrate(6);
+      ui.activeTab = el.getAttribute("data-tab"); ui.confirmingReset = false; ui.notice = null; ui.profile = null; ui.spotlight = null; break;
+    case "set-lang": db.settings.lang = el.getAttribute("data-lang"); persist(); break;
+    case "set-rank-by": ui.rankBy = el.getAttribute("data-by"); break;
+    case "open-profile": ui.profile = el.getAttribute("data-name"); vibrate(8); break;
+    case "close-profile": ui.profile = null; break;
+    case "close-spotlight": closeSpotlight(); return;
+    case "show-spotlight": ui.spotlight = { id: el.getAttribute("data-id"), fresh: true }; break;
     case "set-legends-tab": ui.legendsTab = el.getAttribute("data-tab"); break;
     case "set-theme": setTheme(el.getAttribute("data-theme-value")); break;
     case "toggle-rules": ui.rulesOpen = !ui.rulesOpen; break;
@@ -1550,15 +2202,15 @@ function onClick(e) {
     case "undo": undoLast(); break;
     case "share-final": shareFinal(); return;
     case "export-data": exportData().then(handleExportResult); return;
-    case "copy-backup": copyBackupText().then(function (ok) { toast(ok ? "Code de sauvegarde copié ✓" : "Copie impossible : utilise l'export fichier"); render(); }); return;
+    case "copy-backup": copyBackupText().then(function (ok) { toast(ok ? t("tCopied") : t("tCopyFail")); render(); }); return;
     case "toggle-import-text": ui.importOpen = !ui.importOpen; break;
     case "import-text": startImport(ui.importText); return;
     case "confirm-import":
-      if (ui.modal && ui.modal.parsed) { applyImport(ui.modal.parsed); toast("Sauvegarde importée ✓"); }
+      if (ui.modal && ui.modal.parsed) { applyImport(ui.modal.parsed); toast(t("tImported")); }
       ui.modal = null; ui.importText = ""; ui.importOpen = false; ui.notice = null; break;
     case "ask-restore": ui.modal = { kind: "restore", index: Number(el.getAttribute("data-index")) }; break;
     case "confirm-restore":
-      if (restoreBackup(Number(el.getAttribute("data-index")))) toast("Sauvegarde restaurée ✓");
+      if (restoreBackup(Number(el.getAttribute("data-index")))) toast(t("tRestored"));
       ui.modal = null; break;
     case "close-modal": ui.modal = null; break;
     case "toggle-setting": var k = el.getAttribute("data-setting"); db.settings[k] = db.settings[k] === false; persist(); break;
@@ -1568,7 +2220,7 @@ function onClick(e) {
     case "cancel-delete-soiree": ui.confirmDeleteSoiree = null; break;
     case "confirm-delete-soiree":
       db.history = db.history.filter(function (h) { return h.id !== id; });
-      ui.confirmDeleteSoiree = null; ui.expandedSoiree = null; persist(); toast("Soirée supprimée"); break;
+      ui.confirmDeleteSoiree = null; ui.expandedSoiree = null; persist(); toast(t("nightDeleted")); break;
     case "ask-reset-stats": ui.confirmingReset = true; break;
     case "cancel-reset-stats": ui.confirmingReset = false; break;
     case "confirm-reset-stats": resetStats(); ui.confirmingReset = false; break;
@@ -1582,7 +2234,7 @@ function onClick(e) {
       ui.editingRulebookId = null; break;
     case "delete-rulebook": deleteRulebookEntry(id); break;
     case "toggle-preset": var owner = el.getAttribute("data-owner"); ui.presetOpen = ui.presetOpen === owner ? null : owner; break;
-    case "pick-preset": ui.ruleInput = RULE_PRESETS[Number(el.getAttribute("data-preset-idx"))]; ui.presetOpen = null; break;
+    case "pick-preset": ui.ruleInput = rulePresets()[Number(el.getAttribute("data-preset-idx"))]; ui.presetOpen = null; break;
     default: return;
   }
   render();
@@ -1614,7 +2266,7 @@ function onChange(e) {
   if (el && el.hasAttribute && el.hasAttribute("data-file-import") && el.files && el.files[0]) {
     var f = el.files[0];
     var done = function (text) { el.value = ""; startImport(text); };
-    if (f.text) f.text().then(done).catch(function () { ui.notice = "Lecture du fichier impossible."; render(); });
+    if (f.text) f.text().then(done).catch(function () { ui.notice = t("errRead"); render(); });
     else { var r = new FileReader(); r.onload = function () { done(String(r.result)); }; r.readAsText(f); }
   }
 }
@@ -1631,7 +2283,7 @@ function adoptFromIdb() {
     if (cand.savedAt > db.savedAt) {
       db = cand; db.session = repairSession(db.session); bindDb();
       render();
-      toast("Données récupérées ✓");
+      toast(t("tRecovered"));
     }
   }).catch(function () { if (corruptAtBoot) restoreFromLatestBackup(); });
 }
@@ -1640,7 +2292,7 @@ function restoreFromLatestBackup() {
   if (!list.length || hasMeaningfulData()) return;
   var b = list[list.length - 1];
   db = normalizeDb(b.data); db.session = repairSession(db.session); db.undo = []; bindDb(); persist(); render();
-  ui.modal = { kind: "message", title: "Données restaurées", text: "Le fichier principal était illisible. On a restauré la sauvegarde automatique du " + fmtDateTime(b.at) + "." };
+  ui.modal = { kind: "message", title: t("restoredTitle"), text: t("restoredText", { d: fmtDateTime(b.at) }) };
   render();
 }
 
@@ -1662,7 +2314,7 @@ function boot() {
   });
   window.addEventListener("pagehide", function () { persist(); });
 
-  if (loaded && loaded.source === "legacy") { persist(); setTimeout(function () { toast("Données de la V1 reprises ✓"); }, 400); }
+  if (loaded && loaded.source === "legacy") { persist(); setTimeout(function () { toast(t("tLegacy")); }, 400); }
   render();
   requestPersistentStorage();
   maybeAutoBackup();
@@ -1670,7 +2322,19 @@ function boot() {
 
   try {
     if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
-      navigator.serviceWorker.register("sw.js").catch(function () {});
+      var hadController = !!navigator.serviceWorker.controller, pendingReload = false;
+      navigator.serviceWorker.register("sw.js").then(function (reg) {
+        document.addEventListener("visibilitychange", function () {
+          if (document.visibilityState === "visible") { try { reg.update(); } catch (e) {} }
+          else if (pendingReload) { persist(); location.reload(); }
+        });
+      }).catch(function () {});
+      // Nouvelle version installée : on recharge tout de suite si on n'est pas en pleine partie, sinon dès que l'appli passe en arrière-plan.
+      navigator.serviceWorker.addEventListener("controllerchange", function () {
+        if (!hadController) { hadController = true; return; }
+        if (["game", "roundEnd", "dealing"].indexOf(state.phase) >= 0) pendingReload = true;
+        else { persist(); location.reload(); }
+      });
     }
   } catch (e) {}
 }
