@@ -729,16 +729,12 @@ function avatarHtml(theme, number, size, uidStr) {
     ? '<div class="charImgWrap" style="width:' + size + 'px;height:' + size + 'px;border-radius:10px;flex-shrink:0">' + cardArtHtml(number, null, false) + '</div>'
     : svgBall(number, size, uidStr);
 }
+// Les deux thèmes utilisent les persos (plus de boules de billard).
 function cardFaceHtml(theme, ball, name) {
-  if (theme === "lounge") {
-    return '<div class="cardArtWrap">' + cardArtHtml(ball, name, false) + '</div>';
-  }
-  return '<div class="cardFrontInner">' + svgBall(ball, 30) + '<span class="cardFrontName">' + escapeHtml(name) + '</span></div>';
+  return '<div class="cardArtWrap">' + cardArtHtml(ball, name, false) + '</div>';
 }
 function cardBackHtml(theme) {
-  return '<div class="cardBackInner">' + (theme === "lounge"
-    ? '<span class="cardBackMonogram">K</span>'
-    : '<span class="cardBackEmoji">🎱</span>') + '</div>';
+  return '<div class="cardBackInner"><span class="cardBackMonogram">K</span></div>';
 }
 function cardSlotHtml(theme, id, players, up, isCurrent) {
   var player = null;
@@ -1581,7 +1577,7 @@ function confettiHtml() {
 /* Avatar : perso (Saloon) ou boule (Classique), couronne si Roi */
 function avatar(ball, size, name, extra) {
   var inner = ball != null
-    ? (state.theme === "lounge" ? cardArtHtml(ball, null, false) : '<span class="avBall">' + svgBall(ball, Math.round(size * 0.78)) + '</span>')
+    ? cardArtHtml(ball, null, false)
     : '<span class="avInitial">' + esc(String(name || "?").charAt(0).toUpperCase()) + '</span>';
   var crown = name && isKing(name) ? '<span class="avCrown">' + crownSvg(Math.round(size * 0.42)) + '</span>' : "";
   return '<span class="av' + (extra ? " " + extra : "") + '" style="width:' + size + 'px;height:' + size + 'px">' + '<span class="avClip">' + inner + '</span>' + crown + '</span>';
@@ -1754,8 +1750,7 @@ function renderGameScreen() {
 
 /* ---- Carte piochée en grand ---- */
 function bigCardHtml(p) {
-  if (state.theme === "lounge") return '<div class="bigCard" id="spotCard">' + cardArtHtml(p.ball, null, false) + '</div>';
-  return '<div class="bigCard classicBig" id="spotCard"><div class="bigBall">' + svgBall(p.ball, 150) + '</div></div>';
+  return '<div class="bigCard" id="spotCard">' + cardArtHtml(p.ball, null, false) + '</div>';
 }
 function renderSpotlight() {
   if (!ui.spotlight || ui.activeTab !== "play" || state.phase !== "game") return "";
@@ -1809,7 +1804,7 @@ function renderFinal() {
 function renderPoster(rank, e) {
   var fav = favoriteCardFor(e.name);
   var tilt = [-2.2, 1.8, -1.2, 2.4][rank % 4];
-  var portrait = fav != null ? (state.theme === "lounge" ? cardArtHtml(fav, null, false) : '<div class="posterBall">' + svgBall(fav, 58) + '</div>') : '<span class="posterInitial">' + esc(e.name.charAt(0).toUpperCase()) + '</span>';
+  var portrait = fav != null ? cardArtHtml(fav, null, false) : '<span class="posterInitial">' + esc(e.name.charAt(0).toUpperCase()) + '</span>';
   return '<button class="poster enter" data-key="poster-' + esc(e.name) + '" style="--tilt:' + tilt + 'deg;--d:' + Math.min(rank, 10) * 50 + 'ms" ' + btnAttr("open-profile", 'data-name="' + esc(e.name) + '"') + '>' +
     '<span class="posterPin"></span>' + (rank === 1 ? '<span class="posterCrown">' + crownSvg(14, "inline") + esc(t("kingOfPool")) + '</span>' : "") +
     '<span class="posterHeading">' + esc(t("wanted")) + '</span><span class="posterRule"></span>' +
@@ -1907,7 +1902,7 @@ function renderProfileSheet() {
     statTile(icon("target", 18), t("statRate"), pr.rate == null ? "—" : pr.rate + "%") +
     statTile(icon("flame", 18), t("statStreak"), pr.streak) +
     statTile(icon("sparkle", 18), t("statBest"), pr.best) +
-    statTile(icon("cards", 18), t("statFav"), fav != null ? esc(state.theme === "lounge" ? animalName(fav) : "n° " + fav) : "—") +
+    statTile(icon("cards", 18), t("statFav"), fav != null ? esc(animalName(fav)) : "—") +
     statTile(icon("check", 18), t("statLast"), pr.last ? esc(fmtShortDate(pr.last)) : esc(t("never"))) +
     '</div><p class="hint center small">' + esc(t("streakNote")) + '</p></div></div>';
 }
