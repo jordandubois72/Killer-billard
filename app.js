@@ -885,7 +885,7 @@ function vibrate(pattern) {
 }
 
 /* ================= Stockage fiable, sauvegardes, export ================= */
-var APP_VERSION = "3.0";
+var APP_VERSION = "3.1";
 var DB_KEY = "killer_db_v2";
 var BACKUPS_KEY = "killer_backups_v2";
 var LEGACY_KEYS = { session: "killer_session_v3", stats: "killer_stats_v1", rulebook: "killer_rulebook_v1" };
@@ -930,7 +930,7 @@ function normalizeDb(o) {
 
 // Répare une session restée coincée en pleine distribution, et donne un id aux anciennes soirées.
 function repairSession(s) {
-  if (s.phase === "dealing" && s.theme === "lounge" && !s.dealingComplete) {
+  if (s.phase === "dealing" && !s.dealingComplete) {
     var assigned = {};
     s.players.forEach(function (p) { if (p.ball) assigned[p.ball] = true; });
     var assignedCount = Object.keys(assigned).length;
@@ -1373,14 +1373,9 @@ function knownPlayerNames() {
 function startGame() {
   if (state.players.length < 2) return;
   state.players.forEach(function (p) { db.players[p.name] = (db.players[p.name] || 0) + 1; });
-  if (state.theme === "lounge") {
-    var pool = shuffle(BALL_NUMBERS).map(function (number) { return { number: number, up: false }; });
-    update({ phase: "dealing", dealingCards: pool, dealingIndex: 0, dealingRevealNumber: null, dealingComplete: false });
-  } else {
-    var balls = shuffle(BALL_NUMBERS).slice(0, state.players.length);
-    var players = state.players.map(function (p, i) { return Object.assign({}, p, { ball: balls[i], lives: 3, wins: 0 }); });
-    update({ players: players, phase: "dealing" });
-  }
+  // Dans les deux thèmes, chacun pioche sa carte à tour de rôle.
+  var pool = shuffle(BALL_NUMBERS).map(function (number) { return { number: number, up: false }; });
+  update({ phase: "dealing", dealingCards: pool, dealingIndex: 0, dealingRevealNumber: null, dealingComplete: false });
 }
 function pickDealingCard(number) {
   playFlipSound(); vibrate(15);
@@ -1596,7 +1591,12 @@ function playerProfile(name) {
 
 function favoriteCardFor(name) {
   var picks = stats.cardPicks && stats.cardPicks[name];
-  if (!picks) return null;
+  if (!picks || !Object.keys(picks).length) {
+    // Repli : les cartes vues dans l'historique des soirées
+    picks = {};
+    db.history.forEach(function (h) { h.players.forEach(function (p) { if (sameName(p.name, name) && p.ball) picks[p.ball] = (picks[p.ball] || 0) + 1; }); });
+    if (state && state.players) state.players.forEach(function (p) { if (sameName(p.name, name) && p.ball) picks[p.ball] = (picks[p.ball] || 0) + 1; });
+  }
   var sp = Object.keys(picks).map(function (k) { return [Number(k), picks[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
   return sp.length ? sp[0][0] : null;
 }
@@ -1952,13 +1952,12 @@ function dealCardBtn(c, i) {
     '</div></div></button>';
 }
 function renderDealing() {
-  var lounge = state.theme === "lounge";
-  if (!lounge || state.dealingComplete) {
+  if (state.dealingComplete) {
     var cards = state.players.map(function (p, i) {
       return '<div class="dealt pop" data-key="dl-' + p.id + '" style="animation-delay:' + (i * 0.09).toFixed(2) + 's">' +
-        '<div class="dealtCard">' + cardFaceHtml(state.theme, p.ball, lounge ? p.name : p.name) + '</div></div>';
+        '<div class="dealtCard">' + cardFaceHtml(state.theme, p.ball, p.name) + '</div></div>';
     }).join("");
-    return '<p class="lead center">' + esc(lounge ? t("dealLeadDone") : t("dealLeadClassic")) + '</p><div class="dealGrid">' + cards + '</div>' +
+    return '<p class="lead center">' + esc(t("dealLeadDone")) + '</p><div class="dealGrid">' + cards + '</div>' +
       '<button class="btn btnPrimary btnLg" ' + btnAttr("confirm-dealt") + '>' + esc(t("letsGo")) + '</button>';
   }
   var cp = state.players[state.dealingIndex];
@@ -1969,7 +1968,7 @@ function renderDealing() {
 }
 function renderDealHero() {
   var n = state.dealingRevealNumber;
-  if (!(state.phase === "dealing" && state.theme === "lounge" && n)) return "";
+  if (!(state.phase === "dealing" && n)) return "";
   var cp = state.players[state.dealingIndex];
   return '<div class="overlay heroOverlay" data-key="dealhero"><div class="rays" aria-hidden="true"></div>' +
     '<p class="spotKicker">' + esc(cp ? cp.name : "") + '</p>' +
