@@ -211,6 +211,23 @@ var I18N = {
     shareCard: "Partager la carte de la soirée",
     shareSend: "Envoyer l'image",
     shareLoading: "Préparation de la carte…",
+    potIn: "Rentrée", potMiss: "Ratée", moreInfo: "Infos", back: "Retour",
+    whichBalls: "Quelle(s) boule(s) ?", whichHint: "Touche les boules rentrées sur ce coup",
+    potConfirm_one: "Valider ({n} boule)", potConfirm_many: "Valider ({n} boules)", potNoDetail: "Sans préciser", ballsLeftShort: "{n} sur la table",
+    livesLeft_one: "{n} vie restante", livesLeft_many: "{n} vies restantes",
+    lastLife: "Dernière balle !",
+    tableTitle: "Sur la table", ballsLeft_one: "{n} boule sur la table", ballsLeft_many: "{n} boules sur la table",
+    tableFull: "Râtelier complet", rackN: "Râtelier {n}",
+    eightOn: "La 8 est sur la table : une vie à gagner", eightOff: "La 8 est rentrée",
+    rulesInPlay: "Règles en cours", ballOnTable: "sur la table", ballPottedBy: "rentrée par {name}",
+    noBallRules: "Aucune règle maison ne cite une boule pour l'instant.",
+    ballN: "la {n}", ballsAnd: " et ",
+    tPot: "{name} rentre {balls}", tPotPlain: "{name} a rentré !", tEight: "{name} rentre la 8 : +1 vie !",
+    tRerack: "Table vide : on remet toutes les boules",
+    ruleAlertTitle: "{name} rentre {balls}", applyPlus: "+1 vie", applyMinus: "−1 vie", applySkip: "Passe son tour",
+    tSkipSet: "{name} ne sera pas tiré au prochain tour", skipTag: "Passe son tour", tSkipped: "{name} passe ce tour",
+    uPot: "{name} rentre {balls}", uMiss: "{name} rate son coup", uSkip: "{name} passe son tour", dismiss: "OK",
+    tableInfo: "Infos de la table",
     tImageSaved: "Image enregistrée ✓",
     resetAll: "Tout remettre à zéro",
     resetQ: "Tout remettre à zéro ?",
@@ -420,6 +437,23 @@ var I18N = {
     shareCard: "Share the night card",
     shareSend: "Send the image",
     shareLoading: "Preparing the card…",
+    potIn: "Potted", potMiss: "Missed", moreInfo: "Info", back: "Back",
+    whichBalls: "Which ball(s)?", whichHint: "Tap the balls potted on this shot",
+    potConfirm_one: "Confirm ({n} ball)", potConfirm_many: "Confirm ({n} balls)", potNoDetail: "No details", ballsLeftShort: "{n} on the table",
+    livesLeft_one: "{n} life left", livesLeft_many: "{n} lives left",
+    lastLife: "Last bullet!",
+    tableTitle: "On the table", ballsLeft_one: "{n} ball on the table", ballsLeft_many: "{n} balls on the table",
+    tableFull: "Full rack", rackN: "Rack {n}",
+    eightOn: "The 8 is still on the table: a life to win", eightOff: "The 8 is down",
+    rulesInPlay: "Rules in play", ballOnTable: "on the table", ballPottedBy: "potted by {name}",
+    noBallRules: "No house rule mentions a ball yet.",
+    ballN: "the {n}", ballsAnd: " and ",
+    tPot: "{name} pots {balls}", tPotPlain: "{name} potted!", tEight: "{name} pots the 8: +1 life!",
+    tRerack: "Table cleared: rack them all up again",
+    ruleAlertTitle: "{name} pots {balls}", applyPlus: "+1 life", applyMinus: "−1 life", applySkip: "Skip a turn",
+    tSkipSet: "{name} won't be drawn next turn", skipTag: "Skips a turn", tSkipped: "{name} skips this turn",
+    uPot: "{name} pots {balls}", uMiss: "{name} misses", uSkip: "{name} skips a turn", dismiss: "OK",
+    tableInfo: "Table info",
     tImageSaved: "Image saved ✓",
     resetAll: "Reset everything",
     resetQ: "Reset everything?",
@@ -901,7 +935,7 @@ function vibrate(pattern) {
 }
 
 /* ================= Stockage fiable, sauvegardes, export ================= */
-var APP_VERSION = "3.1";
+var APP_VERSION = "3.2";
 var DB_KEY = "killer_db_v2";
 var BACKUPS_KEY = "killer_backups_v2";
 var LEGACY_KEYS = { session: "killer_session_v3", stats: "killer_stats_v1", rulebook: "killer_rulebook_v1" };
@@ -1258,7 +1292,8 @@ var initialState = {
   dealingRevealNumber: null,
   dealingComplete: false,
   soireeId: null,
-  startedAt: null
+  startedAt: null,
+  table: null          // { potted: { n: { by } }, rack } — boules rentrées dans ce râtelier
 };
 
 var db = null;       // toute la base (session, stats, livre, historique, réglages…)
@@ -1288,7 +1323,9 @@ var ui = {
   spotlight: null,
   timer: null,          // chrono du joueur en cours      // { id } carte piochée mise en avant
   profile: null,        // nom du joueur dont la fiche est ouverte
-  rankBy: "rounds"
+  rankBy: "rounds",
+  ruleAlert: null,      // { id, balls:[n], rules:[text] } rappel après une boule citée par une règle
+  tableOpen: false
 };
 
 function bindDb() { state = db.session; stats = db.stats; rulebook = db.rulebook; }
@@ -1426,13 +1463,94 @@ function confirmDealingPick() {
 function confirmDealt() {
   var tourCards = shuffle(state.players.map(function (p) { return p.id; })).map(function (id) { return { id: id, up: false }; });
   db.undo = [];
-  update({ phase: "game", round: 1, tour: 1, tourCards: tourCards, currentTurnId: null, soireeId: uid(), startedAt: Date.now() });
+  update({ phase: "game", round: 1, tour: 1, tourCards: tourCards, currentTurnId: null, soireeId: uid(), startedAt: Date.now(), table: freshTable() });
 }
 
 /* ---- Jeu ---- */
 function flashRow(id, kind) {
   ui.flash = { id: id, kind: kind };
   setTimeout(function () { if (ui.flash && ui.flash.id === id) { ui.flash = null; render(); } }, kind === "elim" ? 900 : 650);
+}
+
+/* ---- Table : boules rentrées, règles qui citent une boule ---- */
+var TABLE_BALLS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+var POOL_COLORS = { 1: "#F2C230", 2: "#1F5FB8", 3: "#D23B2B", 4: "#6A3EA1", 5: "#E8772E", 6: "#1E8A4C", 7: "#8B2E2E", 8: "#151515" };
+function freshTable() { return { potted: {}, rack: 1 }; }
+function tableOf() { return state.table && state.table.potted ? state.table : freshTable(); }
+function ballsOnTable() { var tb = tableOf(); return TABLE_BALLS.filter(function (n) { return !tb.potted[n]; }); }
+function poolBall(n, size) {
+  size = size || 28;
+  var base = POOL_COLORS[n > 8 ? n - 8 : n], stripe = n > 8;
+  var r = size / 2;
+  return '<svg class="pBall" width="' + size + '" height="' + size + '" viewBox="0 0 40 40" aria-hidden="true">' +
+    '<circle cx="20" cy="20" r="19" fill="' + (stripe ? "#F4EEDF" : base) + '"/>' +
+    (stripe ? '<path d="M3.2 12h33.6a19 19 0 0 1 0 16H3.2a19 19 0 0 1 0-16z" fill="' + base + '"/>' : "") +
+    '<circle cx="20" cy="20" r="8.6" fill="#FBF7EC"/>' +
+    '<text x="20" y="24.2" text-anchor="middle" font-size="' + (n > 9 ? 10.5 : 12) + '" font-weight="700" font-family="Barlow, sans-serif" fill="#1d1a14">' + n + '</text>' +
+    '<circle cx="20" cy="20" r="19" fill="url(#pbShine)" opacity=".9"/><circle cx="20" cy="20" r="19" fill="none" stroke="rgba(0,0,0,.35)"/></svg>';
+}
+// Numéros de boule cités dans une règle maison (« la 7 », « boule 12 », « (7 et 12) »)
+function ballsInText(text) {
+  var out = [], re = /(?:\bla|\ble|\bboules?|\bthe|\bballs?|n°|#|\(|\bet|\bou|\band|\bor|,)\s*(1[0-5]|[1-9])(?![\d.,]?\d)/gi, m;
+  while ((m = re.exec(String(text)))) { var n = Number(m[1]); if (out.indexOf(n) < 0) out.push(n); }
+  return out;
+}
+function ballRules() {
+  return state.rules.map(function (r) { return { text: r.text, balls: ballsInText(r.text) }; }).filter(function (r) { return r.balls.length; });
+}
+function ballListText(nums) {
+  var parts = nums.map(function (n) { return t("ballN", { n: n }); });
+  return parts.length > 1 ? parts.slice(0, -1).join(", ") + t("ballsAnd") + parts[parts.length - 1] : parts.join("");
+}
+function playerById(id) { var p = null; state.players.forEach(function (x) { if (x.id === id) p = x; }); return p; }
+
+// Coup réussi : boules rentrées (liste éventuellement vide = sans préciser)
+function potBalls(id, nums) {
+  var p = playerById(id);
+  if (!p) return;
+  nums = (nums || []).filter(function (n) { return ballsOnTable().indexOf(n) >= 0; }).sort(function (a, b) { return a - b; });
+  pushUndo(nums.length ? t("uPot", { name: p.name, balls: ballListText(nums) }) : t("tPotPlain", { name: p.name }));
+  if (ui.timer && ui.timer.id === id) stopChrono();
+  var tb = clone(tableOf());
+  nums.forEach(function (n) { tb.potted[n] = { by: id }; });
+  var eight = nums.indexOf(8) >= 0;
+  var rerack = Object.keys(tb.potted).length >= TABLE_BALLS.length;
+  if (rerack) tb = { potted: {}, rack: (tb.rack || 1) + 1 };
+  var players = state.players.map(function (x) { return x.id === id ? Object.assign({}, x, { pots: (x.pots || 0) + Math.max(1, nums.length), lives: x.lives + (eight ? 1 : 0) }) : x; });
+  update({ players: players, table: tb });
+  playTone(660, 0.08, "triangle", 0.08, 0); playTone(990, 0.12, "triangle", 0.07, 0.07); vibrate(12);
+  if (eight) { flashRow(id, "up"); toast(t("tEight", { name: p.name }), { undo: true }); }
+  else toast(nums.length ? t("tPot", { name: p.name, balls: ballListText(nums) }) : t("tPotPlain", { name: p.name }), { undo: true });
+  if (rerack) setTimeout(function () { toast(t("tRerack")); }, 1800);
+  // Rappel des règles maison qui citent une boule rentrée
+  var hits = ballRules().filter(function (r) { return r.balls.some(function (n) { return nums.indexOf(n) >= 0; }); });
+  if (hits.length) {
+    var cited = [];
+    hits.forEach(function (r) { r.balls.forEach(function (n) { if (nums.indexOf(n) >= 0 && cited.indexOf(n) < 0) cited.push(n); }); });
+    ui.ruleAlert = { id: id, balls: cited.sort(function (a, b) { return a - b; }), rules: hits.map(function (r) { return r.text; }) };
+  }
+}
+function missShot(id) { changeLife(id, -1); }
+function setSkipNext(id) {
+  var p = playerById(id);
+  if (!p) return;
+  pushUndo(t("uSkip", { name: p.name }));
+  update({ players: state.players.map(function (x) { return x.id === id ? Object.assign({}, x, { skip: 1 }) : x; }) });
+  toast(t("tSkipSet", { name: p.name }), { undo: true });
+}
+// Nouveau tour : on retire une fois les joueurs marqués « passe son tour »
+function tourIdsWithSkips() {
+  var alive = state.players.filter(function (p) { return p.lives > 0; });
+  var skipping = alive.filter(function (p) { return p.skip > 0; });
+  var playing = alive.filter(function (p) { return !(p.skip > 0); });
+  if (!skipping.length || !playing.length) return { ids: alive.map(function (p) { return p.id; }), skipped: [] };
+  return { ids: playing.map(function (p) { return p.id; }), skipped: skipping };
+}
+function consumeSkips(skipped) {
+  if (!skipped.length) return state.players;
+  var ids = skipped.map(function (p) { return p.id; });
+  setTimeout(function () { skipped.forEach(function (p, i) { setTimeout(function () { toast(t("tSkipped", { name: p.name })); }, i * 2200); }); }, 300);
+  return state.players.map(function (x) { return ids.indexOf(x.id) >= 0 ? Object.assign({}, x, { skip: 0 }) : x; });
 }
 
 function changeLife(id, delta) {
@@ -1507,14 +1625,16 @@ function startNewTour() {
   if (state.phase !== "game") return;
   var activeIds = state.players.filter(function (p) { return p.lives > 0; }).map(function (p) { return p.id; });
   if (activeIds.length < 2) return;
-  update({ tourCards: shuffle(activeIds).map(function (id) { return { id: id, up: false }; }), tour: state.tour + 1, currentTurnId: null });
+  var ts = tourIdsWithSkips();
+  update({ players: consumeSkips(ts.skipped), tourCards: shuffle(ts.ids).map(function (id) { return { id: id, up: false }; }), tour: state.tour + 1, currentTurnId: null });
 }
 function nextRound() {
   pushUndo(t("uNextRound"));
   stopChrono();
-  var players = state.players.map(function (p) { return Object.assign({}, p, { lives: 3, revived: false }); });
+  var players = state.players.map(function (p) { return Object.assign({}, p, { lives: 3, revived: false, skip: 0, pots: 0 }); });
   var tourCards = shuffle(players.map(function (p) { return p.id; })).map(function (id) { return { id: id, up: false }; });
-  update({ players: players, phase: "game", round: state.round + 1, roundWinnerId: null, currentTurnId: null, tour: 1, tourCards: tourCards });
+  ui.ruleAlert = null;
+  update({ players: players, phase: "game", round: state.round + 1, roundWinnerId: null, currentTurnId: null, tour: 1, tourCards: tourCards, table: freshTable() });
 }
 function endSession() {
   pushUndo(t("uEndNight"));
@@ -2071,7 +2191,7 @@ function renderGameScreen() {
     var last = !ended && p.lives === 1 && opt("lastBullet");
     return '<li class="gRow' + (out ? " out" : "") + (isTurn ? " turn" : "") + (last ? " last" : "") + fl + '" data-key="row-' + p.id + '">' +
       avatar(p.ball, 50, p.name, "gAv") +
-      '<div class="gMid"><span class="gName">' + esc(p.name) + '</span><span class="gSub">' + livesHtml(p) + (isTurn ? '<span class="turnTag">' + esc(t("yourTurn")) + '</span>' : "") + '</span></div>' + controls +
+      '<div class="gMid"><span class="gName">' + esc(p.name) + '</span><span class="gSub">' + livesHtml(p) + (isTurn ? '<span class="turnTag">' + esc(t("yourTurn")) + '</span>' : "") + (p.skip > 0 && !out ? '<span class="skipTag">' + esc(t("skipTag")) + '</span>' : "") + '</span></div>' + controls +
       (out ? '<span class="stamp' + (ui.flash && ui.flash.id === p.id && ui.flash.kind === "elim" ? " stampIn" : "") + '" aria-hidden="true">' + esc(t("eliminated")) + '</span>' : "") +
       '</li>';
   }).join("");
@@ -2090,7 +2210,7 @@ function renderGameScreen() {
     ? '<section class="board" data-key="board"><div class="label">' + esc(t("nightRanking")) + '</div><div class="boardRow">' +
       sorted.map(function (p, i) { return '<span class="boardItem' + (i === 0 && p.wins > 0 ? " lead" : "") + '">' + esc(p.name) + '<b>' + p.wins + '</b></span>'; }).join("") + '</div></section>' : "";
 
-  return renderUndoBar() + '<ul class="gList">' + rows + '</ul>' + tour + board +
+  return renderUndoBar() + (ended ? "" : tableStripHtml() + ruleAlertHtml()) + '<ul class="gList">' + rows + '</ul>' + tour + board +
     '<button class="btn btnText" ' + btnAttr("end-session") + '>' + esc(t("endNight")) + '</button>';
 }
 
@@ -2098,16 +2218,85 @@ function renderGameScreen() {
 function bigCardHtml(p) {
   return '<div class="bigCard" id="spotCard">' + cardArtHtml(p.ball, null, false) + '</div>';
 }
+function spotLivesHtml(p) {
+  var s = "";
+  for (var i = 0; i < Math.max(p.lives, 3); i++) s += '<span class="bSlot' + (i >= p.lives ? " spent" : "") + '">' + bulletSvg(i >= p.lives) + '</span>';
+  return '<div class="spotLives"><span class="lives">' + s + '</span><span>' + esc(tn("livesLeft", p.lives)) + '</span></div>';
+}
+function tableBallsHtml(selectable) {
+  var tb = tableOf(), sel = (ui.spotlight && ui.spotlight.sel) || [];
+  return '<div class="ballGrid' + (selectable ? " pick" : "") + '">' + TABLE_BALLS.map(function (n) {
+    var gone = !!tb.potted[n], on = sel.indexOf(n) >= 0;
+    if (selectable) return '<button class="ballBtn' + (gone ? " gone" : "") + (on ? " on" : "") + '" data-key="bb' + n + '" ' + btnAttr(gone ? "noop" : "pot-toggle", 'data-n="' + n + '" aria-pressed="' + on + '"') + (gone ? " disabled" : "") + '>' + poolBall(n, 46) + '</button>';
+    return '<span class="ballCell' + (gone ? " gone" : "") + '">' + poolBall(n, 34) + '</span>';
+  }).join("") + '</div>';
+}
+function tableInfoHtml() {
+  var tb = tableOf(), left = ballsOnTable();
+  var rules = ballRules();
+  var rulesHtml = rules.length ? '<ul class="ruleStatus">' + rules.map(function (r) {
+    return '<li><span class="rsText">' + esc(r.text) + '</span><span class="rsBalls">' + r.balls.map(function (n) {
+      var by = tb.potted[n] ? playerById(tb.potted[n].by) : null;
+      return '<span class="rsBall' + (by ? " gone" : "") + '">' + poolBall(n, 22) + '<em>' + esc(by ? t("ballPottedBy", { name: by.name }) : (n > 15 ? "" : t("ballOnTable"))) + '</em></span>';
+    }).join("") + '</span></li>';
+  }).join("") + '</ul>' : '<p class="hint small">' + esc(t("noBallRules")) + '</p>';
+  return '<div class="label">' + esc(t("tableTitle")) + '<span class="labelCount">' + esc(t("rackN", { n: tb.rack || 1 })) + '</span></div>' + tableBallsHtml(false) +
+    '<p class="eightLine' + (tb.potted[8] ? " off" : "") + '">' + poolBall(8, 22) + esc(tb.potted[8] ? t("eightOff") : t("eightOn")) + '</p>' +
+    '<div class="label">' + esc(t("rulesInPlay")) + '</div>' + rulesHtml +
+    (state.rules.length > rules.length ? '<p class="hint small">' + esc(t("houseRules")) + ' : ' + state.rules.filter(function (r) { return !ballsInText(r.text).length; }).map(function (r) { return esc(r.text); }).join(" · ") + '</p>' : "");
+}
 function renderSpotlight() {
   if (!ui.spotlight || ui.activeTab !== "play" || state.phase !== "game") return "";
-  var p = null;
-  state.players.forEach(function (x) { if (x.id === ui.spotlight.id) p = x; });
+  var p = playerById(ui.spotlight.id);
   if (!p) return "";
-  return '<div class="overlay spot' + (ui.spotlight.closing ? " closing" : "") + '" data-key="spot" ' + btnAttr("close-spotlight") + '>' +
-    '<div class="rays" aria-hidden="true"></div>' +
-    '<p class="spotKicker">' + esc(t("tour", { n: state.tour })) + '</p>' + bigCardHtml(p) +
-    '<h2 class="spotName">' + esc(p.name) + (isKing(p.name) ? crownSvg(26, "inline") : "") + '</h2>' +
-    '<p class="spotSub">' + esc(t("yourTurn")) + '</p><p class="spotHint">' + esc(t("tapToClose")) + '</p></div>';
+  var mode = ui.spotlight.mode || "", out = p.lives <= 0, last = p.lives === 1 && opt("lastBullet");
+  var body;
+  if (mode === "pot") {
+    var sel = ui.spotlight.sel || [];
+    body = '<div class="spotPanel" data-stop="1"><h2 class="panelH">' + esc(t("whichBalls")) + '</h2><p class="hint center">' + esc(t("whichHint")) + '</p>' + tableBallsHtml(true) +
+      '<button class="btn btnPrimary btnLg" ' + btnAttr("pot-confirm") + (sel.length ? "" : " disabled") + '>' + icon("check", 20) + esc(tn("potConfirm", sel.length)) + '</button>' +
+      '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("spot-mode", 'data-mode=""') + '>' + esc(t("back")) + '</button><button class="btn btnSecondary" ' + btnAttr("pot-plain") + '>' + esc(t("potNoDetail")) + '</button></div></div>';
+  } else if (mode === "info") {
+    body = '<div class="spotPanel" data-stop="1"><div class="infoHead">' + avatar(p.ball, 64, p.name) + '<div><h2 class="panelH left">' + esc(p.name) + '</h2>' + spotLivesHtml(p) + '</div></div>' + tableInfoHtml() +
+      '<button class="btn btnSecondary" ' + btnAttr("spot-mode", 'data-mode=""') + '>' + esc(t("back")) + '</button></div>';
+  } else {
+    body = '<p class="spotKicker">' + esc(t("tour", { n: state.tour })) + '</p>' +
+      '<div class="bigWrap' + (last ? " lastLife" : "") + '">' + bigCardHtml(p) + (last ? '<span class="lastTag">' + esc(t("lastLife")) + '</span>' : "") + '</div>' +
+      '<h2 class="spotName">' + esc(p.name) + (isKing(p.name) ? crownSvg(26, "inline") : "") + '</h2>' +
+      (out ? "" : '<div class="spotTools" data-stop="1">' + spotLivesHtml(p) +
+        '<div class="shotBtns"><button class="shotBtn miss" ' + btnAttr("shot-miss") + '>' + icon("close", 22) + '<span>' + esc(t("potMiss")) + '</span></button>' +
+        '<button class="shotBtn hit" ' + btnAttr("spot-mode", 'data-mode="pot"') + '>' + icon("check", 22) + '<span>' + esc(t("potIn")) + '</span></button></div>' +
+        '<button class="infoBtn" ' + btnAttr("spot-mode", 'data-mode="info"') + '>' + icon("target", 16) + esc(t("moreInfo")) + ' · ' + esc(tn("ballsLeft", ballsOnTable().length)) + '</button></div>') +
+      '<p class="spotHint">' + esc(t("tapToClose")) + '</p>';
+  }
+  return '<div class="overlay spot' + (mode ? " panelMode" : "") + (ui.spotlight.closing ? " closing" : "") + '" data-key="spot" ' + btnAttr("close-spotlight", 'data-self="1"') + '>' +
+    '<div class="rays" aria-hidden="true"></div>' + body + '</div>';
+}
+
+/* ---- Bandeau de la table + rappel des règles qui citent une boule ---- */
+function tableStripHtml() {
+  if (state.phase !== "game") return "";
+  var left = ballsOnTable(), tb = tableOf();
+  return '<button class="tableStrip" data-key="tablestrip" ' + btnAttr("table-open") + '><span class="tsBalls">' + TABLE_BALLS.map(function (n) {
+    return '<span class="tsDot' + (tb.potted[n] ? " gone" : "") + (n === 8 ? " eight" : "") + '" style="--c:' + POOL_COLORS[n > 8 ? n - 8 : n] + '"' + (n > 8 ? ' data-s="1"' : "") + '></span>';
+  }).join("") + '</span><span class="tsText">' + esc(t("ballsLeftShort", { n: left.length })) + (tb.potted[8] ? "" : ' · <b>8 = +1</b>') + '</span>' + icon("chevron", 14, "dim") + '</button>';
+}
+function ruleAlertHtml() {
+  var a = ui.ruleAlert;
+  if (!a || state.phase !== "game") return "";
+  var p = playerById(a.id);
+  if (!p) return "";
+  return '<section class="ruleAlert pop" data-key="rulealert"><div class="raHead">' + a.balls.map(function (n) { return poolBall(n, 30); }).join("") +
+    '<b>' + esc(t("ruleAlertTitle", { name: p.name, balls: ballListText(a.balls) })) + '</b></div>' +
+    a.rules.map(function (r) { return '<p class="raRule">« ' + esc(r) + ' »</p>'; }).join("") +
+    '<div class="raBtns"><button class="raBtn" ' + btnAttr("rule-apply", 'data-do="plus"') + '>' + esc(t("applyPlus")) + '</button><button class="raBtn" ' + btnAttr("rule-apply", 'data-do="minus"') + '>' + esc(t("applyMinus")) + '</button>' +
+    '<button class="raBtn" ' + btnAttr("rule-apply", 'data-do="skip"') + '>' + esc(t("applySkip")) + '</button><button class="raBtn ghost" ' + btnAttr("rule-dismiss") + '>' + esc(t("dismiss")) + '</button></div></section>';
+}
+function renderTableSheet() {
+  if (!ui.tableOpen || ui.activeTab !== "play" || state.phase !== "game") return "";
+  return '<div class="overlay sheetBg" data-key="table-sheet" ' + btnAttr("table-close", 'data-self="1"') + '><div class="sheet" data-stop="1"><div class="sheetGrab"></div>' +
+    '<div class="sheetHead"><h2 class="sheetTitle">' + esc(t("tableInfo")) + '</h2><button class="iconBtn round" ' + btnAttr("table-close", 'aria-label="' + esc(t("close")) + '"') + '>' + icon("close", 18) + '</button></div>' +
+    tableInfoHtml() + '</div></div>';
 }
 
 /* ---- Fin de manche ---- */
@@ -2414,9 +2603,10 @@ function buildApp() {
     body = renderGameScreen();
   } else if (state.phase === "finished") { header = heroHeader(); body = renderFinal(); }
 
-  var overlays = renderDealHero() + renderSpotlight() + renderRoundEnd() + renderRulesSheet() + renderProfileSheet() + renderModal();
+  var overlays = renderDealHero() + renderSpotlight() + renderTableSheet() + renderRoundEnd() + renderRulesSheet() + renderProfileSheet() + renderModal();
   return '<div class="shell" data-key="shell">' + header + '<main class="screen" data-key="screen-' + screenId() + '">' + body + '</main></div>' +
-    renderBottomNav() + '<div class="overlays" data-key="overlays">' + overlays + '</div>';
+    renderBottomNav() + '<div class="overlays" data-key="overlays">' + overlays + '</div>' +
+    '<svg width="0" height="0" style="position:absolute" aria-hidden="true" data-key="pbdefs"><defs><radialGradient id="pbShine" cx="34%" cy="28%" r="72%"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></radialGradient></defs></svg>';
 }
 
 /* ================= Rendu, événements, démarrage ================= */
@@ -2552,7 +2742,7 @@ function onClick(e) {
   switch (action) {
     case "set-tab":
       if (ui.activeTab !== el.getAttribute("data-tab")) vibrate(6);
-      ui.activeTab = el.getAttribute("data-tab"); ui.confirmingReset = false; ui.notice = null; ui.profile = null; ui.spotlight = null; break;
+      ui.activeTab = el.getAttribute("data-tab"); ui.confirmingReset = false; ui.notice = null; ui.profile = null; ui.spotlight = null; ui.tableOpen = false; break;
     case "set-lang": db.settings.lang = el.getAttribute("data-lang"); persist(); break;
     case "set-rank-by": ui.rankBy = el.getAttribute("data-by"); break;
     case "open-profile": ui.profile = el.getAttribute("data-name"); vibrate(8); break;
@@ -2566,6 +2756,22 @@ function onClick(e) {
     case "confirm-full-reset": fullReset(); ui.modal = null; ui.activeTab = "play"; toast(t("tResetDone")); vibrate([20, 30, 20]); break;
     case "share-card-send": sendShareCard(); return;
     case "show-spotlight": ui.spotlight = { id: el.getAttribute("data-id"), fresh: true }; break;
+    case "spot-mode": if (ui.spotlight) { ui.spotlight.mode = el.getAttribute("data-mode") || ""; ui.spotlight.sel = []; } vibrate(6); break;
+    case "pot-toggle":
+      if (ui.spotlight) { var nb = Number(el.getAttribute("data-n")), sl = ui.spotlight.sel || []; ui.spotlight.sel = sl.indexOf(nb) >= 0 ? sl.filter(function (x) { return x !== nb; }) : sl.concat([nb]); vibrate(6); }
+      break;
+    case "pot-confirm": if (ui.spotlight) { var pid = ui.spotlight.id, sel = ui.spotlight.sel || []; ui.spotlight = null; potBalls(pid, sel); } break;
+    case "pot-plain": if (ui.spotlight) { var pid2 = ui.spotlight.id; ui.spotlight = null; potBalls(pid2, []); } break;
+    case "shot-miss": if (ui.spotlight) { var pid3 = ui.spotlight.id; missShot(pid3); if (ui.spotlight) { render(); closeSpotlight(); return; } } break;
+    case "table-open": ui.tableOpen = true; break;
+    case "table-close": ui.tableOpen = false; break;
+    case "rule-apply":
+      if (ui.ruleAlert) {
+        var ra = ui.ruleAlert, doIt = el.getAttribute("data-do"); ui.ruleAlert = null;
+        if (doIt === "plus") changeLife(ra.id, 1); else if (doIt === "minus") changeLife(ra.id, -1); else if (doIt === "skip") setSkipNext(ra.id);
+      }
+      break;
+    case "rule-dismiss": ui.ruleAlert = null; break;
     case "set-legends-tab": ui.legendsTab = el.getAttribute("data-tab"); break;
     case "set-theme": setTheme(el.getAttribute("data-theme-value")); break;
     case "toggle-rules": ui.rulesOpen = !ui.rulesOpen; break;
