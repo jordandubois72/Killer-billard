@@ -163,12 +163,12 @@ var I18N = {
     // aide
     helpTitle: "Comment jouer",
     h1t: "Pour commencer", h1: "Entrez les joueurs, puis chacun reçoit une carte qui l'identifie pour toute la soirée. Tout le monde démarre chaque manche avec 3 vies.",
-    h2t: "Qui joue ?", h2: "On pioche une carte parmi celles encore face cachée : c'est à cette personne de jouer. Chacun passe une fois par tour ; quand tout le monde a joué, un nouveau tour commence et on peut retomber sur soi-même juste après.",
+    h2t: "Qui joue ?", h2: "On pioche une carte parmi celles encore face cachée : c'est à cette personne de jouer. Sur sa carte, touche « Rentrée » (et la boule) ou « Ratée ». Chacun passe une fois par tour, puis un nouveau tour commence.",
     h3t: "La règle du jeu", h3: "Peu importe les couleurs, les rayées ou les numéros : le seul objectif est de rentrer au moins une boule à son tour. Si tu n'en rentres aucune, tu perds une vie.",
     h4t: "La casse", h4: "Le premier joueur tiré casse. S'il ne rentre aucune boule sur la casse, il a le droit de rejouer immédiatement.",
     h5t: "La boule 8", h5: "Rentrer la 8 fait gagner une vie bonus. Si toutes les boules sont rentrées avant qu'il y ait un vainqueur, on remet les boules en place avec une nouvelle 8, et la manche continue.",
     h6t: "Fin de la manche", h6: "Un joueur à 0 vie est éliminé pour le reste de la manche. Dès qu'il ne reste qu'un seul joueur avec des vies, il remporte la manche.",
-    h7t: "Les règles maison", h7: "Le gagnant de la manche peut inventer une nouvelle règle, valable dès la manche suivante et jusqu'à la fin de la soirée. Les vies repassent à 3 à chaque manche ; les cartes et les règles restent.",
+    h7t: "Règle maison ou joker", h7: "Le gagnant de la manche choisit : soit il invente une règle maison, valable jusqu'à la fin de la soirée ; soit il pioche un joker au hasard, une chance sur deux d'avoir un bonus ou un malus, et c'est pour lui. Il garde son joker et l'utilise quand il veut, depuis sa carte. Les vies repassent à 3 à chaque manche.",
     h8t: "Une erreur ?", h8: "« Annuler » remet la partie comme avant le dernier geste (vie, carte, fin de manche, fin de soirée). Un joueur éliminé par erreur peut être réintégré avec 1 vie.",
     // réglages
     gameOptions: "Options de jeu",
@@ -414,12 +414,12 @@ var I18N = {
     edit: "Edit", delete: "Delete", ok: "OK",
     helpTitle: "How to play",
     h1t: "Getting started", h1: "Enter the players, then everyone gets a card that stands for them all night. Everyone starts each round with 3 lives.",
-    h2t: "Who shoots?", h2: "Draw one of the face-down cards: that person shoots. Everyone plays once per turn; when everyone has played, a new turn starts and you can come up again right away.",
+    h2t: "Who shoots?", h2: "Draw one of the face-down cards: that person shoots. On their card, tap “Potted” (and the ball) or “Missed”. Everyone plays once per turn, then a new turn starts.",
     h3t: "The rule", h3: "Colours, stripes and numbers don't matter: the only goal is to pot at least one ball on your turn. Pot nothing and you lose a life.",
     h4t: "The break", h4: "The first player drawn breaks. If nothing goes down on the break, they get to shoot again straight away.",
     h5t: "The 8 ball", h5: "Potting the 8 earns a bonus life. If every ball is down before there's a winner, rack them up again with a new 8 and the round goes on.",
     h6t: "End of the round", h6: "A player on 0 lives is out for the rest of the round. As soon as only one player has lives left, they win the round.",
-    h7t: "House rules", h7: "The round winner can invent a new rule that applies from the next round until the end of the night. Lives reset to 3 each round; cards and rules stay.",
+    h7t: "House rule or joker", h7: "The round winner chooses: either invent a house rule that lasts until the end of the night, or draw a random joker, fifty-fifty bonus or penalty, and it's theirs. They keep the joker and use it whenever they like, from their card. Lives reset to 3 each round.",
     h8t: "Made a mistake?", h8: "“Undo” puts the game back as it was before the last action (life, card, end of round, end of night). A player knocked out by mistake can be brought back with 1 life.",
     gameOptions: "Game options",
     gameOptionsHint: "Turn on only what you like: everything can be switched off anytime.",
@@ -2687,7 +2687,7 @@ function renderBookRules() {
 /* ---- Aide ---- */
 function renderHelp() {
   var s = "";
-  for (var i = 1; i <= 8; i++) {
+  for (var i = 1; i <= 7; i++) {
     s += '<section class="helpCard enter" style="--d:' + (i - 1) * 35 + 'ms"><span class="helpNum">' + i + '</span><div><h3 class="helpTitle">' + esc(t("h" + i + "t")) + '</h3><p class="helpText">' + esc(t("h" + i)) + '</p></div></section>';
   }
   return s;
