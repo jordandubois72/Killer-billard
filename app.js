@@ -19,21 +19,11 @@ var FACE = "#F5EEDD", DARK = "#241a10", MANE = "#D9B36B";
 
 
 var RULE_PRESETS = [
-  "La 7 fait passer son tour au joueur suivant",
-  "La 12 permet de replacer la blanche où tu veux",
-  "Rentrer deux boules d'un coup fait gagner deux vies",
-  "Les boules jokers (7 et 12) reviennent en jeu à chaque nouvelle manche",
-  "Toucher une boule d'un adversaire fait perdre une vie",
-  "Un carreau (contact direct bille sur bille) fait gagner une vie",
-  "Manquer la 8 fait perdre deux vies d'un coup",
-  "Celui qui casse sans rien rentrer a droit à un second essai",
-  "Rentrer la même couleur deux fois de suite fait gagner une vie",
-  "Le joueur éliminé choisit qui pioche au tour suivant",
-  "Toute faute (la blanche touchée deux fois) fait perdre une vie",
-  "La dernière manche se joue avec la main opposée",
-  "Un massé réussi rapporte une vie bonus",
-  "Rentrer la 1 ou la 2 en même temps que la 8 fait gagner la manche",
-  "Le premier éliminé doit inventer la moitié de la prochaine règle"
+  "La 7 : tu sautes ton prochain tour",
+  "La 12 : au tour d'après, place la blanche où tu veux",
+  "Boules 10 à 15 : le suivant doit rentrer en bande",
+  "Trou du milieu : une boule joker (7 ou 12) qui y tombe revient sur la table",
+  "2 boules d'un coup : +2 vies"
 ];
 
 
@@ -228,6 +218,26 @@ var I18N = {
     tSkipSet: "{name} ne sera pas tiré au prochain tour", skipTag: "Passe son tour", tSkipped: "{name} passe ce tour",
     uPot: "{name} rentre {balls}", uMiss: "{name} rate son coup", uSkip: "{name} passe son tour", dismiss: "OK",
     tableInfo: "Infos de la table",
+    optHouseRules: "Règles maison", optHouseRulesHint: "Ajouter une règle en fin de manche, rappels pendant la partie",
+    optJokers: "Jokers", optJokersHint: "Le gagnant de la manche peut piocher un joker bonus ou malus",
+    roundChoiceRule: "Nouvelle règle", roundChoiceJoker: "Piocher un joker",
+    jokerDrawHint: "Bonus ou malus ? Le hasard décide.", jokerDraw: "Piocher",
+    jokerBonus: "Joker bonus", jokerMalus: "Joker malus",
+    jokerKeptBy: "{name} le garde pour plus tard", jokerGiveTo: "Donne ce malus à :",
+    jokerRandomTarget: "Si personne n'est choisi, il ira à un joueur au hasard",
+    jokersTitle: "Jokers", useJoker: "Utiliser", tJokerUsed: "{name} utilise « {joker} »",
+    tJokerGiven: "{name} reçoit le joker « {joker} »", uJoker: "{name} utilise « {joker} »",
+    bookTabRules: "Règles", bookTabJokers: "Jokers",
+    jokersLead: "Le gagnant d'une manche peut piocher un joker au hasard. Bonus : il le garde. Malus : il le donne à un autre joueur.",
+    jokerAdd: "Décris ton joker", jokerMine: "Joker perso", jokersNone: "Les jokers sont désactivés dans les Réglages.",
+    jk_b1: "Seconde chance", jkt_b1: "Tu rates ? Retente le coup en bande, sans perdre de vie.",
+    jk_b2: "Gilet pare-balles", jkt_b2: "Ta prochaine vie perdue ne compte pas.",
+    jk_b3: "Main du shérif", jkt_b3: "Place la blanche où tu veux avant de jouer.",
+    jk_b4: "Double barillet", jkt_b4: "Joue deux coups d'affilée à ton tour.",
+    jk_m1: "Mauvaise main", jkt_m1: "Ton prochain coup se joue avec ta mauvaise main.",
+    jk_m2: "Bande imposée", jkt_m2: "Ton prochain coup doit rentrer en bande.",
+    jk_m3: "Sur un pied", jkt_m3: "Joue ton prochain coup sur un pied.",
+    jk_m4: "Tête mise à prix", jkt_m4: "Si tu rates ton prochain coup, tu perds 2 vies.",
     tImageSaved: "Image enregistrée ✓",
     resetAll: "Tout remettre à zéro",
     resetQ: "Tout remettre à zéro ?",
@@ -454,6 +464,26 @@ var I18N = {
     tSkipSet: "{name} won't be drawn next turn", skipTag: "Skips a turn", tSkipped: "{name} skips this turn",
     uPot: "{name} pots {balls}", uMiss: "{name} misses", uSkip: "{name} skips a turn", dismiss: "OK",
     tableInfo: "Table info",
+    optHouseRules: "House rules", optHouseRulesHint: "Add a rule at the end of a round, reminders during the game",
+    optJokers: "Jokers", optJokersHint: "The round winner can draw a bonus or penalty joker",
+    roundChoiceRule: "New rule", roundChoiceJoker: "Draw a joker",
+    jokerDrawHint: "Bonus or penalty? Luck decides.", jokerDraw: "Draw",
+    jokerBonus: "Bonus joker", jokerMalus: "Penalty joker",
+    jokerKeptBy: "{name} keeps it for later", jokerGiveTo: "Give this penalty to:",
+    jokerRandomTarget: "If nobody is picked, it goes to a random player",
+    jokersTitle: "Jokers", useJoker: "Use", tJokerUsed: "{name} uses “{joker}”",
+    tJokerGiven: "{name} gets the “{joker}” joker", uJoker: "{name} uses “{joker}”",
+    bookTabRules: "Rules", bookTabJokers: "Jokers",
+    jokersLead: "A round winner can draw a random joker. Bonus: they keep it. Penalty: they give it to another player.",
+    jokerAdd: "Describe your joker", jokerMine: "Custom joker", jokersNone: "Jokers are turned off in Settings.",
+    jk_b1: "Second chance", jkt_b1: "Missed? Retry the shot off a cushion, no life lost.",
+    jk_b2: "Bulletproof vest", jkt_b2: "Your next lost life doesn't count.",
+    jk_b3: "Sheriff's hand", jkt_b3: "Place the cue ball anywhere before you shoot.",
+    jk_b4: "Double barrel", jkt_b4: "Take two shots in a row on your turn.",
+    jk_m1: "Wrong hand", jkt_m1: "Your next shot is played with your weaker hand.",
+    jk_m2: "Cushion only", jkt_m2: "Your next shot must go off a cushion.",
+    jk_m3: "One foot", jkt_m3: "Play your next shot standing on one foot.",
+    jk_m4: "Price on your head", jkt_m4: "Miss your next shot and you lose 2 lives.",
     tImageSaved: "Image saved ✓",
     resetAll: "Reset everything",
     resetQ: "Reset everything?",
@@ -528,21 +558,11 @@ var ANIMAL_NAMES = {
 };
 
 var RULE_PRESETS_EN = [
-  "The 7 makes the next player skip their turn",
-  "The 12 lets you place the cue ball anywhere",
-  "Potting two balls in one shot earns two lives",
-  "The joker balls (7 and 12) come back every new round",
-  "Hitting an opponent's ball costs a life",
-  "A stun shot (dead stop on contact) earns a life",
-  "Missing the 8 costs two lives at once",
-  "Whoever breaks without potting gets a second try",
-  "Potting the same colour twice in a row earns a life",
-  "The eliminated player picks who draws next turn",
-  "Any foul (cue ball hit twice) costs a life",
-  "The last round is played with your other hand",
-  "A successful massé earns a bonus life",
-  "Potting the 1 or 2 together with the 8 wins the round",
-  "The first one out invents half of the next rule"
+  "The 7: you skip your next turn",
+  "The 12: next turn, place the cue ball anywhere",
+  "Balls 10 to 15: the next player must bank it",
+  "Middle pocket: a joker ball (7 or 12) that drops there goes back on the table",
+  "2 balls in one shot: +2 lives"
 ];
 
 function systemLang() {
@@ -565,7 +585,15 @@ function tn(key, n, vars) {
   return t(key + (n > 1 || (lang() === "en" && n === 0) ? "_many" : "_one"), v);
 }
 function animalName(n) { return (ANIMAL_NAMES[lang()] || ANIMAL_NAMES.fr)[n] || ""; }
-function rulePresets() { return lang() === "en" ? RULE_PRESETS_EN : RULE_PRESETS; }
+function rulePresets() {
+  var base = (lang() === "en" ? RULE_PRESETS_EN : RULE_PRESETS).slice(), seen = {};
+  RULE_PRESETS.concat(RULE_PRESETS_EN).forEach(function (r) { seen[r.toLowerCase()] = true; });
+  (typeof rulebook !== "undefined" && rulebook ? rulebook : []).forEach(function (r) {
+    var k = String(r.text || "").trim().toLowerCase();
+    if (k && !seen[k]) { seen[k] = true; base.push(r.text); }
+  });
+  return base;
+}
 
 /* ================= SVG : icônes ================= */
 function svgBall(number, size) {
@@ -935,7 +963,7 @@ function vibrate(pattern) {
 }
 
 /* ================= Stockage fiable, sauvegardes, export ================= */
-var APP_VERSION = "3.3";
+var APP_VERSION = "3.4";
 var DB_KEY = "killer_db_v2";
 var BACKUPS_KEY = "killer_backups_v2";
 var LEGACY_KEYS = { session: "killer_session_v3", stats: "killer_stats_v1", rulebook: "killer_rulebook_v1" };
@@ -949,6 +977,7 @@ function defaultDb() {
     session: clone(initialState),
     stats: { roundWins: {}, cardPicks: {}, roundLog: [] },
     rulebook: [],
+    jokerbook: [],
     history: [],
     players: {},
     undo: [],
@@ -969,6 +998,7 @@ function normalizeDb(o) {
   if (!Array.isArray(d.session.dealingCards)) d.session.dealingCards = [];
   var st = isPlainObject(o.stats) ? o.stats : {};
   d.stats = { roundWins: isPlainObject(st.roundWins) ? st.roundWins : {}, cardPicks: isPlainObject(st.cardPicks) ? st.cardPicks : {}, roundLog: Array.isArray(st.roundLog) ? st.roundLog.filter(function (r) { return r && r.w; }) : [] };
+  d.jokerbook = Array.isArray(o.jokerbook) ? o.jokerbook.filter(function (j) { return j && typeof j.text === "string" && (j.kind === "bonus" || j.kind === "malus"); }) : [];
   d.rulebook = Array.isArray(o.rulebook) ? o.rulebook.filter(function (r) { return r && typeof r.text === "string"; }).map(function (r) { return { id: r.id || uid(), text: r.text }; }) : [];
   d.history = Array.isArray(o.history) ? o.history.filter(function (h) { return h && h.id && Array.isArray(h.players); }) : [];
   d.players = isPlainObject(o.players) ? o.players : {};
@@ -1293,6 +1323,7 @@ var initialState = {
   dealingComplete: false,
   soireeId: null,
   startedAt: null,
+  jokers: [],          // [{ id, key, kind, owner }] jokers en main pendant la soirée
   table: null          // { potted: { n: { by } }, rack } — boules rentrées dans ce râtelier
 };
 
@@ -1325,7 +1356,12 @@ var ui = {
   profile: null,        // nom du joueur dont la fiche est ouverte
   rankBy: "rounds",
   ruleAlert: null,      // { id, balls:[n], rules:[text] } rappel après une boule citée par une règle
-  tableOpen: false
+  tableOpen: false,
+  roundChoice: null,    // "rule" | "joker" en fin de manche
+  jokerDraw: null,      // { key, kind, target }
+  bookTab: "rules",
+  jokerInput: "",
+  jokerKind: "bonus"
 };
 
 function bindDb() { state = db.session; stats = db.stats; rulebook = db.rulebook; }
@@ -1365,7 +1401,7 @@ function undoLast() {
   var u = db.undo.pop();
   if (!u) return;
   state = db.session = u.session;
-  ui.spotlight = null; ui.timer = null;
+  ui.spotlight = null; ui.timer = null; ui.jokerDraw = null; ui.roundChoice = null;
   setStats(u.stats);
   if (nextTourTimer) { clearTimeout(nextTourTimer); nextTourTimer = null; }
   persist();
@@ -1472,6 +1508,68 @@ function flashRow(id, kind) {
   setTimeout(function () { if (ui.flash && ui.flash.id === id) { ui.flash = null; render(); } }, kind === "elim" ? 900 : 650);
 }
 
+/* ---- Jokers ---- */
+var JOKER_KEYS = { bonus: ["b1", "b2", "b3", "b4"], malus: ["m1", "m2", "m3", "m4"] };
+function jokerPool(kind) {
+  return JOKER_KEYS[kind].concat((db.jokerbook || []).filter(function (j) { return j.kind === kind; }).map(function (j) { return "c:" + j.id; }));
+}
+function jokerInfo(key) {
+  if (String(key).indexOf("c:") === 0) {
+    var j = (db.jokerbook || []).filter(function (x) { return "c:" + x.id === key; })[0];
+    return j ? { name: t("jokerMine"), text: j.text, kind: j.kind } : { name: t("jokerMine"), text: "", kind: "bonus" };
+  }
+  return { name: t("jk_" + key), text: t("jkt_" + key), kind: key.charAt(0) === "m" ? "malus" : "bonus" };
+}
+function drawJoker() {
+  var kind = Math.random() < 0.5 ? "bonus" : "malus";
+  var pool = jokerPool(kind);
+  ui.jokerDraw = { key: pool[Math.floor(Math.random() * pool.length)], kind: kind, target: null };
+  playFlipSound(); vibrate([10, 30, 10]);
+}
+// Ajoute le joker pioché à la soirée (le bonus au gagnant, le malus au joueur choisi ou au hasard)
+function commitJoker(players) {
+  var jd = ui.jokerDraw;
+  ui.jokerDraw = null; ui.roundChoice = null;
+  if (!jd || !opt("jokers")) return state.jokers || [];
+  var owner = state.roundWinnerId;
+  if (jd.kind === "malus") {
+    var others = players.filter(function (p) { return p.id !== state.roundWinnerId; });
+    owner = jd.target && others.some(function (p) { return p.id === jd.target; }) ? jd.target : (others.length ? others[Math.floor(Math.random() * others.length)].id : owner);
+  }
+  var who = playerById(owner);
+  if (who) setTimeout(function () { toast(t("tJokerGiven", { name: who.name, joker: jokerInfo(jd.key).name })); }, 600);
+  return (state.jokers || []).concat([{ id: uid(), key: jd.key, kind: jd.kind, owner: owner }]);
+}
+function useJoker(jid) {
+  var j = (state.jokers || []).filter(function (x) { return x.id === jid; })[0];
+  if (!j) return;
+  var p = playerById(j.owner), info = jokerInfo(j.key);
+  pushUndo(t("uJoker", { name: p ? p.name : "?", joker: info.name }));
+  update({ jokers: state.jokers.filter(function (x) { return x.id !== jid; }) });
+  toast(t("tJokerUsed", { name: p ? p.name : "?", joker: info.name }), { undo: true });
+  vibrate([10, 30, 10]);
+}
+function jokersOf(id) { return (state.jokers || []).filter(function (j) { return j.owner === id; }); }
+function addBookJoker() {
+  var text = ui.jokerInput.trim();
+  if (!text) return;
+  db.jokerbook = (db.jokerbook || []).concat([{ id: uid(), kind: ui.jokerKind === "malus" ? "malus" : "bonus", text: text.slice(0, 120) }]);
+  ui.jokerInput = "";
+  persist();
+}
+function jokerSvg(kind, size) {
+  size = size || 24;
+  var bonus = kind !== "malus";
+  var fill = bonus ? "url(#jkGold)" : "url(#jkRed)", ink = bonus ? "#3a2206" : "#FFE9E2";
+  return '<svg class="jkIco" width="' + Math.round(size * 0.78) + '" height="' + size + '" viewBox="0 0 40 52" aria-hidden="true">' +
+    '<rect x="1.5" y="1.5" width="37" height="49" rx="6" fill="' + fill + '" stroke="' + (bonus ? "#7a4f12" : "#5c150e") + '" stroke-width="2"/>' +
+    '<path d="M11 34 C11 26 9 21 5.5 24.5 C7.5 16.5 14 16 16.5 21.5 C17 14.5 18.6 10 20 8 C21.4 10 23 14.5 23.5 21.5 C26 16 32.5 16.5 34.5 24.5 C31 21 29 26 29 34 Z" fill="' + ink + '" opacity=".93"/>' +
+    '<path d="M10 33.5 h20 a2 2 0 0 1 2 2 v1.5 a2 2 0 0 1 -2 2 h-20 a2 2 0 0 1 -2 -2 v-1.5 a2 2 0 0 1 2 -2z" fill="' + ink + '"/>' +
+    '<circle cx="5.5" cy="25" r="2.8" fill="' + ink + '"/><circle cx="20" cy="7.5" r="2.8" fill="' + ink + '"/><circle cx="34.5" cy="25" r="2.8" fill="' + ink + '"/>' +
+    '<circle cx="14" cy="36.2" r="1.1" fill="' + (bonus ? "#F8D987" : "#E25543") + '"/><circle cx="20" cy="36.2" r="1.1" fill="' + (bonus ? "#F8D987" : "#E25543") + '"/><circle cx="26" cy="36.2" r="1.1" fill="' + (bonus ? "#F8D987" : "#E25543") + '"/>' +
+    '<text x="20" y="47" text-anchor="middle" font-size="8" font-weight="700" font-family="Barlow Condensed, sans-serif" fill="' + ink + '">' + (bonus ? "+" : "−") + '</text></svg>';
+}
+
 /* ---- Table : boules rentrées, règles qui citent une boule ---- */
 var TABLE_BALLS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 var POOL_COLORS = { 1: "#F2C230", 2: "#1F5FB8", 3: "#D23B2B", 4: "#6A3EA1", 5: "#E8772E", 6: "#1E8A4C", 7: "#8B2E2E", 8: "#151515" };
@@ -1491,9 +1589,11 @@ function poolBall(n, size) {
 }
 // Numéros de boule cités dans une règle maison (« la 7 », « boule 12 », « (7 et 12) »)
 function ballsInText(text) {
-  var out = [], re = /(?:\bla|\ble|\bboules?|\bthe|\bballs?|n°|#|\(|\bet|\bou|\band|\bor|,)\s*(1[0-5]|[1-9])(?![\d.,]?\d)/gi, m;
+  var out = [], rg = /(1[0-5]|[1-9])\s*(?:à|a|-|–|to)\s*(1[0-5]|[1-9])(?!\d)/gi, mm;
+  while ((mm = rg.exec(String(text)))) { for (var q = Number(mm[1]); q <= Number(mm[2]) && q <= 15; q++) if (out.indexOf(q) < 0) out.push(q); }
+  var  re = /(?:\bla|\ble|\bboules?|\bthe|\bballs?|n°|#|\(|\bet|\bou|\band|\bor|,)\s*(1[0-5]|[1-9])(?![\d.,]?\d)/gi, m;
   while ((m = re.exec(String(text)))) { var n = Number(m[1]); if (out.indexOf(n) < 0) out.push(n); }
-  return out;
+  return out.sort(function (a, b) { return a - b; });
 }
 function ballRules() {
   return state.rules.map(function (r) { return { text: r.text, balls: ballsInText(r.text) }; }).filter(function (r) { return r.balls.length; });
@@ -1634,7 +1734,8 @@ function nextRound() {
   var players = state.players.map(function (p) { return Object.assign({}, p, { lives: 3, revived: false, skip: 0, pots: 0 }); });
   var tourCards = shuffle(players.map(function (p) { return p.id; })).map(function (id) { return { id: id, up: false }; });
   ui.ruleAlert = null;
-  update({ players: players, phase: "game", round: state.round + 1, roundWinnerId: null, currentTurnId: null, tour: 1, tourCards: tourCards, table: freshTable() });
+  var jokers = commitJoker(players);
+  update({ jokers: jokers, players: players, phase: "game", round: state.round + 1, roundWinnerId: null, currentTurnId: null, tour: 1, tourCards: tourCards, table: freshTable() });
 }
 function endSession() {
   pushUndo(t("uEndNight"));
@@ -1772,7 +1873,7 @@ function allKnownStatNames() {
 
 /* ================= Options de jeu : trophées, rivalités, chrono, carte à partager ================= */
 function opt(name) {
-  var d = { lastBullet: true, rivalries: false, trophies: false, chrono: false };
+  var d = { lastBullet: true, rivalries: false, trophies: false, chrono: false, houseRules: true, jokers: true };
   var v = db && db.settings ? db.settings[name] : undefined;
   return v === undefined ? d[name] : !!v;
 }
@@ -2205,7 +2306,7 @@ function renderGameScreen() {
     var last = !ended && p.lives === 1 && opt("lastBullet");
     return '<li class="gRow' + (out ? " out" : "") + (isTurn ? " turn" : "") + (last ? " last" : "") + fl + '" data-key="row-' + p.id + '">' +
       avatar(p.ball, 50, p.name, "gAv") +
-      '<div class="gMid"><span class="gName">' + esc(p.name) + '</span><span class="gSub">' + livesHtml(p) + (isTurn ? '<span class="turnTag">' + esc(t("yourTurn")) + '</span>' : "") + (p.skip > 0 && !out ? '<span class="skipTag">' + esc(t("skipTag")) + '</span>' : "") + '</span></div>' + controls +
+      '<div class="gMid"><span class="gName">' + esc(p.name) + '</span><span class="gSub">' + livesHtml(p) + (isTurn ? '<span class="turnTag">' + esc(t("yourTurn")) + '</span>' : "") + (p.skip > 0 && !out ? '<span class="skipTag">' + esc(t("skipTag")) + '</span>' : "") + (opt("jokers") ? jokersOf(p.id).map(function (j) { return '<span class="jkMini ' + j.kind + '" title="' + esc(jokerInfo(j.key).name) + '">' + jokerSvg(j.kind, 16) + '</span>'; }).join("") : "") + '</span></div>' + controls +
       (out ? '<span class="stamp' + (ui.flash && ui.flash.id === p.id && ui.flash.kind === "elim" ? " stampIn" : "") + '" aria-hidden="true">' + esc(t("eliminated")) + '</span>' : "") +
       '</li>';
   }).join("");
@@ -2259,6 +2360,15 @@ function tableInfoHtml() {
     '<div class="label">' + esc(t("rulesInPlay")) + '</div>' + rulesHtml +
     (state.rules.length > rules.length ? '<p class="hint small">' + esc(t("houseRules")) + ' : ' + state.rules.filter(function (r) { return !ballsInText(r.text).length; }).map(function (r) { return esc(r.text); }).join(" · ") + '</p>' : "");
 }
+function spotJokersHtml(p) {
+  if (!opt("jokers")) return "";
+  var js = jokersOf(p.id);
+  if (!js.length) return "";
+  return '<div class="spotJokers">' + js.map(function (j) {
+    var info = jokerInfo(j.key);
+    return '<button class="jkUse ' + j.kind + '" ' + btnAttr("use-joker", 'data-jid="' + j.id + '"') + '>' + jokerSvg(j.kind, 22) + '<span><b>' + esc(info.name) + '</b><small>' + esc(info.text) + '</small></span><em>' + esc(t("useJoker")) + '</em></button>';
+  }).join("") + '</div>';
+}
 function renderSpotlight() {
   if (!ui.spotlight || ui.activeTab !== "play" || state.phase !== "game") return "";
   var p = playerById(ui.spotlight.id);
@@ -2271,7 +2381,8 @@ function renderSpotlight() {
       '<button class="btn btnPrimary btnLg" ' + btnAttr("pot-confirm") + (sel.length ? "" : " disabled") + '>' + icon("check", 20) + esc(tn("potConfirm", sel.length)) + '</button>' +
       '<div class="btnPair"><button class="btn btnSecondary" ' + btnAttr("spot-mode", 'data-mode=""') + '>' + esc(t("back")) + '</button><button class="btn btnSecondary" ' + btnAttr("pot-plain") + '>' + esc(t("potNoDetail")) + '</button></div></div>';
   } else if (mode === "info") {
-    body = '<div class="spotPanel" data-stop="1"><div class="infoHead">' + avatar(p.ball, 64, p.name) + '<div><h2 class="panelH left">' + esc(p.name) + '</h2>' + spotLivesHtml(p) + '</div></div>' + tableInfoHtml() +
+    body = '<div class="spotPanel" data-stop="1"><div class="infoHead">' + avatar(p.ball, 64, p.name) + '<div><h2 class="panelH left">' + esc(p.name) + '</h2>' + spotLivesHtml(p) + '</div></div>' +
+      (opt("jokers") && jokersOf(p.id).length ? '<div class="label">' + esc(t("jokersTitle")) + '</div>' + spotJokersHtml(p) : "") + tableInfoHtml() +
       '<button class="btn btnSecondary" ' + btnAttr("spot-mode", 'data-mode=""') + '>' + esc(t("back")) + '</button></div>';
   } else {
     body = '<p class="spotKicker">' + esc(t("tour", { n: state.tour })) + '</p>' +
@@ -2280,6 +2391,7 @@ function renderSpotlight() {
       (out ? "" : '<div class="spotTools" data-stop="1">' + spotLivesHtml(p) +
         '<div class="shotBtns"><button class="shotBtn miss" ' + btnAttr("shot-miss") + '>' + icon("close", 22) + '<span>' + esc(t("potMiss")) + '</span></button>' +
         '<button class="shotBtn hit" ' + btnAttr("spot-mode", 'data-mode="pot"') + '>' + icon("check", 22) + '<span>' + esc(t("potIn")) + '</span></button></div>' +
+        spotJokersHtml(p) +
         '<button class="infoBtn" ' + btnAttr("spot-mode", 'data-mode="info"') + '>' + icon("target", 16) + esc(t("moreInfo")) + ' · ' + esc(tn("ballsLeft", ballsOnTable().length)) + '</button></div>') +
       '<p class="spotHint">' + esc(t("tapToClose")) + '</p>';
   }
@@ -2293,11 +2405,11 @@ function tableStripHtml() {
   var left = ballsOnTable(), tb = tableOf();
   return '<button class="tableStrip" data-key="tablestrip" ' + btnAttr("table-open") + '><span class="tsBalls">' + TABLE_BALLS.map(function (n) {
     return '<span class="tsDot' + (tb.potted[n] ? " gone" : "") + (n === 8 ? " eight" : "") + '" style="--c:' + POOL_COLORS[n > 8 ? n - 8 : n] + '"' + (n > 8 ? ' data-s="1"' : "") + '></span>';
-  }).join("") + '</span><span class="tsText">' + esc(t("ballsLeftShort", { n: left.length })) + (tb.potted[8] ? "" : ' · <b>8 = +1</b>') + '</span>' + icon("chevron", 14, "dim") + '</button>';
+  }).join("") + '</span><span class="tsText">' + esc(t("ballsLeftShort", { n: left.length })) + '</span>' + icon("chevron", 14, "dim") + '</button>';
 }
 function ruleAlertHtml() {
   var a = ui.ruleAlert;
-  if (!a || state.phase !== "game") return "";
+  if (!a || state.phase !== "game" || !opt("houseRules")) return "";
   var p = playerById(a.id);
   if (!p) return "";
   return '<section class="ruleAlert pop" data-key="rulealert"><div class="raHead">' + a.balls.map(function (n) { return poolBall(n, 30); }).join("") +
@@ -2324,10 +2436,34 @@ function renderRoundEnd() {
     '<button class="undoPill top" ' + btnAttr("undo") + '>' + icon("undo", 15) + '<span>' + esc(t("undoMistake")) + '</span></button>' +
     '<div class="winAvWrap"><div class="rays small" aria-hidden="true"></div>' + avatar(w.ball, 112, w.name, "winAv") + '</div>' +
     '<h2 class="winName">' + esc(w.name) + '</h2><p class="winSub">' + esc(t("winsRound", { n: state.round })) + '</p>' +
-    '<p class="hint center">' + esc(t("addRuleQ")) + '</p>' + renderRulePresetPicker("roundend") +
-    '<input class="input" data-bind="ruleInput" value="' + esc(ui.ruleInput) + '" placeholder="' + esc(t("ruleExample")) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
+    roundChoiceHtml(w) +
     '<button class="btn btnPrimary btnLg" ' + btnAttr("next-round") + '>' + esc(t("nextRound")) + '</button>' +
     '<button class="btn btnText" ' + btnAttr("end-session-round") + '>' + esc(t("endNight")) + '</button></div></div>';
+}
+
+function roundChoiceHtml(w) {
+  var rulesOn = opt("houseRules"), jokersOn = opt("jokers");
+  if (!rulesOn && !jokersOn) return "";
+  var choice = ui.roundChoice || (rulesOn ? "rule" : "joker");
+  if (!rulesOn) choice = "joker"; if (!jokersOn) choice = "rule";
+  var seg = rulesOn && jokersOn ? '<div class="seg small choiceSeg"><button class="segBtn' + (choice === "rule" ? " on" : "") + '" ' + btnAttr("round-choice", 'data-c="rule"') + '>' + icon("book", 15) + esc(t("roundChoiceRule")) + '</button>' +
+    '<button class="segBtn' + (choice === "joker" ? " on" : "") + '" ' + btnAttr("round-choice", 'data-c="joker"') + '>' + jokerSvg("bonus", 18) + esc(t("roundChoiceJoker")) + '</button></div>' : "";
+  if (choice === "rule") {
+    return seg + '<p class="hint center">' + esc(t("addRuleQ")) + '</p>' + renderRulePresetPicker("roundend") +
+      '<input class="input" data-bind="ruleInput" value="' + esc(ui.ruleInput) + '" placeholder="' + esc(t("ruleExample")) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>';
+  }
+  var jd = ui.jokerDraw;
+  if (!jd) {
+    return seg + '<button class="jkDeck" ' + btnAttr("draw-joker") + '><span class="jkBack">' + jokerSvg("bonus", 54) + '</span><span class="jkDeckTxt"><b>' + esc(t("jokerDraw")) + '</b><small>' + esc(t("jokerDrawHint")) + '</small></span></button>';
+  }
+  var info = jokerInfo(jd.key), malus = jd.kind === "malus";
+  var others = state.players.filter(function (p) { return p.id !== w.id; });
+  return seg + '<div class="jkCard ' + jd.kind + '" data-key="jk-' + jd.key + '">' + jokerSvg(jd.kind, 58) +
+    '<div class="jkBody"><span class="jkKind">' + esc(malus ? t("jokerMalus") : t("jokerBonus")) + '</span><b class="jkName">' + esc(info.name) + '</b><p class="jkText">' + esc(info.text) + '</p></div></div>' +
+    (malus ? '<p class="hint center">' + esc(t("jokerGiveTo")) + '</p><div class="chips center">' + others.map(function (p) {
+      return '<button class="chip' + (jd.target === p.id ? " on" : "") + '" ' + btnAttr("joker-target", 'data-id="' + p.id + '"') + '>' + esc(p.name) + '</button>';
+    }).join("") + '</div>' + (jd.target ? "" : '<p class="hint small center">' + esc(t("jokerRandomTarget")) + '</p>')
+      : '<p class="hint center">' + esc(t("jokerKeptBy", { name: w.name })) + '</p>');
 }
 
 /* ---- Fin de soirée ---- */
@@ -2476,7 +2612,29 @@ function profileExtras(name) {
 }
 
 /* ---- Livre ---- */
+function renderBookJokers() {
+  var custom = db.jokerbook || [];
+  var card = function (kind, key, name, text, cid) {
+    return '<li class="jkRow ' + kind + '"' + (cid ? ' data-key="jb-' + cid + '"' : "") + '>' + jokerSvg(kind, 34) + '<div class="jkRowBody"><b>' + esc(name) + '</b><span>' + esc(text) + '</span></div>' +
+      (cid ? '<button class="iconBtn" ' + btnAttr("delete-book-joker", 'data-id="' + cid + '" aria-label="' + esc(t("delete")) + '"') + '>' + icon("trash", 18) + '</button>' : "") + '</li>';
+  };
+  var list = function (kind) {
+    return '<div class="label">' + esc(kind === "bonus" ? t("jokerBonus") : t("jokerMalus")) + '</div><ul class="jkList">' +
+      JOKER_KEYS[kind].map(function (k) { return card(kind, k, t("jk_" + k), t("jkt_" + k)); }).join("") +
+      custom.filter(function (j) { return j.kind === kind; }).map(function (j) { return card(kind, null, t("jokerMine"), j.text, j.id); }).join("") + '</ul>';
+  };
+  return '<p class="lead center">' + esc(t("jokersLead")) + '</p>' + (opt("jokers") ? "" : '<p class="hint center">' + esc(t("jokersNone")) + '</p>') +
+    '<div class="seg small"><button class="segBtn' + (ui.jokerKind !== "malus" ? " on" : "") + '" ' + btnAttr("joker-kind", 'data-kind="bonus"') + '>' + esc(t("jokerBonus")) + '</button><button class="segBtn' + (ui.jokerKind === "malus" ? " on" : "") + '" ' + btnAttr("joker-kind", 'data-kind="malus"') + '>' + esc(t("jokerMalus")) + '</button></div>' +
+    '<div class="field bookAdd"><input class="input" data-bind="jokerInput" value="' + esc(ui.jokerInput) + '" placeholder="' + esc(t("jokerAdd")) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
+    '<button class="addBtn" ' + btnAttr("add-book-joker", 'aria-label="' + esc(t("add")) + '"') + '>' + icon("plus", 22) + '</button></div>' + list("bonus") + list("malus");
+}
 function renderBook() {
+  var tabs = '<div class="seg"><button class="segBtn' + (ui.bookTab !== "jokers" ? " on" : "") + '" ' + btnAttr("book-tab", 'data-tab="rules"') + '>' + esc(t("bookTabRules")) + '</button>' +
+    '<button class="segBtn' + (ui.bookTab === "jokers" ? " on" : "") + '" ' + btnAttr("book-tab", 'data-tab="jokers"') + '>' + esc(t("bookTabJokers")) + '</button></div>';
+  if (ui.bookTab === "jokers") return tabs + '<div class="subScreen" data-key="book-jokers">' + renderBookJokers() + '</div>';
+  return tabs + '<div class="subScreen" data-key="book-rules">' + renderBookRules() + '</div>';
+}
+function renderBookRules() {
   var rows = rulebook.length === 0 ? emptyState("book", t("bookEmpty")) : '<ul class="bookList">' + rulebook.map(function (r, i) {
     if (ui.editingRulebookId === r.id) {
       return '<li class="bookRow editing" data-key="rb-' + r.id + '"><div class="field"><input class="input" data-bind="editRulebookText" value="' + esc(ui.editRulebookText) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
@@ -2538,7 +2696,7 @@ function renderSettings() {
     group(t("appearance"), '<div class="sRow block">' + seg("set-theme", "data-theme-value", state.theme, [["lounge", t("themeLounge")], ["classic", t("themeClassic")]]) + '</div>') +
     group(t("language"), '<div class="sRow block">' + seg("set-lang", "data-lang", lang(), [["fr", "Français"], ["en", "English"]]) + '</div>') +
     group(t("comfort"), toggleRow("sound", t("sound"), t("soundHint")) + toggleRow("haptics", t("haptics"), t("hapticsHint")) + toggleRow("wakeLock", t("wake"), t("wakeHint"))) +
-    group(t("gameOptions"), optRow("lastBullet", t("optLastBullet"), t("optLastBulletHint")) + optRow("rivalries", t("optRivalries"), t("optRivalriesHint")) +
+    group(t("gameOptions"), optRow("houseRules", t("optHouseRules"), t("optHouseRulesHint")) + optRow("jokers", t("optJokers"), t("optJokersHint")) + optRow("lastBullet", t("optLastBullet"), t("optLastBulletHint")) + optRow("rivalries", t("optRivalries"), t("optRivalriesHint")) +
       optRow("trophies", t("optTrophies"), t("optTrophiesHint")) + optRow("chrono", t("optChrono"), t("optChronoHint")) +
       (opt("chrono") ? '<div class="sRow block"><div class="sLabel small">' + esc(t("chronoLen")) + '</div>' + seg("set-chrono", "data-secs", String(chronoSecs()), [["15", "15 s"], ["20", "20 s"], ["30", "30 s"], ["45", "45 s"], ["60", "60 s"], ["90", "90 s"]]) + '</div>' : "") +
       '<div class="sRow"><div class="sHint">' + esc(t("gameOptionsHint")) + '</div></div>', "optGroup") +
@@ -2613,14 +2771,14 @@ function buildApp() {
   else if (state.phase === "dealing") { header = topBar('<span class="tbLogo">Killer</span>'); body = renderDealing(); }
   else if (state.phase === "game" || state.phase === "roundEnd") {
     header = topBar('<span class="tbLogo">Killer</span>', '<span class="roundChip">' + esc(t("round", { n: state.round })) + '</span>',
-      '<button class="rulesBtn" ' + btnAttr("toggle-rules", 'aria-label="' + esc(t("rules")) + '"') + '>' + icon("book", 19) + (state.rules.length ? '<span class="cnt">' + state.rules.length + '</span>' : "") + '</button>');
+      opt("houseRules") ? '<button class="rulesBtn" ' + btnAttr("toggle-rules", 'aria-label="' + esc(t("rules")) + '"') + '>' + icon("book", 19) + (state.rules.length ? '<span class="cnt">' + state.rules.length + '</span>' : "") + '</button>' : "");
     body = renderGameScreen();
   } else if (state.phase === "finished") { header = heroHeader(); body = renderFinal(); }
 
   var overlays = renderDealHero() + renderSpotlight() + renderTableSheet() + renderRoundEnd() + renderRulesSheet() + renderProfileSheet() + renderModal();
   return '<div class="shell" data-key="shell">' + header + '<main class="screen" data-key="screen-' + screenId() + '">' + body + '</main></div>' +
     renderBottomNav() + '<div class="overlays" data-key="overlays">' + overlays + '</div>' +
-    '<svg width="0" height="0" style="position:absolute" aria-hidden="true" data-key="pbdefs"><defs><radialGradient id="pbShine" cx="34%" cy="28%" r="72%"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></radialGradient></defs></svg>';
+    '<svg width="0" height="0" style="position:absolute" aria-hidden="true" data-key="pbdefs"><defs><linearGradient id="jkGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8D987"/><stop offset="1" stop-color="#C28C30"/></linearGradient><linearGradient id="jkRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E25543"/><stop offset="1" stop-color="#8E2016"/></linearGradient><radialGradient id="pbShine" cx="34%" cy="28%" r="72%"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></radialGradient></defs></svg>';
 }
 
 /* ================= Rendu, événements, démarrage ================= */
@@ -2800,9 +2958,17 @@ function onClick(e) {
     case "change-life": changeLife(id, Number(el.getAttribute("data-delta"))); break;
     case "add-rule": addRule(); break;
     case "add-book-rule": addBookRule(); break;
-    case "next-round": addRule(); nextRound(); break;
+    case "next-round": if (opt("houseRules") && (ui.roundChoice || "rule") === "rule") addRule(); else ui.ruleInput = ""; nextRound(); break;
     case "end-session": endSession(); break;
-    case "end-session-round": addRule(); endSession(); break;
+    case "end-session-round": if (opt("houseRules") && (ui.roundChoice || "rule") === "rule") addRule(); ui.jokerDraw = null; ui.roundChoice = null; endSession(); break;
+    case "round-choice": ui.roundChoice = el.getAttribute("data-c"); break;
+    case "draw-joker": if (!ui.jokerDraw) drawJoker(); break;
+    case "joker-target": if (ui.jokerDraw) ui.jokerDraw.target = id; break;
+    case "use-joker": useJoker(el.getAttribute("data-jid")); break;
+    case "book-tab": ui.bookTab = el.getAttribute("data-tab"); break;
+    case "joker-kind": ui.jokerKind = el.getAttribute("data-kind"); break;
+    case "add-book-joker": addBookJoker(); break;
+    case "delete-book-joker": db.jokerbook = (db.jokerbook || []).filter(function (j) { return j.id !== id; }); persist(); break;
     case "new-game": newGame(); break;
     case "undo": undoLast(); break;
     case "share-final": shareFinal(); return;
@@ -2859,6 +3025,7 @@ function onKeydown(e) {
   if (bind === "nameInput") { e.preventDefault(); addPlayersFromInput(); render(); focusName(); }
   else if (bind === "ruleInput") { e.preventDefault(); addRule(); render(); }
   else if (bind === "bookInput") { e.preventDefault(); addBookRule(); render(); }
+  else if (bind === "jokerInput") { e.preventDefault(); addBookJoker(); render(); }
   else if (bind === "editRulebookText") {
     e.preventDefault();
     if (ui.editRulebookText.trim() && ui.editingRulebookId) updateRulebookEntry(ui.editingRulebookId, ui.editRulebookText.trim());

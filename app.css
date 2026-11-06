@@ -566,3 +566,44 @@ button.rRow:active{transform:scale(.985);}
 .ruleAlert .hint.small{margin-top:8px;}
 .skipTag{flex:none;padding:1px 8px;border-radius:7px;border:1px solid var(--line2);color:var(--ink2);font:700 11.5px var(--fLabel);letter-spacing:1.2px;text-transform:uppercase;}
 @media (max-height:700px){.spot .spotKicker{display:none}.spot .spotHint{display:none}}
+
+/* ---------- Jokers ---------- */
+@keyframes jkReveal{0%{opacity:0;transform:perspective(700px) rotateY(90deg) scale(.7)}60%{opacity:1;transform:perspective(700px) rotateY(-12deg) scale(1.05)}100%{transform:none}}
+.choiceSeg{margin:14px 0 4px;}
+.choiceSeg .segBtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+.choiceSeg .segBtn .jkIco{filter:saturate(.9);}
+.jkDeck{display:flex;align-items:center;gap:16px;width:100%;margin-top:12px;padding:14px 16px;border-radius:18px;border:1.5px dashed var(--gold);background:rgba(224,178,82,.08);color:var(--ink);text-align:left;}
+.jkDeck:active{transform:scale(.98);}
+.jkBack{flex:none;display:flex;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45));animation:jkWiggle 2.4s ease-in-out infinite;}
+@keyframes jkWiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.jkDeckTxt{display:flex;flex-direction:column;}
+.jkDeckTxt b{font:700 20px var(--fLabel);letter-spacing:1.6px;text-transform:uppercase;color:var(--gold2);}
+.jkDeckTxt small{font-size:14px;color:var(--ink2);}
+.jkCard{display:flex;align-items:center;gap:14px;margin-top:12px;padding:14px 16px;border-radius:18px;text-align:left;animation:jkReveal .6s cubic-bezier(.2,1,.3,1) both;}
+.jkCard.bonus{border:1.5px solid var(--gold);background:radial-gradient(circle at 0% 0%,rgba(244,207,117,.25),transparent 60%),rgba(0,0,0,.25);box-shadow:0 0 30px rgba(244,207,117,.2);}
+.jkCard.malus{border:1.5px solid #E0634A;background:radial-gradient(circle at 0% 0%,rgba(226,85,67,.28),transparent 60%),rgba(0,0,0,.25);box-shadow:0 0 30px rgba(226,85,67,.22);}
+.jkCard .jkIco{flex:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45));}
+.jkBody{display:flex;flex-direction:column;min-width:0;}
+.jkKind{font:700 12.5px var(--fLabel);letter-spacing:1.6px;text-transform:uppercase;}
+.jkCard.bonus .jkKind{color:var(--gold2);} .jkCard.malus .jkKind{color:#F09A84;}
+.jkName{font-family:var(--fTitle);font-weight:400;font-size:21px;color:var(--ink);}
+.jkText{margin:2px 0 0;font-size:15px;line-height:1.4;color:var(--ink2);}
+.chips.center{justify-content:center;margin-top:8px;}
+.chip.on{border-color:#E0634A;background:rgba(226,85,67,.2);color:#FFE9E2;}
+.jkMini{display:inline-flex;flex:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4));}
+.spotJokers{display:flex;flex-direction:column;gap:8px;width:min(86vw,360px);margin-top:12px;}
+.jkUse{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:14px;text-align:left;color:var(--ink);background:rgba(0,0,0,.35);border:1px solid var(--line2);}
+.jkUse.malus{border-color:rgba(226,85,67,.6);}
+.jkUse span{display:flex;flex-direction:column;flex:1;min-width:0;}
+.jkUse b{font-size:14.5px;font-weight:600;}
+.jkUse small{font-size:12.5px;line-height:1.3;color:var(--ink2);}
+.jkUse em{flex:none;font:700 13px var(--fLabel);font-style:normal;letter-spacing:1.2px;text-transform:uppercase;padding:6px 10px;border-radius:99px;background:linear-gradient(180deg,#F8D987,#C9963A);color:var(--btnText);}
+.jkUse.malus em{background:linear-gradient(180deg,#E25543,#A52A1E);color:#FFF1E6;}
+.jkUse:active{transform:scale(.98);}
+.spotPanel .spotJokers{width:100%;}
+.jkList{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.jkRow{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 6px 10px 12px;border-radius:17px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadowCard);}
+.jkRow.malus{border-color:rgba(226,85,67,.35);}
+.jkRowBody{display:flex;flex-direction:column;flex:1;min-width:0;}
+.jkRowBody b{font-family:var(--fTitle);font-weight:400;font-size:17px;color:var(--ink);}
+.jkRowBody span{font-size:14.5px;line-height:1.4;color:var(--ink2);}
