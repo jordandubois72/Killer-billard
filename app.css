@@ -607,3 +607,14 @@ button.rRow:active{transform:scale(.985);}
 .jkRowBody{display:flex;flex-direction:column;flex:1;min-width:0;}
 .jkRowBody b{font-family:var(--fTitle);font-weight:400;font-size:17px;color:var(--ink);}
 .jkRowBody span{font-size:14.5px;line-height:1.4;color:var(--ink2);}
+.shieldTag{border-color:rgba(150,200,110,.55);color:#C6DFAE;}
+.bountyTag{border-color:rgba(226,85,67,.6);color:#F2B5A6;}
+.spotLives .skipTag{margin-left:4px;}
+.jkAuto{display:inline-block;width:fit-content;margin-top:4px;padding:1px 8px;border-radius:99px;border:1px solid var(--line2);font:700 11px var(--fLabel);font-style:normal;letter-spacing:1px;text-transform:uppercase;color:var(--gold2);}
+.jkRow.editing{align-items:flex-start;}
+.jkEditBox{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;padding-right:6px;}
+.jkEditBox .input{height:44px;font-size:16px;}
+.jkEditBox textarea.input{min-height:70px;margin-top:0;}
+.jkEditBox .btnPair{margin-top:2px;flex-wrap:wrap;}
+.jkEditBox .btn{height:40px;font-size:13.5px;}
+.jkAdd{margin-top:12px;}

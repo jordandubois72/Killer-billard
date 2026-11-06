@@ -228,16 +228,20 @@ var I18N = {
     jokersTitle: "Jokers", useJoker: "Utiliser", tJokerUsed: "{name} utilise « {joker} »",
     tJokerGiven: "{name} reçoit le joker « {joker} »", uJoker: "{name} utilise « {joker} »",
     bookTabRules: "Règles", bookTabJokers: "Jokers",
-    jokersLead: "Le gagnant d'une manche peut piocher un joker au hasard. Bonus : il le garde. Malus : il le donne à un autre joueur.",
+    jokersLead: "Le gagnant d'une manche peut tenter sa chance : il pioche un joker au hasard, une chance sur deux d'avoir un bonus ou un malus. Dans les deux cas, c'est pour lui.",
+    jokerMalusFor: "Pas de chance : {name} le prend pour lui",
     jokerAdd: "Décris ton joker", jokerMine: "Joker perso", jokersNone: "Les jokers sont désactivés dans les Réglages.",
     jk_b1: "Seconde chance", jkt_b1: "Tu rates ? Retente le coup en bande, sans perdre de vie.",
     jk_b2: "Gilet pare-balles", jkt_b2: "Ta prochaine vie perdue ne compte pas.",
     jk_b3: "Main du shérif", jkt_b3: "Place la blanche où tu veux avant de jouer.",
-    jk_b4: "Double barillet", jkt_b4: "Joue deux coups d'affilée à ton tour.",
+    jk_b4: "À couvert", jkt_b4: "Tu sautes ton prochain tour : aucune vie en jeu.",
     jk_m1: "Mauvaise main", jkt_m1: "Ton prochain coup se joue avec ta mauvaise main.",
     jk_m2: "Bande imposée", jkt_m2: "Ton prochain coup doit rentrer en bande.",
-    jk_m3: "Sur un pied", jkt_m3: "Joue ton prochain coup sur un pied.",
+    jk_m3: "Une seule main", jkt_m3: "Joue ton prochain coup en tenant la queue d'une seule main.",
     jk_m4: "Tête mise à prix", jkt_m4: "Si tu rates ton prochain coup, tu perds 2 vies.",
+    tShieldArmed: "{name} est protégé : sa prochaine vie perdue ne compte pas", tSecondArmed: "{name} retente en bande : ce raté ne coûte pas de vie",
+    tShieldUsed: "{joker} : {name} ne perd pas de vie", tBountyArmed: "{name} : son prochain raté coûte 2 vies", tBountyHit: "Tête mise à prix : {name} perd 2 vies",
+    tagShield: "Protégé", tagBounty: "Vie ×2", jkNamePh: "Nom du joker", jkTextPh: "Ce qu'il fait", jkReset: "Texte d'origine", jokerAuto: "Effet automatique",
     tImageSaved: "Image enregistrée ✓",
     resetAll: "Tout remettre à zéro",
     resetQ: "Tout remettre à zéro ?",
@@ -474,16 +478,20 @@ var I18N = {
     jokersTitle: "Jokers", useJoker: "Use", tJokerUsed: "{name} uses “{joker}”",
     tJokerGiven: "{name} gets the “{joker}” joker", uJoker: "{name} uses “{joker}”",
     bookTabRules: "Rules", bookTabJokers: "Jokers",
-    jokersLead: "A round winner can draw a random joker. Bonus: they keep it. Penalty: they give it to another player.",
+    jokersLead: "A round winner can try their luck: they draw a random joker, fifty-fifty bonus or penalty. Either way, it's theirs.",
+    jokerMalusFor: "Bad luck: {name} takes it",
     jokerAdd: "Describe your joker", jokerMine: "Custom joker", jokersNone: "Jokers are turned off in Settings.",
     jk_b1: "Second chance", jkt_b1: "Missed? Retry the shot off a cushion, no life lost.",
     jk_b2: "Bulletproof vest", jkt_b2: "Your next lost life doesn't count.",
     jk_b3: "Sheriff's hand", jkt_b3: "Place the cue ball anywhere before you shoot.",
-    jk_b4: "Double barrel", jkt_b4: "Take two shots in a row on your turn.",
+    jk_b4: "Take cover", jkt_b4: "Skip your next turn: no life at risk.",
     jk_m1: "Wrong hand", jkt_m1: "Your next shot is played with your weaker hand.",
     jk_m2: "Cushion only", jkt_m2: "Your next shot must go off a cushion.",
-    jk_m3: "One foot", jkt_m3: "Play your next shot standing on one foot.",
+    jk_m3: "One hand", jkt_m3: "Play your next shot holding the cue with one hand.",
     jk_m4: "Price on your head", jkt_m4: "Miss your next shot and you lose 2 lives.",
+    tShieldArmed: "{name} is protected: their next lost life doesn't count", tSecondArmed: "{name} retries off a cushion: this miss costs no life",
+    tShieldUsed: "{joker}: {name} keeps their life", tBountyArmed: "{name}: their next miss costs 2 lives", tBountyHit: "Price on your head: {name} loses 2 lives",
+    tagShield: "Protected", tagBounty: "Life ×2", jkNamePh: "Joker name", jkTextPh: "What it does", jkReset: "Original text", jokerAuto: "Automatic effect",
     tImageSaved: "Image saved ✓",
     resetAll: "Reset everything",
     resetQ: "Reset everything?",
@@ -963,7 +971,7 @@ function vibrate(pattern) {
 }
 
 /* ================= Stockage fiable, sauvegardes, export ================= */
-var APP_VERSION = "3.4";
+var APP_VERSION = "3.5";
 var DB_KEY = "killer_db_v2";
 var BACKUPS_KEY = "killer_backups_v2";
 var LEGACY_KEYS = { session: "killer_session_v3", stats: "killer_stats_v1", rulebook: "killer_rulebook_v1" };
@@ -978,6 +986,7 @@ function defaultDb() {
     stats: { roundWins: {}, cardPicks: {}, roundLog: [] },
     rulebook: [],
     jokerbook: [],
+    jokerEdits: {},
     history: [],
     players: {},
     undo: [],
@@ -998,6 +1007,7 @@ function normalizeDb(o) {
   if (!Array.isArray(d.session.dealingCards)) d.session.dealingCards = [];
   var st = isPlainObject(o.stats) ? o.stats : {};
   d.stats = { roundWins: isPlainObject(st.roundWins) ? st.roundWins : {}, cardPicks: isPlainObject(st.cardPicks) ? st.cardPicks : {}, roundLog: Array.isArray(st.roundLog) ? st.roundLog.filter(function (r) { return r && r.w; }) : [] };
+  d.jokerEdits = isPlainObject(o.jokerEdits) ? o.jokerEdits : {};
   d.jokerbook = Array.isArray(o.jokerbook) ? o.jokerbook.filter(function (j) { return j && typeof j.text === "string" && (j.kind === "bonus" || j.kind === "malus"); }) : [];
   d.rulebook = Array.isArray(o.rulebook) ? o.rulebook.filter(function (r) { return r && typeof r.text === "string"; }).map(function (r) { return { id: r.id || uid(), text: r.text }; }) : [];
   d.history = Array.isArray(o.history) ? o.history.filter(function (h) { return h && h.id && Array.isArray(h.players); }) : [];
@@ -1361,7 +1371,10 @@ var ui = {
   jokerDraw: null,      // { key, kind, target }
   bookTab: "rules",
   jokerInput: "",
-  jokerKind: "bonus"
+  jokerKind: "bonus",
+  jkEdit: null,         // clé du joker en cours de modification
+  jkEditName: "",
+  jkEditText: ""
 };
 
 function bindDb() { state = db.session; stats = db.stats; rulebook = db.rulebook; }
@@ -1516,9 +1529,10 @@ function jokerPool(kind) {
 function jokerInfo(key) {
   if (String(key).indexOf("c:") === 0) {
     var j = (db.jokerbook || []).filter(function (x) { return "c:" + x.id === key; })[0];
-    return j ? { name: t("jokerMine"), text: j.text, kind: j.kind } : { name: t("jokerMine"), text: "", kind: "bonus" };
+    return j ? { name: j.name || t("jokerMine"), text: j.text, kind: j.kind } : { name: t("jokerMine"), text: "", kind: "bonus" };
   }
-  return { name: t("jk_" + key), text: t("jkt_" + key), kind: key.charAt(0) === "m" ? "malus" : "bonus" };
+  var ed = (db.jokerEdits || {})[key] || {};
+  return { name: ed.name || t("jk_" + key), text: ed.text || t("jkt_" + key), kind: key.charAt(0) === "m" ? "malus" : "bonus", auto: ["b1", "b2", "b4", "m4"].indexOf(key) >= 0 };
 }
 function drawJoker() {
   var kind = Math.random() < 0.5 ? "bonus" : "malus";
@@ -1531,11 +1545,7 @@ function commitJoker(players) {
   var jd = ui.jokerDraw;
   ui.jokerDraw = null; ui.roundChoice = null;
   if (!jd || !opt("jokers")) return state.jokers || [];
-  var owner = state.roundWinnerId;
-  if (jd.kind === "malus") {
-    var others = players.filter(function (p) { return p.id !== state.roundWinnerId; });
-    owner = jd.target && others.some(function (p) { return p.id === jd.target; }) ? jd.target : (others.length ? others[Math.floor(Math.random() * others.length)].id : owner);
-  }
+  var owner = state.roundWinnerId; // bonus ou malus : c'est pour le gagnant
   var who = playerById(owner);
   if (who) setTimeout(function () { toast(t("tJokerGiven", { name: who.name, joker: jokerInfo(jd.key).name })); }, 600);
   return (state.jokers || []).concat([{ id: uid(), key: jd.key, kind: jd.kind, owner: owner }]);
@@ -1545,8 +1555,13 @@ function useJoker(jid) {
   if (!j) return;
   var p = playerById(j.owner), info = jokerInfo(j.key);
   pushUndo(t("uJoker", { name: p ? p.name : "?", joker: info.name }));
-  update({ jokers: state.jokers.filter(function (x) { return x.id !== jid; }) });
-  toast(t("tJokerUsed", { name: p ? p.name : "?", joker: info.name }), { undo: true });
+  var eff = {}, msg = t("tJokerUsed", { name: p ? p.name : "?", joker: info.name });
+  if (j.key === "b1") { eff = { shield: 1, shieldKey: "b1" }; msg = t("tSecondArmed", { name: p.name }); }
+  else if (j.key === "b2") { eff = { shield: 1, shieldKey: "b2" }; msg = t("tShieldArmed", { name: p.name }); }
+  else if (j.key === "b4") { eff = { skip: 1 }; msg = t("tSkipSet", { name: p.name }); }
+  else if (j.key === "m4") { eff = { bounty: 1 }; msg = t("tBountyArmed", { name: p.name }); }
+  update({ jokers: state.jokers.filter(function (x) { return x.id !== jid; }), players: state.players.map(function (x) { return x.id === j.owner ? Object.assign({}, x, eff) : x; }) });
+  toast(msg, { undo: true });
   vibrate([10, 30, 10]);
 }
 function jokersOf(id) { return (state.jokers || []).filter(function (j) { return j.owner === id; }); }
@@ -1657,6 +1672,22 @@ function changeLife(id, delta) {
   var p = null;
   state.players.forEach(function (x) { if (x.id === id) p = x; });
   if (!p) return;
+  if (delta < 0 && p.lives > 0 && p.shield > 0) {
+    // Gilet pare-balles ou Seconde chance : la vie est sauvée, une fois
+    pushUndo(t("uLifeMinus", { name: p.name }));
+    if (ui.timer && ui.timer.id === id) stopChrono();
+    update({ players: state.players.map(function (x) { return x.id === id ? Object.assign({}, x, { shield: 0, shieldKey: null }) : x; }) });
+    flashRow(id, "up"); vibrate([10, 30, 10]);
+    toast(t("tShieldUsed", { name: p.name, joker: jokerInfo(p.shieldKey || "b2").name }), { undo: true });
+    return;
+  }
+  if (delta < 0 && p.bounty > 0 && p.lives > 0) {
+    // Tête mise à prix : le raté coûte 2 vies
+    delta = -2;
+    state.players = state.players.map(function (x) { return x.id === id ? Object.assign({}, x, { bounty: 0 }) : x; });
+    p = playerById(id);
+    setTimeout(function () { toast(t("tBountyHit", { name: p.name }), { undo: true }); }, 50);
+  }
   var newLives = Math.max(0, p.lives + delta);
   if (newLives === p.lives) return;
   var wasEliminated = p.lives <= 0;
@@ -2306,7 +2337,7 @@ function renderGameScreen() {
     var last = !ended && p.lives === 1 && opt("lastBullet");
     return '<li class="gRow' + (out ? " out" : "") + (isTurn ? " turn" : "") + (last ? " last" : "") + fl + '" data-key="row-' + p.id + '">' +
       avatar(p.ball, 50, p.name, "gAv") +
-      '<div class="gMid"><span class="gName">' + esc(p.name) + '</span><span class="gSub">' + livesHtml(p) + (isTurn ? '<span class="turnTag">' + esc(t("yourTurn")) + '</span>' : "") + (p.skip > 0 && !out ? '<span class="skipTag">' + esc(t("skipTag")) + '</span>' : "") + (opt("jokers") ? jokersOf(p.id).map(function (j) { return '<span class="jkMini ' + j.kind + '" title="' + esc(jokerInfo(j.key).name) + '">' + jokerSvg(j.kind, 16) + '</span>'; }).join("") : "") + '</span></div>' + controls +
+      '<div class="gMid"><span class="gName">' + esc(p.name) + '</span><span class="gSub">' + livesHtml(p) + (isTurn ? '<span class="turnTag">' + esc(t("yourTurn")) + '</span>' : "") + (p.skip > 0 && !out ? '<span class="skipTag">' + esc(t("skipTag")) + '</span>' : "") + (p.shield > 0 && !out ? '<span class="skipTag shieldTag">' + esc(t("tagShield")) + '</span>' : "") + (p.bounty > 0 && !out ? '<span class="skipTag bountyTag">' + esc(t("tagBounty")) + '</span>' : "") + (opt("jokers") ? jokersOf(p.id).map(function (j) { return '<span class="jkMini ' + j.kind + '" title="' + esc(jokerInfo(j.key).name) + '">' + jokerSvg(j.kind, 16) + '</span>'; }).join("") : "") + '</span></div>' + controls +
       (out ? '<span class="stamp' + (ui.flash && ui.flash.id === p.id && ui.flash.kind === "elim" ? " stampIn" : "") + '" aria-hidden="true">' + esc(t("eliminated")) + '</span>' : "") +
       '</li>';
   }).join("");
@@ -2336,7 +2367,7 @@ function bigCardHtml(p) {
 function spotLivesHtml(p) {
   var s = "";
   for (var i = 0; i < Math.max(p.lives, 3); i++) s += '<span class="bSlot' + (i >= p.lives ? " spent" : "") + '">' + bulletSvg(i >= p.lives) + '</span>';
-  return '<div class="spotLives"><span class="lives">' + s + '</span><span>' + esc(tn("livesLeft", p.lives)) + '</span></div>';
+  return '<div class="spotLives"><span class="lives">' + s + '</span><span>' + esc(tn("livesLeft", p.lives)) + '</span>' + (p.shield > 0 ? '<span class="skipTag shieldTag">' + esc(t("tagShield")) + '</span>' : "") + (p.bounty > 0 ? '<span class="skipTag bountyTag">' + esc(t("tagBounty")) + '</span>' : "") + '</div>';
 }
 function tableBallsHtml(selectable) {
   var tb = tableOf(), sel = (ui.spotlight && ui.spotlight.sel) || [];
@@ -2460,10 +2491,7 @@ function roundChoiceHtml(w) {
   var others = state.players.filter(function (p) { return p.id !== w.id; });
   return seg + '<div class="jkCard ' + jd.kind + '" data-key="jk-' + jd.key + '">' + jokerSvg(jd.kind, 58) +
     '<div class="jkBody"><span class="jkKind">' + esc(malus ? t("jokerMalus") : t("jokerBonus")) + '</span><b class="jkName">' + esc(info.name) + '</b><p class="jkText">' + esc(info.text) + '</p></div></div>' +
-    (malus ? '<p class="hint center">' + esc(t("jokerGiveTo")) + '</p><div class="chips center">' + others.map(function (p) {
-      return '<button class="chip' + (jd.target === p.id ? " on" : "") + '" ' + btnAttr("joker-target", 'data-id="' + p.id + '"') + '>' + esc(p.name) + '</button>';
-    }).join("") + '</div>' + (jd.target ? "" : '<p class="hint small center">' + esc(t("jokerRandomTarget")) + '</p>')
-      : '<p class="hint center">' + esc(t("jokerKeptBy", { name: w.name })) + '</p>');
+    '<p class="hint center">' + esc(t(malus ? "jokerMalusFor" : "jokerKeptBy", { name: w.name })) + '</p>';
 }
 
 /* ---- Fin de soirée ---- */
@@ -2613,20 +2641,27 @@ function profileExtras(name) {
 
 /* ---- Livre ---- */
 function renderBookJokers() {
-  var custom = db.jokerbook || [];
-  var card = function (kind, key, name, text, cid) {
-    return '<li class="jkRow ' + kind + '"' + (cid ? ' data-key="jb-' + cid + '"' : "") + '>' + jokerSvg(kind, 34) + '<div class="jkRowBody"><b>' + esc(name) + '</b><span>' + esc(text) + '</span></div>' +
+  var kind = ui.jokerKind === "malus" ? "malus" : "bonus";
+  var custom = (db.jokerbook || []).filter(function (j) { return j.kind === kind; });
+  var row = function (key, cid) {
+    var info = jokerInfo(key), ek = key;
+    if (ui.jkEdit === ek) {
+      return '<li class="jkRow editing ' + kind + '" data-key="jb-' + ek + '">' + jokerSvg(kind, 34) + '<div class="jkEditBox">' +
+        '<input class="input" data-bind="jkEditName" value="' + esc(ui.jkEditName) + '" placeholder="' + esc(t("jkNamePh")) + '" maxlength="40" autocomplete="off"/>' +
+        '<textarea class="input" data-bind="jkEditText" placeholder="' + esc(t("jkTextPh")) + '" maxlength="120">' + esc(ui.jkEditText) + '</textarea>' +
+        '<div class="btnPair">' + (cid ? "" : '<button class="btn btnText" ' + btnAttr("joker-edit-reset", 'data-key="' + ek + '"') + '>' + esc(t("jkReset")) + '</button>') +
+        '<button class="btn btnSecondary" ' + btnAttr("joker-edit-cancel") + '>' + esc(t("cancel")) + '</button><button class="btn btnPrimary" ' + btnAttr("joker-edit-save", 'data-key="' + ek + '"') + '>' + esc(t("ok")) + '</button></div></div></li>';
+    }
+    return '<li class="jkRow enter ' + kind + '" data-key="jb-' + ek + '">' + jokerSvg(kind, 34) + '<div class="jkRowBody"><b>' + esc(info.name) + '</b><span>' + esc(info.text) + '</span>' +
+      (info.auto ? '<i class="jkAuto">' + esc(t("jokerAuto")) + '</i>' : "") + '</div>' +
+      '<button class="iconBtn" ' + btnAttr("joker-edit", 'data-key="' + ek + '" aria-label="' + esc(t("edit")) + '"') + '>' + icon("edit", 18) + '</button>' +
       (cid ? '<button class="iconBtn" ' + btnAttr("delete-book-joker", 'data-id="' + cid + '" aria-label="' + esc(t("delete")) + '"') + '>' + icon("trash", 18) + '</button>' : "") + '</li>';
   };
-  var list = function (kind) {
-    return '<div class="label">' + esc(kind === "bonus" ? t("jokerBonus") : t("jokerMalus")) + '</div><ul class="jkList">' +
-      JOKER_KEYS[kind].map(function (k) { return card(kind, k, t("jk_" + k), t("jkt_" + k)); }).join("") +
-      custom.filter(function (j) { return j.kind === kind; }).map(function (j) { return card(kind, null, t("jokerMine"), j.text, j.id); }).join("") + '</ul>';
-  };
   return '<p class="lead center">' + esc(t("jokersLead")) + '</p>' + (opt("jokers") ? "" : '<p class="hint center">' + esc(t("jokersNone")) + '</p>') +
-    '<div class="seg small"><button class="segBtn' + (ui.jokerKind !== "malus" ? " on" : "") + '" ' + btnAttr("joker-kind", 'data-kind="bonus"') + '>' + esc(t("jokerBonus")) + '</button><button class="segBtn' + (ui.jokerKind === "malus" ? " on" : "") + '" ' + btnAttr("joker-kind", 'data-kind="malus"') + '>' + esc(t("jokerMalus")) + '</button></div>' +
-    '<div class="field bookAdd"><input class="input" data-bind="jokerInput" value="' + esc(ui.jokerInput) + '" placeholder="' + esc(t("jokerAdd")) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
-    '<button class="addBtn" ' + btnAttr("add-book-joker", 'aria-label="' + esc(t("add")) + '"') + '>' + icon("plus", 22) + '</button></div>' + list("bonus") + list("malus");
+    '<div class="seg small"><button class="segBtn' + (kind === "bonus" ? " on" : "") + '" ' + btnAttr("joker-kind", 'data-kind="bonus"') + '>' + esc(t("jokerBonus")) + '</button><button class="segBtn' + (kind === "malus" ? " on" : "") + '" ' + btnAttr("joker-kind", 'data-kind="malus"') + '>' + esc(t("jokerMalus")) + '</button></div>' +
+    '<div class="subScreen" data-key="jk-' + kind + '"><ul class="jkList">' + JOKER_KEYS[kind].map(function (k) { return row(k); }).join("") + custom.map(function (j) { return row("c:" + j.id, j.id); }).join("") + '</ul>' +
+    '<div class="field bookAdd jkAdd"><input class="input" data-bind="jokerInput" value="' + esc(ui.jokerInput) + '" placeholder="' + esc(t("jokerAdd")) + '" maxlength="120" enterkeyhint="done" autocomplete="off"/>' +
+    '<button class="addBtn" ' + btnAttr("add-book-joker", 'aria-label="' + esc(t("add")) + '"') + '>' + icon("plus", 22) + '</button></div></div>';
 }
 function renderBook() {
   var tabs = '<div class="seg"><button class="segBtn' + (ui.bookTab !== "jokers" ? " on" : "") + '" ' + btnAttr("book-tab", 'data-tab="rules"') + '>' + esc(t("bookTabRules")) + '</button>' +
@@ -2966,7 +3001,15 @@ function onClick(e) {
     case "joker-target": if (ui.jokerDraw) ui.jokerDraw.target = id; break;
     case "use-joker": useJoker(el.getAttribute("data-jid")); break;
     case "book-tab": ui.bookTab = el.getAttribute("data-tab"); break;
-    case "joker-kind": ui.jokerKind = el.getAttribute("data-kind"); break;
+    case "joker-kind": ui.jokerKind = el.getAttribute("data-kind"); ui.jkEdit = null; break;
+    case "joker-edit": var jk = el.getAttribute("data-key"), ji = jokerInfo(jk); ui.jkEdit = jk; ui.jkEditName = ji.name; ui.jkEditText = ji.text; break;
+    case "joker-edit-cancel": ui.jkEdit = null; break;
+    case "joker-edit-save":
+      var sk = el.getAttribute("data-key"), nm = ui.jkEditName.trim().slice(0, 40), tx = ui.jkEditText.trim().slice(0, 120);
+      if (sk.indexOf("c:") === 0) db.jokerbook = (db.jokerbook || []).map(function (j) { return "c:" + j.id === sk ? Object.assign({}, j, { name: nm || null, text: tx || j.text }) : j; });
+      else { db.jokerEdits = db.jokerEdits || {}; db.jokerEdits[sk] = { name: nm && nm !== t("jk_" + sk) ? nm : null, text: tx && tx !== t("jkt_" + sk) ? tx : null }; }
+      ui.jkEdit = null; persist(); break;
+    case "joker-edit-reset": if (db.jokerEdits) delete db.jokerEdits[el.getAttribute("data-key")]; ui.jkEdit = null; persist(); break;
     case "add-book-joker": addBookJoker(); break;
     case "delete-book-joker": db.jokerbook = (db.jokerbook || []).filter(function (j) { return j.id !== id; }); persist(); break;
     case "new-game": newGame(); break;
