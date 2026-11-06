@@ -935,7 +935,7 @@ function vibrate(pattern) {
 }
 
 /* ================= Stockage fiable, sauvegardes, export ================= */
-var APP_VERSION = "3.2";
+var APP_VERSION = "3.3";
 var DB_KEY = "killer_db_v2";
 var BACKUPS_KEY = "killer_backups_v2";
 var LEGACY_KEYS = { session: "killer_session_v3", stats: "killer_stats_v1", rulebook: "killer_rulebook_v1" };
@@ -1670,8 +1670,27 @@ function checkTourProgress() {
 }
 
 /* ================= Stats : Roi, classements, fiches joueurs ================= */
+// Tout le Mur et le Classement se calculent à partir des soirées enregistrées :
+// supprimer une soirée dans « Soirées » la retire aussitôt du Mur, du Classement, des séries et des trophées.
+function historyWins() {
+  var m = {}, names = {};
+  db.history.forEach(function (h) {
+    h.players.forEach(function (p) {
+      var k = String(p.name).toLowerCase();
+      if (!names[k]) names[k] = p.name;
+      m[names[k]] = (m[names[k]] || 0) + (p.wins || 0);
+    });
+  });
+  return m;
+}
+function liveRoundLog() {
+  var ids = {};
+  db.history.forEach(function (h) { ids[h.id] = true; });
+  return (stats.roundLog || []).filter(function (r) { return r.sid && ids[r.sid]; });
+}
 function wallEntries() {
-  return Object.keys(stats.roundWins || {}).map(function (k) { return { name: k, wins: stats.roundWins[k] }; })
+  var hw = historyWins();
+  return Object.keys(hw).map(function (k) { return { name: k, wins: hw[k] }; })
     .filter(function (e) { return e.wins > 0; })
     .sort(function (a, b) { return (b.wins - a.wins) || a.name.localeCompare(b.name); });
 }
@@ -1703,7 +1722,7 @@ function nightsRanking() {
 }
 
 function streaksFor(name) {
-  var log = (stats.roundLog || []).filter(function (r) { return r.p && r.p.some(function (x) { return sameName(x, name); }); });
+  var log = liveRoundLog().filter(function (r) { return r.p && r.p.some(function (x) { return sameName(x, name); }); });
   var best = 0, run = 0;
   log.forEach(function (r) { if (sameName(r.w, name)) { run++; if (run > best) best = run; } else run = 0; });
   return { current: run, best: best, tracked: log.length };
@@ -1724,7 +1743,7 @@ function playerProfile(name) {
   var st = streaksFor(name);
   return {
     name: name,
-    rounds: (stats.roundWins || {})[name] || 0,
+    rounds: (function () { var hw = historyWins(), r = 0; Object.keys(hw).forEach(function (k) { if (sameName(k, name)) r = hw[k]; }); return r; })(),
     nights: played,
     kingOf: kingOf,
     rate: roundsPlayed > 0 ? Math.round(100 * roundsWonHist / roundsPlayed) : null,
@@ -1738,20 +1757,15 @@ function playerProfile(name) {
 }
 
 function favoriteCardFor(name) {
-  var picks = stats.cardPicks && stats.cardPicks[name];
-  if (!picks || !Object.keys(picks).length) {
-    // Repli : les cartes vues dans l'historique des soirées
-    picks = {};
-    db.history.forEach(function (h) { h.players.forEach(function (p) { if (sameName(p.name, name) && p.ball) picks[p.ball] = (picks[p.ball] || 0) + 1; }); });
-    if (state && state.players) state.players.forEach(function (p) { if (sameName(p.name, name) && p.ball) picks[p.ball] = (picks[p.ball] || 0) + 1; });
-  }
+  // Carte la plus souvent tirée, sur les soirées enregistrées seulement
+  var picks = {};
+  db.history.forEach(function (h) { h.players.forEach(function (p) { if (sameName(p.name, name) && p.ball) picks[p.ball] = (picks[p.ball] || 0) + 1; }); });
   var sp = Object.keys(picks).map(function (k) { return [Number(k), picks[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
   return sp.length ? sp[0][0] : null;
 }
 
 function allKnownStatNames() {
   var set = {};
-  Object.keys(stats.roundWins || {}).forEach(function (n) { set[n] = 1; });
   db.history.forEach(function (h) { h.players.forEach(function (p) { set[p.name] = 1; }); });
   return Object.keys(set);
 }
@@ -1780,7 +1794,7 @@ var TROPHIES = [
 ];
 function trophyFacts(name) {
   var x = { survivor: false, flawless: false, phoenix: false };
-  (stats.roundLog || []).forEach(function (r) {
+  liveRoundLog().forEach(function (r) {
     if (!sameName(r.w, name)) return;
     if (r.l === 1) x.survivor = true;
     if (r.l >= 3) x.flawless = true;
@@ -2061,7 +2075,7 @@ function kingRibbon() {
   var k = kingName();
   if (!k) return "";
   return '<button class="kingRibbon" data-key="king" ' + btnAttr("open-profile", 'data-name="' + esc(k) + '"') + '>' + crownSvg(18) +
-    '<span class="krLabel">' + esc(t("kingOfPool")) + '</span><span class="krName">' + esc(k) + '</span><span class="krNum">' + (stats.roundWins[k] || 0) + '</span></button>';
+    '<span class="krLabel">' + esc(t("kingOfPool")) + '</span><span class="krName">' + esc(k) + '</span><span class="krNum">' + (historyWins()[k] || 0) + '</span></button>';
 }
 
 /* ---- Jouer : préparation ---- */
@@ -2514,7 +2528,7 @@ function renderSettings() {
   var knownHtml = known.length ? '<div class="sRow block"><div class="chips">' + known.map(function (n) {
     return '<span class="chip static" data-key="kn-' + esc(n) + '">' + esc(n) + '<button class="chipX" ' + btnAttr("forget-player", 'data-name="' + esc(n) + '" aria-label="' + esc(t("forgetX", { name: n })) + '"') + '>' + icon("close", 13) + '</button></span>';
   }).join("") + '</div></div>' : '<div class="sRow"><div class="sHint">' + esc(t("regularsHint")) + '</div></div>';
-  var counts = t("dataCounts", { nights: tn("nights", db.history.length), rules: tn("rules", db.rulebook.length), players: tn("playersCount", Object.keys(stats.roundWins).length) });
+  var counts = t("dataCounts", { nights: tn("nights", db.history.length), rules: tn("rules", db.rulebook.length), players: tn("playersCount", wallEntries().length) });
   var seg = function (action, attr, cur, opts) {
     return '<div class="seg small inRow">' + opts.map(function (o) {
       return '<button class="segBtn' + (cur === o[0] ? " on" : "") + '" ' + btnAttr(action, attr + '="' + o[0] + '"') + '>' + esc(o[1]) + '</button>';
