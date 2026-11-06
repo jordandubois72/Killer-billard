@@ -1,5 +1,5 @@
 /* Service worker Killer : fonctionne hors-ligne après la première visite. */
-const CACHE = "killer-97785a7d";
+const CACHE = "killer-a70630c6";
 const FONTS = "killer-fonts";
 const ASSETS = ["./", "index.html", "app.css", "images.js", "app.js", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",

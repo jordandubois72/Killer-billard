@@ -221,7 +221,7 @@ var I18N = {
     optHouseRules: "Règles maison", optHouseRulesHint: "Ajouter une règle en fin de manche, rappels pendant la partie",
     optJokers: "Jokers", optJokersHint: "Le gagnant de la manche peut piocher un joker bonus ou malus",
     roundChoiceRule: "Nouvelle règle", roundChoiceJoker: "Piocher un joker",
-    jokerDrawHint: "Bonus ou malus ? Le hasard décide.", jokerDraw: "Piocher",
+    jokerDrawHint: "Bonus ou malus ? Le hasard décide.", jokerDraw: "Tirer", wheelHint: "Fais tourner la roue : le shérif tire, la case touchée décide.",
     jokerBonus: "Joker bonus", jokerMalus: "Joker malus",
     jokerKeptBy: "{name} le garde pour plus tard", jokerGiveTo: "Donne ce malus à :",
     jokerRandomTarget: "Si personne n'est choisi, il ira à un joueur au hasard",
@@ -471,7 +471,7 @@ var I18N = {
     optHouseRules: "House rules", optHouseRulesHint: "Add a rule at the end of a round, reminders during the game",
     optJokers: "Jokers", optJokersHint: "The round winner can draw a bonus or penalty joker",
     roundChoiceRule: "New rule", roundChoiceJoker: "Draw a joker",
-    jokerDrawHint: "Bonus or penalty? Luck decides.", jokerDraw: "Draw",
+    jokerDrawHint: "Bonus or penalty? Luck decides.", jokerDraw: "Shoot", wheelHint: "Spin the wheel: the sheriff fires, the hit slot decides.",
     jokerBonus: "Bonus joker", jokerMalus: "Penalty joker",
     jokerKeptBy: "{name} keeps it for later", jokerGiveTo: "Give this penalty to:",
     jokerRandomTarget: "If nobody is picked, it goes to a random player",
@@ -971,7 +971,7 @@ function vibrate(pattern) {
 }
 
 /* ================= Stockage fiable, sauvegardes, export ================= */
-var APP_VERSION = "3.5";
+var APP_VERSION = "3.6";
 var DB_KEY = "killer_db_v2";
 var BACKUPS_KEY = "killer_backups_v2";
 var LEGACY_KEYS = { session: "killer_session_v3", stats: "killer_stats_v1", rulebook: "killer_rulebook_v1" };
@@ -1372,6 +1372,7 @@ var ui = {
   bookTab: "rules",
   jokerInput: "",
   jokerKind: "bonus",
+  jokerSpin: null,      // roue en train de tourner
   jkEdit: null,         // clé du joker en cours de modification
   jkEditName: "",
   jkEditText: ""
@@ -1414,7 +1415,7 @@ function undoLast() {
   var u = db.undo.pop();
   if (!u) return;
   state = db.session = u.session;
-  ui.spotlight = null; ui.timer = null; ui.jokerDraw = null; ui.roundChoice = null;
+  ui.spotlight = null; ui.timer = null; ui.jokerDraw = null; ui.jokerSpin = null; ui.roundChoice = null;
   setStats(u.stats);
   if (nextTourTimer) { clearTimeout(nextTourTimer); nextTourTimer = null; }
   persist();
@@ -1522,7 +1523,7 @@ function flashRow(id, kind) {
 }
 
 /* ---- Jokers ---- */
-var JOKER_KEYS = { bonus: ["b1", "b2", "b3", "b4"], malus: ["m1", "m2", "m3", "m4"] };
+var JOKER_KEYS = { bonus: ["b1", "b2", "b3", "b4"], malus: ["m2", "m3", "m4"] }; // « m1 » (Mauvaise main) retiré : doublon d'« Une seule main »
 function jokerPool(kind) {
   return JOKER_KEYS[kind].concat((db.jokerbook || []).filter(function (j) { return j.kind === kind; }).map(function (j) { return "c:" + j.id; }));
 }
@@ -1534,11 +1535,55 @@ function jokerInfo(key) {
   var ed = (db.jokerEdits || {})[key] || {};
   return { name: ed.name || t("jk_" + key), text: ed.text || t("jkt_" + key), kind: key.charAt(0) === "m" ? "malus" : "bonus", auto: ["b1", "b2", "b4", "m4"].indexOf(key) >= 0 };
 }
+// Roue : 8 cases, bonus sur les cases paires, malus sur les impaires. Le viseur est en haut.
+var WHEEL_SEGS = 8;
 function drawJoker() {
+  if (ui.jokerSpin) return;
   var kind = Math.random() < 0.5 ? "bonus" : "malus";
   var pool = jokerPool(kind);
-  ui.jokerDraw = { key: pool[Math.floor(Math.random() * pool.length)], kind: kind, target: null };
-  playFlipSound(); vibrate([10, 30, 10]);
+  var key = pool[Math.floor(Math.random() * pool.length)];
+  var choices = [];
+  for (var i = 0; i < WHEEL_SEGS; i++) if ((i % 2 === 0) === (kind === "bonus")) choices.push(i);
+  var seg = choices[Math.floor(Math.random() * choices.length)], step = 360 / WHEEL_SEGS;
+  var finalAngle = 360 * 6 - (seg * step + step / 2) + (Math.random() * 0.5 - 0.25) * step;
+  var result = { key: key, kind: kind, target: null };
+  if (reducedMotion()) { ui.jokerDraw = result; playFlipSound(); return; }
+  ui.jokerSpin = { angle: 0, final: finalAngle, phase: "spin" };
+  render();
+  // la rotation part à l'image suivante (transition CSS de 3 s)
+  requestAnimationFrame(function () { requestAnimationFrame(function () { if (!ui.jokerSpin) return; ui.jokerSpin.angle = finalAngle; render(); }); });
+  var ticks = 0, tick = setInterval(function () { if (!ui.jokerSpin || ++ticks > 22) { clearInterval(tick); return; } playTone(1400, 0.02, "square", 0.025, 0); }, 60 + ticks * 4);
+  setTimeout(function () {
+    if (!ui.jokerSpin) return;
+    ui.jokerSpin.phase = "fire"; render();
+    playFlipSound(); vibrate([30, 40, 30]);
+    setTimeout(function () { if (!ui.jokerSpin) return; ui.jokerSpin = null; ui.jokerDraw = result; render(); }, 900);
+  }, 3150);
+}
+function revolverSvg() {
+  return '<svg class="revolver" viewBox="0 0 130 74" aria-hidden="true">' +
+    '<rect x="2" y="13" width="66" height="11" rx="3" fill="#4a4846"/><rect x="2" y="13" width="66" height="3" rx="1.5" fill="#8d8a86"/>' +
+    '<circle cx="5" cy="18.5" r="2.2" fill="#1a1a1a"/>' +
+    '<path d="M60 9h38l9 8v15H60z" fill="#3b3936"/><rect x="62" y="15" width="28" height="15" rx="6" fill="#5e5b57"/>' +
+    '<path d="M64 18.5h24M64 22.5h24M64 26.5h24" stroke="#2a2826" stroke-width="1.4"/>' +
+    '<path d="M96 7l6-5 5 2-4 6z" fill="#3b3936"/>' +
+    '<path d="M93 30l16 34c1 3-1 6-4 6h-11c-2 0-4-1-5-3L80 33z" fill="#7a4a22"/><path d="M95 38l9 20" stroke="#C9A24A" stroke-width="1.6" opacity=".7"/>' +
+    '<path d="M78 32c0 9 4 12 9 12" fill="none" stroke="#3b3936" stroke-width="3"/><path d="M83 31l2 8" stroke="#2a2826" stroke-width="2.4"/>' +
+    '<rect x="58" y="9" width="49" height="3" fill="#C9A24A" opacity=".55"/></svg>';
+}
+function jokerWheelHtml() {
+  var sp = ui.jokerSpin, step = 360 / WHEEL_SEGS, stops = [], labels = "";
+  for (var i = 0; i < WHEEL_SEGS; i++) {
+    var bonus = i % 2 === 0;
+    stops.push((bonus ? "#E2B04E" : "#B8352A") + " " + (i * step) + "deg " + ((i + 1) * step) + "deg");
+    labels += '<span class="wLab ' + (bonus ? "b" : "m") + '" style="transform:rotate(' + (i * step + step / 2) + 'deg)"><span>' + jokerSvg(bonus ? "bonus" : "malus", 22) + '<i>' + esc(bonus ? "BONUS" : "MALUS") + '</i></span></span>';
+  }
+  var angle = sp ? sp.angle : 0;
+  return '<div class="wheelWrap' + (sp && sp.phase === "fire" ? " fire" : "") + '" data-key="wheel">' +
+    '<div class="wSight" aria-hidden="true"></div>' +
+    '<div class="wheel" style="background:conic-gradient(' + stops.join(",") + ');transform:rotate(' + angle + 'deg)">' + labels + '<span class="wHub">' + sheriffStar(30, "#3a2206") + '</span></div>' +
+    '<div class="gunWrap">' + revolverSvg() + '<span class="muzzle"></span></div>' +
+    '<span class="hitHole" aria-hidden="true"></span></div>';
 }
 // Ajoute le joker pioché à la soirée (le bonus au gagnant, le malus au joueur choisi ou au hasard)
 function commitJoker(players) {
@@ -2485,7 +2530,8 @@ function roundChoiceHtml(w) {
   }
   var jd = ui.jokerDraw;
   if (!jd) {
-    return seg + '<button class="jkDeck" ' + btnAttr("draw-joker") + '><span class="jkBack">' + jokerSvg("bonus", 54) + '</span><span class="jkDeckTxt"><b>' + esc(t("jokerDraw")) + '</b><small>' + esc(t("jokerDrawHint")) + '</small></span></button>';
+    return seg + jokerWheelHtml() + '<p class="hint center">' + esc(t("wheelHint")) + '</p>' +
+      '<button class="btn btnPrimary shootBtn" ' + btnAttr("draw-joker") + (ui.jokerSpin ? " disabled" : "") + '>' + icon("target", 20) + esc(t("jokerDraw")) + '</button>';
   }
   var info = jokerInfo(jd.key), malus = jd.kind === "malus";
   var others = state.players.filter(function (p) { return p.id !== w.id; });
@@ -2997,7 +3043,7 @@ function onClick(e) {
     case "end-session": endSession(); break;
     case "end-session-round": if (opt("houseRules") && (ui.roundChoice || "rule") === "rule") addRule(); ui.jokerDraw = null; ui.roundChoice = null; endSession(); break;
     case "round-choice": ui.roundChoice = el.getAttribute("data-c"); break;
-    case "draw-joker": if (!ui.jokerDraw) drawJoker(); break;
+    case "draw-joker": if (!ui.jokerDraw && !ui.jokerSpin) drawJoker(); return;
     case "joker-target": if (ui.jokerDraw) ui.jokerDraw.target = id; break;
     case "use-joker": useJoker(el.getAttribute("data-jid")); break;
     case "book-tab": ui.bookTab = el.getAttribute("data-tab"); break;

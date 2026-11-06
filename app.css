@@ -618,3 +618,28 @@ button.rRow:active{transform:scale(.985);}
 .jkEditBox .btnPair{margin-top:2px;flex-wrap:wrap;}
 .jkEditBox .btn{height:40px;font-size:13.5px;}
 .jkAdd{margin-top:12px;}
+
+/* ---------- Roue des jokers ---------- */
+.wheelWrap{position:relative;width:236px;height:236px;margin:52px auto 6px;}
+.wheel{position:absolute;inset:0;border-radius:50%;border:5px solid #2b1606;box-shadow:0 0 0 3px var(--gold),0 14px 30px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,240,200,.35);transition:transform 3.05s cubic-bezier(.12,.72,.14,1);}
+.wLab{position:absolute;left:50%;top:50%;width:0;height:0;}
+.wLab > span{position:absolute;left:-26px;top:-104px;width:52px;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.wLab i{font:700 10.5px var(--fLabel);font-style:normal;letter-spacing:1px;}
+.wLab.b i{color:#3a2206;} .wLab.m i{color:#FFE9E2;}
+.wHub{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#FBE6A2,#C28C30);box-shadow:0 0 0 3px #2b1606,0 4px 10px rgba(0,0,0,.5);}
+.wSight{position:absolute;left:50%;top:-14px;width:26px;height:26px;margin-left:-13px;z-index:3;border-radius:50%;border:2.5px solid #F4CF75;box-shadow:0 0 8px rgba(0,0,0,.6);}
+.wSight::before,.wSight::after{content:"";position:absolute;background:#F4CF75;}
+.wSight::before{left:50%;top:-6px;bottom:-6px;width:2px;margin-left:-1px;}
+.wSight::after{top:50%;left:-6px;right:-6px;height:2px;margin-top:-1px;}
+.gunWrap{position:absolute;right:-56px;top:-42px;width:110px;transform:rotate(-28deg);transform-origin:80% 40%;z-index:4;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6));}
+.revolver{display:block;width:110px;height:auto;}
+.muzzle{position:absolute;left:-14px;top:4px;width:30px;height:30px;border-radius:50%;opacity:0;background:radial-gradient(circle,#fff6d0 0,#FFC14D 30%,rgba(255,120,30,.7) 55%,transparent 72%);}
+.hitHole{position:absolute;left:50%;top:14px;width:20px;height:20px;margin-left:-10px;border-radius:50%;opacity:0;z-index:2;background:radial-gradient(circle,#000 0 34%,#2a1406 46%,rgba(255,220,160,.35) 60%,transparent 72%);}
+@keyframes recoil{0%{transform:rotate(-28deg)}20%{transform:rotate(-46deg) translate(10px,-6px)}100%{transform:rotate(-28deg)}}
+@keyframes flash{0%{opacity:0;transform:scale(.4)}15%{opacity:1;transform:scale(1.3)}100%{opacity:0;transform:scale(1.6)}}
+@keyframes holeIn{0%{opacity:0;transform:scale(2)}40%{opacity:1;transform:scale(.9)}100%{opacity:1;transform:scale(1)}}
+.wheelWrap.fire .gunWrap{animation:recoil .45s ease-out;}
+.wheelWrap.fire .muzzle{animation:flash .35s ease-out;}
+.wheelWrap.fire .hitHole{animation:holeIn .3s .05s ease-out both;}
+.wheelWrap.fire{animation:shake .4s ease .05s;}
+.shootBtn{margin-top:10px;}
